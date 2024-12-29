@@ -253,7 +253,7 @@
                         </div>
 
 
-                        <!-- Première colonne -->
+                        <!-- deuxieme colonne -->
                         <div class="col-md-4" style="position: relative; top: -70px;">
                             <div class="card">
                                 <div class="card-body">
@@ -290,13 +290,14 @@
                                             <span class="text-dark fw-semibold">0.00 € </span>
                                         </li>
                                         <li class="d-flex justify-content-between list-group-item px-0">
-                                            <span>Montant De Livraison </span>
-                                            <span class="text-dark fw-semibold">0.00 € </span>
+                                            <span>Montant De Livraison</span>
+                                            <span class="text-dark fw-semibold"
+                                                x-text="pricedelivery ? `${pricedelivery} €` : '0.00 €'"></span>
                                         </li>
 
                                         <li class="d-flex justify-content-between list-group-item px-0 pb-0">
                                             <span class="fs-4 fw-semibold text-dark">Montant TTC</span>
-                                            <span class="fw-semibold text-dark">128.00 € </span>
+                                            <span class="fw-semibold text-dark" x-text="`${calculateTTC()} €`"></span>
                                         </li>
                                     </ul>
                                 </div>
@@ -373,13 +374,14 @@
             return {
                 listedeveliryPriceByCountries: @json($listedeveliryPriceByCountries),
                 files: [],
+                pricedelivery: 0,
                 showModal: false,
+
                 form: {
                     country_origine: '',
                     telephone: '',
                     adresse: '',
                     city: '',
-
                 },
                 product: @json($product),
                 adressepyament: @json($allAdressePayment),
@@ -410,6 +412,13 @@
                     });
                 },
 
+                calculateTTC() {
+                    const priceVente = Number(this.product.price_vente) || 0;
+                    const priceDelivery = Number(this.pricedelivery) || 0;
+                    return (priceVente + priceDelivery).toFixed(2);
+                },
+
+
 
                 addAdresse() {
                     if (this.files.length >= 2) {
@@ -430,12 +439,23 @@
                 },
 
                 selectCountry(deliveryprice) {
-                    this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
+                    this.pricedelivery = deliveryprice.prix;
+                    // this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
                     // Mettre l'ID du pays dans un champ caché ou autre logique
                     this.$nextTick(() => {
                         this.errors = {}; // Réinitialiser les erreurs après sélection
                     });
                 },
+
+
+                // selectCountry(deliveryprice) {
+                //     alert(deliveryprice);
+                //     this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
+                //     // Mettre l'ID du pays dans un champ caché ou autre logique
+                //     this.$nextTick(() => {
+                //         this.errors = {}; // Réinitialiser les erreurs après sélection
+                //     });
+                // },
 
                 resetForm() {
                     this.form = {
@@ -519,7 +539,6 @@
                     }
                 },
 
-
                 // Traitement du paiement
                 async processPayment() {
                     const formData = new FormData();
@@ -564,7 +583,6 @@
                 },
 
                 async storeAdresse() {
-
 
                     const adresseLength = Array.isArray(this.adressepyament) ?
                         this.adressepyament.length :
