@@ -37,7 +37,7 @@
                                 <div class="col-md-3 mb-3">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="quantity" placeholder="Quantité"
-                                            v-model="quantity" min="1">
+                                            x-model="quantite" min="1">
                                         <label for="quantity">Quantité</label>
 
                                     </div>
@@ -376,7 +376,7 @@
                 files: [],
                 pricedelivery: 0,
                 showModal: false,
-
+                quantite: 1,
                 form: {
                     country_origine: '',
                     telephone: '',
@@ -412,11 +412,14 @@
                     });
                 },
 
+              
                 calculateTTC() {
                     const priceVente = Number(this.product.price_vente) || 0;
                     const priceDelivery = Number(this.pricedelivery) || 0;
-                    return (priceVente + priceDelivery).toFixed(2);
+                    const quantity = Number(this.quantite) || 1; // Par défaut, quantité = 1 si elle est invalide
+                    return ((priceVente * quantity) + priceDelivery).toFixed(2);
                 },
+
 
 
 
@@ -439,6 +442,7 @@
                 },
 
                 selectCountry(deliveryprice) {
+                    this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
                     this.pricedelivery = deliveryprice.prix;
                     // this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
                     // Mettre l'ID du pays dans un champ caché ou autre logique
@@ -446,16 +450,6 @@
                         this.errors = {}; // Réinitialiser les erreurs après sélection
                     });
                 },
-
-
-                // selectCountry(deliveryprice) {
-                //     alert(deliveryprice);
-                //     this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
-                //     // Mettre l'ID du pays dans un champ caché ou autre logique
-                //     this.$nextTick(() => {
-                //         this.errors = {}; // Réinitialiser les erreurs après sélection
-                //     });
-                // },
 
                 resetForm() {
                     this.form = {
