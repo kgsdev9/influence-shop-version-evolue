@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\NotificationConfirmationController;
+use App\Http\Controllers\Orders\OrdersController;
 use App\Http\Controllers\Payment\PaymentAdresseController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\Product\ProductController;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Vente\VenteController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,14 +41,10 @@ Route::get('/register', [RegisterController::class, 'registerForm'])->name('regi
 Route::get('/login', [LoginController::class, 'login'])->name('login.form');
 Route::post('/login', [LoginController::class, 'loginUser'])->name('login');
 
-
-
-
 Route::post('/infuenceur', [RegisterController::class, 'submitInfluenceForm'])->name('infuenceur');
 Route::get('/registerform-entreprise', [RegisterController::class, 'registerFormEntreprise'])->name('register.entreprise');
 Route::post('/submit/entreprise', [RegisterController::class, 'storeEntreprise'])->name('entreprise.submit');
 Route::get('/confirmationregister', [NotificationConfirmationController::class, 'confirmatedRegisterInfluenceurs'])->name('confirmated.register.influenceurs');
-
 Route::post('/confirmatedcodeinfluenceurs', [RegisterController::class, 'confirmatedAcompteInfluenceur'])->name('confirmated.code.influenceurs');
 
 
@@ -56,11 +55,9 @@ Route::get('/produits', [DashboardController::class, 'homeProducts'])->name('hom
 Route::get('/entreprises', [DashboardController::class, 'homeEntreprises'])->name('home.entreprise');
 Route::get('/publicites', [DashboardController::class, 'homePublicites'])->name('home.publicites');
 Route::resource('/products', ProductController::class);
-
+Route::resource('/orders', OrdersController::class);
+Route::resource('/ventes', VenteController::class);
 Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'])->name('begin.payment');
-
-
-
 Route::get('/sucess', [PaymentController::class, 'succespayment'])->name('payment.success');
 Route::get('/failled-payment', [PaymentController::class, 'failledpayment'])->name('payment.failed');
 Route::resource('/adresse', PaymentAdresseController::class);
