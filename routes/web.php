@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\NotificationConfirmationController;
@@ -32,6 +32,7 @@ use App\Http\Controllers\Vente\VenteController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product');
+Route::get('/product/detail/{id}', [HomeController::class, 'showProduct'])->name('product.show');
 
 
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
@@ -61,3 +62,4 @@ Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'
 Route::get('/sucess', [PaymentController::class, 'succespayment'])->name('payment.success');
 Route::get('/failled-payment', [PaymentController::class, 'failledpayment'])->name('payment.failed');
 Route::resource('/adresse', PaymentAdresseController::class);
+Route::resource('/category', CategoryController::class);

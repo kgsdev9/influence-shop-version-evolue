@@ -250,7 +250,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column gap-4">
                                     <div>
-                                        <h4 class="mb-0"><a href="#" class="text-inherit"
+                                        <h4 class="mb-0"><a :href="`{{ route('product.show', '') }}/${product.id}`" class="text-inherit"
                                                 x-text="product.name"></a></h4>
                                         <span class="fs-6" x-text="product.description"></span>
                                     </div>

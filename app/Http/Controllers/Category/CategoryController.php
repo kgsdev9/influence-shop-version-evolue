@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
-use App\Models\Country;
-use App\Models\PaymentAdresse;
-use App\Models\PriceDeliveryByCountry;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,8 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $listeproduct = Product::with('images')->get();
-        return view('welcome', compact('listeproduct'));
+        //
     }
 
     /**
@@ -28,24 +22,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function buyProduct($id)
+    public function create()
     {
-        $product = Product::with('images')->findOrFail($id);
-        $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
-        $allCountries  = Country::all();
-        $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
-
-        return view('home.buy', compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
-    }
-
-    public function showProduct($id)
-    {
-        $product = Product::with('images')->findOrFail($id);
-        $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
-        $allCountries  = Country::all();
-        $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
-
-        return view('home.productdetail',compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
+        //
     }
 
     /**
