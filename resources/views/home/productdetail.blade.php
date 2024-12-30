@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-10">
                     <div class="row">
-                     
+
                         <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
                             <div class="row gy-4">
                                 <!-- Image principale -->
@@ -21,8 +21,9 @@
                                     <div>
                                         <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox" data-gallery="gallery1">
                                             <img :src="`/storage/${product.images[selectedImage].imagename}`"
-                                                 alt="Image principale du produit" class="img-fluid rounded-3 w-100" />
+                                                 alt="Image principale du produit" class="img-fluid rounded-3 w-60" />
                                         </a>
+
                                     </div>
                                 </div>
 
@@ -31,11 +32,13 @@
                                     <div x-show="product && product.images && product.images.length > 1">
                                         <div class="row">
                                             <template x-for="(image, index) in product.images.slice(1)" :key="index">
-                                                <div class="col-md-3 col-12 mb-4">
-                                                    <div>
+                                                <div class="col-md-2 col-6 mb-4 d-flex justify-content-center">
+                                                    <div class="w-100" style="height:40px;">
                                                         <a href="javascript:void(0)" @click="selectedImage = index + 1" class="glightbox" :data-gallery="'gallery1'">
                                                             <img :src="`/storage/${image.imagename}`"
-                                                                 alt="Image secondaire" class="img-fluid rounded-3 w-100" />
+                                                                 alt="Image secondaire"
+                                                                 class="img-fluid rounded-3 w-100 h-100"
+                                                                 style="object-fit: cover;" />
                                                         </a>
                                                     </div>
                                                 </div>
@@ -51,7 +54,7 @@
                             <div class="my-5 mx-lg-8">
                                 <!-- heading -->
                                 <div class="d-flex flex-column gap-2">
-                                    <h1 class="mb-0" x-text="product.name"></h1>
+                                    <h4 class="mb-0" x-text="product.name"></h4>
                                     <div>
                                         <!-- review -->
                                         <span>
