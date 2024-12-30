@@ -43,9 +43,9 @@ class HomeController extends Controller
         $product = Product::with('images')->findOrFail($id);
         $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
         $allCountries  = Country::all();
-        $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
+        $allAdressePayment = [];
 
-        return view('home.productdetail',compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
+        return view('home.productdetail', compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
     }
 
     /**
