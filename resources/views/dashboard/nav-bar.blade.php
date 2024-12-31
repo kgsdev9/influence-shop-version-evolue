@@ -37,63 +37,36 @@
                     </li>
                     <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('orders.index') }}">
-                            <i class="fe fe-check-circle nav-icon"></i>
-                            Mes Commandes
+                            <i class="fe fe-file-text nav-icon"></i>
+                            Commandes
                         </a>
                     </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
-                            <i class="fe fe-shopping-cart nav-icon"></i>
 
-                            Mes Ventes
-                        </a>
-                    </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
-                            <i class="fe fe-speaker nav-icon"></i>
-
-                            Publicites
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('compagne.index') }}">
                             <i class="fe fe-volume nav-icon"></i>
                             Compagnes
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('users.index') }}">
                             <i class="fe fe-users nav-icon"></i>
 
                             Utilisateurs
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
-                            <i class="fe fe-file-text nav-icon"></i>
-
-                            Factures
-                        </a>
-                    </li>
-
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
-                            <i class="fe fe-box nav-icon"></i>
-
-                            Produits
-                        </a>
-                    </li>
 
 
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+
+
+                    <li class="nav-item {{ request()->routeIs('blogs.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('blogs.index') }}">
                             <i class="fe fe-edit-3 nav-icon"></i>
 
                             Blogs
@@ -101,16 +74,16 @@
                     </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('linkspayment.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('linkspayment.index') }}">
                             <i class="fe fe-credit-card nav-icon"></i>
 
                             Lien de paiement
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('abonnement.index') }}">
                             <i class="fe fe-rss nav-icon"></i>
 
                             Plan Abonnement
@@ -118,26 +91,24 @@
                     </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('paiementadresse.index') }}">
                             <i class="fe fe-credit-card nav-icon"></i>
 
                             Adresse Paiement
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('souscribers.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('souscribers.index') }}">
                             <i class="fe fe-user-plus nav-icon"></i>
-
-
                             Souscriveurs
                         </a>
                     </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('deliveryprice.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('deliveryprice.index') }}">
                             <i class="fe fe-truck nav-icon"></i>
 
 
@@ -145,24 +116,24 @@
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('category.index') }}">
                             <i class="fe fe-grid nav-icon"></i>
 
                             Catégories
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('countries.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('countries.index') }}">
                             <i class="fe fe-globe nav-icon"></i>
 
                             Pays
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('ventes.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('ventes.index') }}">
+                    <li class="nav-item {{ request()->routeIs('city.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('city.index') }}">
                             <i class="fe fe-map-pin nav-icon"></i>
 
                             Ville

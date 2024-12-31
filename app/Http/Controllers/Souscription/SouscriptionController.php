@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Souscription;
 
 use App\Http\Controllers\Controller;
+use App\Models\Souscription;
 use Illuminate\Http\Request;
 
 class SouscriptionController extends Controller
@@ -14,7 +15,9 @@ class SouscriptionController extends Controller
      */
     public function index()
     {
-        //
+        $listesouscriptions = Souscription::all();
+
+        return view('dashboard.souscriptions.index', compact('listesouscriptions'));
     }
 
     /**

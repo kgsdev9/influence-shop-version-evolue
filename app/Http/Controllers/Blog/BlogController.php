@@ -1,26 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\DeliveryPrice;
+namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Models\PriceDeliveryByCountry;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
-class DeliveryPriceController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-
     public function index()
     {
-        $PriceDeliveryByCountry = PriceDeliveryByCountry::all();
-
-        return view('dashboard.deliveryprice.index', compact('PriceDeliveryByCountry'));
+        $listeblogs = Blog::all();
+        return view('dashboard.blogs.index', compact('listeblogs'));
     }
+
 
     /**
      * Show the form for creating a new resource.

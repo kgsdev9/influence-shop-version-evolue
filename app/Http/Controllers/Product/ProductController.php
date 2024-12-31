@@ -17,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with(['category', 'images'])->get();
+        return view('dashboard.products.liste', compact('products'));
     }
 
     /**

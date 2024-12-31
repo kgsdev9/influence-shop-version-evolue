@@ -11,7 +11,7 @@
             </div>
 
             <div class="row ">
-                <div class="col-md-9 card shadow-sm">
+                <div class="col-md-9 ">
                     <div class="row ">
 
                         <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
@@ -19,11 +19,13 @@
                                 <!-- Image principale -->
                                 <div class="col-12">
                                     <div>
-                                        <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox"
-                                            data-gallery="gallery1">
+                                        <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox" data-gallery="gallery1">
                                             <img :src="`/storage/${product.images[selectedImage].imagename}`"
-                                                alt="Image principale du produit" class="img-fluid rounded-3 w-60" />
+                                                 alt="Image principale du produit"
+                                                 class="img-fluid rounded-3"
+                                                 style="width:400px; height:400px; object-fit: cover;" />
                                         </a>
+
 
                                     </div>
                                 </div>

@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Abonnement;
+namespace App\Http\Controllers\PaymentAdrese;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentAdresse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class AbonnementLinkController extends Controller
+class PaymentAdresseUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,8 @@ class AbonnementLinkController extends Controller
      */
     public function index()
     {
-        //
+        $listepaymentadresse = PaymentAdresse::where('user_id', Auth::user()->id)->get();
+        return view('dashboard.payementadresse.index', compact('listepaymentadresse'));
     }
 
     /**

@@ -1,19 +1,30 @@
 <?php
 
+use App\Http\Controllers\Abonnement\AbonnementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\City\CityController;
+use App\Http\Controllers\Country\CountryController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\DeliveryPrice\DeliveryPriceController;
+use App\Http\Controllers\Demarrage\CompagneProductController;
+use App\Http\Controllers\Gestion\GestionCompagneController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\NotificationConfirmationController;
 use App\Http\Controllers\Orders\OrdersController;
 use App\Http\Controllers\Payment\PaymentAdresseController;
 use App\Http\Controllers\Payment\PaymentController;
+use App\Http\Controllers\PaymentAdrese\PaymentAdresseUserController;
+use App\Http\Controllers\PaymentLink\PaymentLinkController;
 use App\Http\Controllers\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
 
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Souscription\SouscriptionController;
+use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\Vente\VenteController;
 
 /*
@@ -63,3 +74,13 @@ Route::get('/sucess', [PaymentController::class, 'succespayment'])->name('paymen
 Route::get('/failled-payment', [PaymentController::class, 'failledpayment'])->name('payment.failed');
 Route::resource('/adresse', PaymentAdresseController::class);
 Route::resource('/category', CategoryController::class);
+Route::resource('/city', CityController::class);
+Route::resource('/countries', CountryController::class);
+Route::resource('/deliveryprice', DeliveryPriceController::class);
+Route::resource('/paiementadresse', PaymentAdresseUserController::class);
+Route::resource('/compagne', GestionCompagneController::class);
+Route::resource('/users', UsersController::class);
+Route::resource('/blogs', BlogController::class);
+Route::resource('/linkspayment', PaymentLinkController::class);
+Route::resource('/abonnement', AbonnementController::class);
+Route::resource('/souscribers', SouscriptionController::class);

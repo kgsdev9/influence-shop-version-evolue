@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Campagne;
+namespace App\Http\Controllers\Gestion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Compagne;
 use Illuminate\Http\Request;
 
-class CampagneController extends Controller
+class GestionCompagneController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,9 @@ class CampagneController extends Controller
      */
     public function index()
     {
-        //
+        $listecompanges = Compagne::all();
+
+        return view('dashboard.compagnes.index', compact('listecompanges'));
     }
 
     /**

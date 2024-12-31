@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\PaymentLink;
 
 use App\Http\Controllers\Controller;
+use App\Models\PaymentLink;
 use Illuminate\Http\Request;
 
 class PaymentLinkController extends Controller
@@ -14,7 +15,9 @@ class PaymentLinkController extends Controller
      */
     public function index()
     {
-        //
+        $listePaymentLink = PaymentLink::all();
+
+        return view('dashboard.paymentlink.index', compact('listePaymentLink'));
     }
 
     /**
