@@ -31,7 +31,7 @@ use App\Http\Controllers\Vente\VenteController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product');
+Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product')->middleware('auth');
 Route::get('/product/detail/{id}', [HomeController::class, 'showProduct'])->name('product.show');
 
 

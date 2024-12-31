@@ -10,18 +10,19 @@
                     communauté.</p>
             </div>
 
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="row">
+            <div class="row ">
+                <div class="col-md-9 card shadow-sm">
+                    <div class="row ">
 
                         <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
                             <div class="row gy-4">
                                 <!-- Image principale -->
                                 <div class="col-12">
                                     <div>
-                                        <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox" data-gallery="gallery1">
+                                        <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox"
+                                            data-gallery="gallery1">
                                             <img :src="`/storage/${product.images[selectedImage].imagename}`"
-                                                 alt="Image principale du produit" class="img-fluid rounded-3 w-60" />
+                                                alt="Image principale du produit" class="img-fluid rounded-3 w-60" />
                                         </a>
 
                                     </div>
@@ -31,14 +32,15 @@
                                 <div>
                                     <div x-show="product && product.images && product.images.length > 1">
                                         <div class="row">
-                                            <template x-for="(image, index) in product.images.slice(1)" :key="index">
+                                            <template x-for="(image, index) in product.images.slice(1)"
+                                                :key="index">
                                                 <div class="col-md-2 col-6 mb-4 d-flex justify-content-center">
                                                     <div class="w-100" style="height:40px;">
-                                                        <a href="javascript:void(0)" @click="selectedImage = index + 1" class="glightbox" :data-gallery="'gallery1'">
-                                                            <img :src="`/storage/${image.imagename}`"
-                                                                 alt="Image secondaire"
-                                                                 class="img-fluid rounded-3 w-100 h-100"
-                                                                 style="object-fit: cover;" />
+                                                        <a href="javascript:void(0)" @click="selectedImage = index + 1"
+                                                            class="glightbox" :data-gallery="'gallery1'">
+                                                            <img :src="`/storage/${image.imagename}`" alt="Image secondaire"
+                                                                class="img-fluid rounded-3 w-100 h-100"
+                                                                style="object-fit: cover;" />
                                                         </a>
                                                     </div>
                                                 </div>
@@ -46,146 +48,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
 
-                        <div class="col-xl-6 col-12">
-                            <div class="my-5 mx-lg-8">
-                                <!-- heading -->
-                                <div class="d-flex flex-column gap-2">
-                                    <h4 class="mb-0" x-text="product.name"></h4>
-                                    <div>
-                                        <!-- review -->
-                                        <span>
-                                            <span class="me-1 text-dark fw-semibold">
-                                                4.4
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                    fill="currentColor"
-                                                    class="bi bi-star-fill text-success ms-1 align-baseline"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                            592 avis
-                                        </span>
-                                    </div>
-                                </div>
-                                <hr class="my-3" />
-                                <div class="mb-5 d-flex flex-column gap-1">
-                                    <!-- text -->
-                                    <h4 class="mb-0">
-                                        <span x-text="product.price_vente"> </span>
-
-                                        <span class="text-warning">Profitez de -45% sur ce produit exceptionnel !</span>
-                                    </h4>
-                                    <span>Profitez de notre offre spéciale, taxes incluses !</span>
-
-                                </div>
-                                <!-- color -->
-                                <div class="mb-4 d-md-flex justify-content-between align-items-center">
-                                    <h5 class="mb-2 mb-md-0">Couleur</h5>
-                                    <div>
-                                        <!-- form check radio -->
-                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioPrimary" />
-                                            <label
-                                                class="btn btn-primary rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioPrimary">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioSuccess" />
-                                            <label
-                                                class="btn btn-success rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioSuccess">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioDanger" />
-                                            <label
-                                                class="btn btn-danger rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioDanger">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioInfo" />
-                                            <label
-                                                class="btn btn-info rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioInfo">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioWarning" />
-                                            <label
-                                                class="btn btn-warning rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioWarning">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioDark" />
-                                            <label
-                                                class="btn btn-dark rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioDark">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mb-6 d-md-flex justify-content-between align-items-center">
-                                    <!-- size -->
-                                    <h5 class="mb-2 mb-md-0">Taille</h5>
-                                    <div>
-                                        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio6">6</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio7" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio7">7</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio8" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio8">8</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio9" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio9">9</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio10" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio10">10</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio11">11</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- row -->
-                                <div class="row row flex-md-row flex-column gap-2 gap-md-0">
-                                    <!-- col -->
-                                    <div class="col-md-12">
-                                        <div class="d-grid">
-                                            <!-- btn -->
-                                            <a href="shopping-cart.html" class="btn btn-danger">
-                                                <i class="fe fe-shopping-cart me-2"></i>
-                                                Acheter
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </div>
                                 <hr class="mt-4 mb-2" />
                                 <div class="mb-4" id="ecommerceAccordion">
                                     <!-- List group -->
@@ -232,103 +96,13 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <!-- List group item -->
-                                        <li class="list-group-item px-0">
-                                            <!-- Toggle -->
-                                            <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
-                                                data-bs-toggle="collapse" href="#specifications" role="button"
-                                                aria-expanded="false" aria-controls="specifications">
-                                                <div class="me-auto">Specifications</div>
-                                                <!-- Chevron -->
-                                                <span class="chevron-arrow ms-4">
-                                                    <i class="fe fe-chevron-down fs-4"></i>
-                                                </span>
-                                            </a>
-                                            <!-- Row -->
-                                            <!-- Collapse -->
-                                            <div class="collapse" id="specifications"
-                                                data-bs-parent="#ecommerceAccordion">
-                                                <div class="py-3">
-                                                    <table class="table table-striped">
-                                                        <tbody>
-                                                            <tr>
-                                                                <th class="w-20">Sport</th>
-                                                                <td>Running</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th class="w-20">Material</th>
-                                                                <td>Mesh</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th class="w-20">Fastening</th>
-                                                                <td>Lace-Ups</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th class="w-20">Outsole Type</th>
-                                                                <td>Marking</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th class="w-20">Warranty</th>
-                                                                <td>3 months</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item px-0">
-                                            <!-- Toggle -->
-                                            <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
-                                                data-bs-toggle="collapse" href="#freeShippingPolicy" role="button"
-                                                aria-expanded="false" aria-controls="freeShippingPolicy">
-                                                <div class="me-auto">Free Shipping Policy</div>
-                                                <!-- Chevron -->
-                                                <span class="chevron-arrow ms-4">
-                                                    <i class="fe fe-chevron-down fs-4"></i>
-                                                </span>
-                                            </a>
-                                            <!-- Row -->
-                                            <!-- Collapse -->
-                                            <div class="collapse" id="freeShippingPolicy"
-                                                data-bs-parent="#ecommerceAccordion">
-                                                <div class="py-3">
-                                                    <p class="mb-0">
-                                                        The single most important criteria for a lot of first time
-                                                        customers. Lorem ipsum dolor sit amet consectetur adipiscing elit
-                                                        enean nisi magna rhoncus in diam vel,
-                                                        aliquet volutpat nisl.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item px-0 border-bottom">
-                                            <!-- Toggle -->
-                                            <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
-                                                data-bs-toggle="collapse" href="#refundPolicy" role="button"
-                                                aria-expanded="false" aria-controls="refundPolicy">
-                                                <div class="me-auto">Refund Policy</div>
-                                                <!-- Chevron -->
-                                                <span class="chevron-arrow ms-4">
-                                                    <i class="fe fe-chevron-down fs-4"></i>
-                                                </span>
-                                            </a>
-                                            <!-- Row -->
-                                            <!-- Collapse -->
-                                            <div class="collapse" id="refundPolicy" data-bs-parent="#ecommerceAccordion">
-                                                <div class="py-3">
-                                                    <p class="mb-0">
-                                                        A Return & Refund Policy is a policy that dictates under what
-                                                        conditions customers can return products they've purchased from your
-                                                        eCommerce store and whether you'll
-                                                        reimburse them or not.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
+
+
+
                                     </ul>
                                 </div>
                                 <div class="mb-4">
-                                    <h3 class="mb-4">Ratings & Reviews</h3>
+                                    <h3 class="mb-4">Commentaires</h3>
                                     <div class="row align-items-center mb-4">
                                         <div class="col-md-4 mb-4 mb-md-0">
                                             <!-- rating -->
@@ -496,84 +270,225 @@
                                                 </span>
                                             </div>
                                             <!-- text -->
-                                            <p>It's awesome , I never thought about geeks that awesome shoes.very pretty.
+                                            <p> awesome , I never thought about geeks that awesome shoes.very pretty.
                                             </p>
                                             <div>
                                                 <span>James Ennis</span>
                                                 <span class="ms-4">28 Nov 2022</span>
                                             </div>
                                         </div>
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-xl-6 col-12">
+                            <div class="my-5 mx-lg-8">
+                                <!-- heading -->
+                                <div class="d-flex flex-column gap-2">
+                                    <h4 class="mb-0" x-text="product.name"></h4>
+                                    <div>
                                         <!-- review -->
-                                        <div class="border-top py-4">
-                                            <div class="border d-inline-block px-2 py-1 rounded-pill mb-3">
-                                                <span class="text-dark fw-semibold">
-                                                    5.0
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-success"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <!-- text -->
-                                            <p>
-                                                Quality is more than good that I was expected for buying. I first time
-                                                purchase Geeks shoes & this brand is good. Thanks to Geeks UI delivery was
-                                                faster than fast ...Love
-                                                Geeks UI
-                                            </p>
-                                            <div>
-                                                <span>Bradley Mouton</span>
-                                                <span class="ms-4">21 Apr 2022</span>
-                                            </div>
+                                        <span>
+                                            <span class="me-1 text-dark fw-semibold">
+                                                4.4
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor"
+                                                    class="bi bi-star-fill text-success ms-1 align-baseline"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </span>
+                                            592 avis
+                                        </span>
+                                    </div>
+                                </div>
+                                <hr class="my-3" />
+                                <div class="mb-5 d-flex flex-column gap-1">
+                                    <!-- text -->
+                                    <h4 class="mb-0">
+                                        <span x-text="product.price_vente"> </span>
+
+                                        <span class="text-warning">Profitez de -45% sur ce produit exceptionnel !</span>
+                                    </h4>
+                                    <span>Profitez de notre offre spéciale, taxes incluses !</span>
+
+                                </div>
+                                <!-- color -->
+                                <div class="mb-4 d-md-flex justify-content-between align-items-center">
+                                    <h5 class="mb-2 mb-md-0">Couleur</h5>
+                                    <div>
+                                        <!-- form check radio -->
+                                        <div class="btn-group" role="group"
+                                            aria-label="Basic radio toggle button group">
+                                            <input type="radio" class="btn-check" name="btnradio"
+                                                id="btnradioPrimary" />
+                                            <label
+                                                class="btn btn-primary rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioPrimary">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio"
+                                                id="btnradioSuccess" />
+                                            <label
+                                                class="btn btn-success rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioSuccess">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio"
+                                                id="btnradioDanger" />
+                                            <label
+                                                class="btn btn-danger rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioDanger">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioInfo" />
+                                            <label
+                                                class="btn btn-info rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioInfo">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio"
+                                                id="btnradioWarning" />
+                                            <label
+                                                class="btn btn-warning rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioWarning">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioDark" />
+                                            <label
+                                                class="btn btn-dark rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                for="btnradioDark">
+                                                <i class="fe fe-check icon-checked"></i>
+                                            </label>
                                         </div>
-                                        <!-- review -->
-                                        <div class="border-top py-4 border-bottom">
-                                            <div class="border d-inline-block px-2 py-1 rounded-pill mb-3">
-                                                <span class="text-dark fw-semibold">
-                                                    4.4
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-success"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <!-- text -->
-                                            <p>Excellent shoes with original logo , Thanks Geeks UI , Buy these shoes
-                                                without any tension</p>
-                                            <!-- img -->
-                                            <div class="mb-5">
-                                                <img src="../../../assets/images/ecommerce/ecommerce-img-1.jpg"
-                                                    alt="" class="avatar-md rounded-2" />
-                                                <img src="../../../assets/images/ecommerce/ecommerce-img-2.jpg"
-                                                    alt="" class="avatar-md rounded-2" />
-                                                <img src="../../../assets/images/ecommerce/ecommerce-img-3.jpg"
-                                                    alt="" class="avatar-md rounded-2" />
-                                            </div>
-                                            <div>
-                                                <!-- text -->
-                                                <span>Kieth J. Watson</span>
-                                                <span class="ms-4">21 May 2022</span>
-                                            </div>
+                                    </div>
+                                </div>
+                                <div class="mb-6 d-md-flex justify-content-between align-items-center">
+                                    <!-- size -->
+                                    <h5 class="mb-2 mb-md-0">Taille</h5>
+                                    <div>
+                                        <div class="btn-group" role="group"
+                                            aria-label="Basic radio toggle button group">
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio6">6</label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio7" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio7">7</label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio8" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio8">8</label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio9" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio9">9</label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio10" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio10">10</label>
+                                            <!-- form check radio -->
+                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" />
+                                            <label
+                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                for="btnradio11">11</label>
                                         </div>
-                                        <div class="my-3">
-                                            <!-- btn link -->
-                                            <a href="#" class="fw-semibold">View all 89 reviews</a>
+                                    </div>
+                                </div>
+                                <!-- row -->
+                                <div class="row row flex-md-row flex-column gap-2 gap-md-0">
+                                    <!-- col -->
+                                    <div class="col-md-12">
+                                        <div class="d-grid">
+                                            <!-- btn -->
+                                            <a href="shopping-cart.html" class="btn btn-danger">
+                                                <i class="fe fe-shopping-cart me-2"></i>
+                                                Acheter
+                                            </a>
                                         </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <!-- Jumia Express Section -->
+                            <div class="mb-3">
+                                <h6 class="text-danger fw-bold">JUMIA <span class="text-warning">EXPRESS</span></h6>
+                                <p class="small text-muted">Livraison en maximum 48h à Abidjan. <a href="#"
+                                        class="text-decoration-underline">Détails</a></p>
+                            </div>
+
+                            <!-- Choisissez le lieu Section -->
+                            <div class="mb-3">
+                                <label for="region" class="form-label">Choisissez le lieu</label>
+                                <select id="region" class="form-select mb-2">
+                                    <option>Vallée du Bandama</option>
+                                    <option>Lagunes</option>
+                                    <option>Bas-Sassandra</option>
+                                </select>
+                                <select id="agence" class="form-select">
+                                    <option>Bouaké Agence</option>
+                                    <option>Yamoussoukro Agence</option>
+                                    <option>Korhogo Agence</option>
+                                </select>
+                            </div>
+
+                            <!-- Point Relais Section -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                    <div>
+                                        <p class="fw-bold mb-1">Point relais</p>
+                                        <p class="small text-muted mb-0">Frais de livraison 500 FCFA (livraison gratuite si
+                                            supérieur à 5,000 FCFA).</p>
+                                        <p class="small text-muted">Prêt pour le retrait entre <strong>02 janvier</strong>
+                                            et <strong>03 janvier</strong> si vous commandez dans les prochaines
+                                            <strong>7hrs 0mins</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Politique de retour Section -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-arrow-counterclockwise text-success me-2 fs-5"></i>
+                                    <div>
+                                        <p class="fw-bold mb-1">Politique de retour</p>
+                                        <p class="small text-muted">Retours gratuits sur 10 jours.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <h1>Systeme de livraison</h1>
-                </div>
+
 
             </div>
         </div>
