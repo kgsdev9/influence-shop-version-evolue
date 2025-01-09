@@ -21,9 +21,6 @@
         .image-container img {
             cursor: zoom-in;
         }
-
-
-        
     </style>
 </head>
 
@@ -91,16 +88,17 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="navbar-default">
                 <ul class="navbar-nav mt-3 mt-lg-0 mx-xxl-auto">
-                    <li class="nav-item dropdown"><a class="nav-link" href="#">Nos Produits</a></li>
+                    <li class="nav-item dropdown"><a class="nav-link" href="{{ route('product.home') }}">Nos
+                            Produits</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#">Nos Compagnes</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link " href="{{ route('register.entreprise') }}" tabindex="-1"
-                            aria-disabled="true">Entreprise</a>
+                            aria-disabled="true">Boutique</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#"> Blog</a>
+                        <a class="nav-link" href="{{ route('homeBlog') }}"> Blog</a>
                     </li>
 
                 </ul>
@@ -162,7 +160,7 @@
                         <h3 class="fw-bold mb-3">Ressources</h3>
                         <ul class="list-unstyled nav nav-footer flex-column nav-x-0">
                             <li><a href="#" class="nav-link">A Propos</a></li>
-                            <li><a href="#" class="nav-link">Nos Produits</a></li>
+                            <li><a href="{{ route('product.home') }}" class="nav-link">Nos Produits</a></li>
                             <li><a href="#" class="nav-link">Nos Compagnes</a></li>
                             <li><a href="#" class="nav-link">Nos Influenceurs</a></li>
                             <li><a href="#" class="nav-link">Nos Partenaires</a></li>

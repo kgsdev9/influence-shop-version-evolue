@@ -23,6 +23,25 @@ class HomeController extends Controller
         return view('welcome', compact('listeproduct'));
     }
 
+    public function homeCompagne()
+    {
+        $listeproduct = Product::with('images')->get();
+        return view('home.compagne', compact('listeproduct'));
+    }
+
+
+
+    public function homeProduct()
+    {
+        $listeproduct = Product::with('images')->get();
+        return view('home.product', compact('listeproduct'));
+    }
+
+    public function homeBlog()
+    {
+        $listeproduct = Product::with('images')->get();
+        return view('home.blog', compact('listeproduct'));
+    }
     /**
      * Show the form for creating a new resource.
      *
