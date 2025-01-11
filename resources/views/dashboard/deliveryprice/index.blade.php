@@ -19,9 +19,11 @@
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -80,10 +82,9 @@
                         </a>
                         </td>
 
-
                         <td>
                             <button @click="openModal(product)">Edition</button>
-                            <button>Suppresion</button>
+                            <button @click="deleteDelivery(product.id)">Suppresion</button>
                         </td>
 
 
@@ -216,13 +217,12 @@
 
                 resetForm() {
                     this.formData = {
-                        name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        country_start: '',
+                        country_destination: '',
+                        prix: '',
+                        delivery_id: '',
+
                     };
-                    document.getElementById('image').value = '';
                 },
 
 
@@ -267,7 +267,7 @@
                     formData.append('delivery_id', this.currentProduct ? this.currentProduct.id : null);
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
+                        const response = await fetch('{{ route('deliveryprice.store') }}', {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -277,7 +277,7 @@
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.delivery;
 
                             if (product) {
                                 Swal.fire({
@@ -409,12 +409,12 @@
                     this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
                 },
 
-                async deleteProduct(productId) {
+                async deleteDelivery(delivery) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('deliveryprice.destroy', ['deliveryprice' => '__ID__']) }}`.replace(
                                 "__ID__",
-                                productId
+                                delivery
                             );
 
                         const response = await fetch(url, {
@@ -435,7 +435,7 @@
                                 });
 
                                 // Retirer le produit de la liste `this.products`
-                                this.products = this.products.filter(product => product.id !== productId);
+                                this.products = this.products.filter(product => product.id !== delivery);
 
                                 // Après suppression, appliquer le filtre pour mettre à jour la liste affichée
                                 this.filterProducts();

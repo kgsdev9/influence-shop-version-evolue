@@ -40,8 +40,9 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
-
+                                                <th scope="col">Nom d'utilisateur</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Role</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -59,45 +60,92 @@
                                 </a>
                                 </td>
 
+
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.email">
+                                            </h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.role.name">
+                                        </h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+                        <td>
+                            <button @click="openModal(product)">Edition</button>
+                            <button>Suppresion</button>
+                        </td>
+
+
+
+                        </tr>
+
+                        </template>
+                        </tbody>
+                        </table>
                     </div>
 
-
-
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                    </li>
+                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Libellé categories </label>
+                                    <input type="text" id="name" class="form-control" x-model="formData.name"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </main>
 
 
@@ -120,10 +168,9 @@
                 isEdite: false,
                 formData: {
                     name: '',
-                    prixachat: '',
-                    prixvente: '',
-                    image: '',
-                    category_id: ''
+                    email: '',
+                    role_id: '',
+                    password: '',
                 },
                 currentProduct: null,
 

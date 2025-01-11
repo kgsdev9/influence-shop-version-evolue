@@ -14,7 +14,7 @@
                                 <div class="p-4 d-flex justify-content-between align-items-center">
                                     <div>
                                         <h3 class="mb-0">Liste des commandes </h3>
-                                        <span>Gestion des commandes  .</span>
+                                        <span>Gestion des commandes .</span>
                                     </div>
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
@@ -40,8 +40,10 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
-
+                                                <th scope="col">Réference</th>
+                                                <th scope="col">Qte Cmde</th>
+                                                <th scope="col">Montant </th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -53,48 +55,78 @@
 
                                                             <div class="">
                                                                 <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="truncateText(product.name, 20)"></h5>
+                                                                    x-text="product.reference"></h5>
                                                             </div>
                                 </div>
                                 </a>
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.qtecmde"></h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.montantht"></h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+
+
+                        <td>
+                            <a href="#" class="text-inherit">
+
+                                <div class="">
+                                    <h5 class="mb-0 text-primary-hover" x-text="product.status"></h5>
+                                </div>
                     </div>
+                    </a>
+                    </td>
+
+                    <td>
+                        <button>Consulter</button>
+                        <button>Terminer l'achat </button>
+                    </td>
 
 
 
+                    </tr>
+
+                    </template>
+                    </tbody>
+                    </table>
                 </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                    <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                </li>
+                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                    <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
@@ -267,7 +299,8 @@
                 filterProducts() {
                     const term = this.searchTerm.toLowerCase();
                     this.filteredProducts = this.products.filter(user => {
-                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
+                        return user.reference && user.reference.toLowerCase().includes(term) || reference
+                            .created_at &&
 
                             user.created_at.toLowerCase().includes(term);
                     });

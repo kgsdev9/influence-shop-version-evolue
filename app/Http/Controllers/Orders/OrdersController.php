@@ -16,7 +16,8 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $listeoders = Order::where('user_id', Auth::user()->id)->get();
+        $listeoders = Order::all();
+      
         return view('dashboard.orders.index', compact('listeoders'));
     }
 
