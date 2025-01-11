@@ -16,13 +16,7 @@
                                         <h3 class="mb-0">Liste des commandes </h3>
                                         <span>Gestion des commandes .</span>
                                     </div>
-                                    <!-- Nav -->
-                                    <div class="nav btn-group flex-nowrap" role="tablist">
-
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
-                                    </div>
+                                   
                                 </div>
 
                                 <div class="p-4 row">

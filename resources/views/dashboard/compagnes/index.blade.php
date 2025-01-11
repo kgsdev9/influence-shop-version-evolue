@@ -40,7 +40,9 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
+                                                <th scope="col">Libelle</th>
+                                                <th scope="col">Date debut </th>
+                                                <th scope="col">Date fin </th>
 
                                                 <th scope="col"></th>
                                             </tr>
@@ -60,41 +62,59 @@
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.start_date"></h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.end_date"></h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+                        <td>
+                            <button>Edition</button>
+                            <button>Suppresion</button>
+                        </td>
+
+
+
+                        </tr>
+
+                        </template>
+                        </tbody>
+                        </table>
                     </div>
 
-
-
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                    </li>
+                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
