@@ -20,89 +20,72 @@ class CategoryController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $categorId = $request->input('category_id');
+
+        if ($categorId)
+        {
+
+            $categorId = Category::find($categorId);
+
+            if (!$categorId)
+            {
+                return $this->creatCategory($request);
+            }
+
+            return $this->updateCategory($categorId, $request);
+        } else {
+
+            return $this->creatCategory($request);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    private function updateCategory($category, Request $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+        ];
+
+        $category->update($data);
+        return response()->json(['message' => 'category mis à jour avec succès', 'category' => $category], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    private function creatCategory(Request $request)
     {
-        //
+        $category = Category::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json(['message' => 'category créé avec succès', 'category' => $category], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         try {
             // Rechercher le produit par ID
-            $categorie = TCategorieProduct::findOrFail($id);
+            $categorie = Category::findOrFail($id);
 
             // Supprimer le produit
             $categorie->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Produit supprimé avec succès.',
+                'message' => 'Categories supprimé avec succès.',
             ], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Produit introuvable.',
+                'message' => 'Categories introuvable.',
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur lors de la suppression du produit.',
+                'message' => 'Erreur lors de la suppression du Categories.',
             ], 500);
         }
     }
