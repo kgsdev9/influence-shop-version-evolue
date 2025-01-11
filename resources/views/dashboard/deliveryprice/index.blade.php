@@ -13,8 +13,8 @@
                                 <!-- Card header -->
                                 <div class="p-4 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h3 class="mb-0">Gestion des prix de livrison  </h3>
-                                        <span>Gestion des prix de livraisons  .</span>
+                                        <h3 class="mb-0">Gestion des prix de livrison </h3>
+                                        <span>Gestion des prix de livraisons .</span>
                                     </div>
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
@@ -40,8 +40,9 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
-
+                                                <th scope="col">Pays d'origine</th>
+                                                <th scope="col">Pays de destination</th>
+                                                <th scope="col">Prix</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -53,51 +54,106 @@
 
                                                             <div class="">
                                                                 <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="truncateText(product.name, 20)"></h5>
+                                                                    x-text="product.country_start"></h5>
                                                             </div>
                                 </div>
                                 </a>
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.country_destination"></h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.prix"></h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+
+                        <td>
+                            <button @click="openModal(product)">Edition</button>
+                            <button>Suppresion</button>
+                        </td>
+
+
+                        </tr>
+
+                        </template>
+                        </tbody>
+                        </table>
                     </div>
 
-
-
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                    </li>
+                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Pays Destination</label>
+                                    <input type="text" id="name" class="form-control"
+                                        x-model="formData.country_start" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Pays d'arrivée </label>
+                                    <input type="text" id="name" class="form-control"
+                                        x-model="formData.country_destination" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Prix</label>
+                                    <input type="text" id="name" class="form-control" x-model="formData.prix"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </main>
 
 
@@ -119,16 +175,14 @@
                 showModal: false,
                 isEdite: false,
                 formData: {
-                    name: '',
-                    prixachat: '',
-                    prixvente: '',
-                    image: '',
-                    category_id: ''
+                    country_start: '',
+                    country_destination: '',
+                    prix: '',
+
                 },
                 currentProduct: null,
 
                 hideModal() {
-
                     this.showModal = false;
                     this.currentProduct = null;
                     this.resetForm();
@@ -136,18 +190,17 @@
                 },
 
                 openModal(product = null) {
+
                     this.isEdite = product !== null;
                     if (this.isEdite) {
                         this.currentProduct = {
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            country_start: this.currentProduct.country_start,
+                            country_destination: this.currentProduct.country_destination,
+                            prix: this.currentProduct.prix,
+                            delivery_id: this.currentProduct.id,
                         };
                     } else {
                         this.resetForm();
@@ -176,10 +229,31 @@
                 async submitForm() {
                     this.isLoading = true;
 
-                    if (!this.formData.name || this.formData.name.trim() === '') {
+                    if (!this.formData.country_start || this.formData.country_start.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le pays de départ est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.country_destination || this.formData.country_destination.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le pays de destination est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+
+                    if (!this.formData.prix || this.formData.prix.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le prix est requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -187,22 +261,18 @@
                     }
 
                     const formData = new FormData();
-                    formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('country_start', this.formData.country_start);
+                    formData.append('country_destination', this.formData.country_destination);
+                    formData.append('prix', this.formData.prix);
+                    formData.append('delivery_id', this.currentProduct ? this.currentProduct.id : null);
 
                     try {
                         const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
@@ -265,9 +335,11 @@
                 },
 
                 filterProducts() {
+
                     const term = this.searchTerm.toLowerCase();
                     this.filteredProducts = this.products.filter(user => {
-                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
+                        return user.country_start && user.country_start.toLowerCase().includes(term) || user
+                            .created_at &&
 
                             user.created_at.toLowerCase().includes(term);
                     });

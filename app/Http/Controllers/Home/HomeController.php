@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+  
     /**
      * Affichage d'une ressource spécifique .
      *
