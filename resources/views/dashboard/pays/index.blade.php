@@ -19,9 +19,11 @@
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -40,7 +42,7 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
+                                                <th scope="col">Libelle pays </th>
 
                                                 <th scope="col"></th>
                                             </tr>
@@ -60,8 +62,8 @@
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
+                                    <button @click="openModal(product)">Editer</button>
+                                    <button @click="deletePays(product.id)">Suppresion</button>
                                 </td>
 
 
@@ -98,6 +100,33 @@
             </div>
             </div>
         </section>
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Libellé pays </label>
+                                    <input type="text" id="name" class="form-control" x-model="formData.name"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+
     </main>
 
 
@@ -142,12 +171,7 @@
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            name: this.currentProduct.name,
                         };
                     } else {
                         this.resetForm();
@@ -164,12 +188,7 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
                     };
-                    document.getElementById('image').value = '';
                 },
 
 
@@ -179,7 +198,7 @@
                     if (!this.formData.name || this.formData.name.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le pays est requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -188,16 +207,11 @@
 
                     const formData = new FormData();
                     formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('country_id', this.currentProduct ? this.currentProduct.id : null);
+
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
+                        const response = await fetch('{{ route('countries.store') }}', {
                             method: 'POST', // Toujours 'POST', même pour la mise à jour
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -207,7 +221,7 @@
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.country;
 
                             if (product) {
                                 Swal.fire({
@@ -337,10 +351,10 @@
                     this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
                 },
 
-                async deleteProduct(productId) {
+                async deletePays(productId) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('countries.destroy', ['country' => '__ID__']) }}`.replace(
                                 "__ID__",
                                 productId
                             );
