@@ -83,6 +83,27 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            // Rechercher le produit par ID
+            $categorie = TCategorieProduct::findOrFail($id);
+
+            // Supprimer le produit
+            $categorie->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Produit supprimé avec succès.',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Produit introuvable.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression du produit.',
+            ], 500);
+        }
     }
 }

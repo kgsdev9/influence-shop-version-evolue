@@ -19,69 +19,72 @@ class CityController extends Controller
         return view('dashboard.villes.index', compact('cities'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+
+        // Vérifier si product_id existe dans la requête
+        $cityId = $request->input('city_id');
+
+        if ($cityId) {
+            // Si product_id existe, on modifie le produit
+            $city = City::find($cityId);
+
+            // Si le produit n'existe pas, le créer
+            if (!$city) {
+
+                return $this->creatCity($request);
+            }
+
+
+            return $this->updateCity($city, $request);
+        } else {
+
+            return $this->creatCity($request);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    private function updateCity($city, Request $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+        ];
+
+        $city->update($data);
+        return response()->json(['message' => 'Ville adresse mis à jour avec succès', 'city' => $city], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    private function creatCity(Request $request)
     {
-        //
+        $city = City::create([
+            'name' => $request->name,
+        ]);
+
+        return response()->json(['message' => 'Ville créé avec succès', 'city' => $city], 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        try {
+
+            $city = City::findOrFail($id);
+
+            $city->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'City supprimé avec succès.',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'City introuvable.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression du produit.',
+            ], 500);
+        }
     }
 }

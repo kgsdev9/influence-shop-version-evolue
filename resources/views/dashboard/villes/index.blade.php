@@ -18,10 +18,11 @@
                                     </div>
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
-
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -40,7 +41,7 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
+                                                <th scope="col">Libelle Ville</th>
 
                                                 <th scope="col"></th>
                                             </tr>
@@ -51,53 +52,81 @@
                                                     <td>
                                                         <a href="#" class="text-inherit">
 
-                                                                <div class="">
-                                                                    <h5 class="mb-0 text-primary-hover"
-                                                                        x-text="truncateText(product.name, 20)"></h5>
-                                                                </div>
+                                                            <div class="">
+                                                                <h5 class="mb-0 text-primary-hover"
+                                                                    x-text="truncateText(product.name, 20)"></h5>
                                                             </div>
-                                                        </a>
-                                                    </td>
-
-                                                    <td>
-                                                        <button>Edition</button>
-                                                        <button>Suppresion</button>
-                                                    </td>
-
-
-
-                                                </tr>
-
-                                            </template>
-                                        </tbody>
-                                    </table>
                                 </div>
+                                </a>
+                                </td>
 
-                                <div class="row mt-4">
-                                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                        <nav>
-                                            <ul class="pagination">
-                                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                    <button class="page-link"
-                                                        @click="goToPage(currentPage - 1)">Précedent</button>
-                                                </li>
-                                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                    <button class="page-link"
-                                                        @click="goToPage(currentPage + 1)">Suivant</button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+                                <td>
+                                    <button @click="openModal(product)">Editer</button>
+                                    <button @click="deleteVille(product.id)">Suppresion</button>
+                                </td>
+
+
+
+                                </tr>
+
+                                </template>
+                                </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                                    <nav>
+                                        <ul class="pagination">
+                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage - 1)">Précedent</button>
+                                            </li>
+                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                                <button class="page-link"
+                                                    @click="goToPage(currentPage + 1)">Suivant</button>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
 
 
+                </div>
+            </div>
+            </div>
+        </section>
+
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Libellé ville</label>
+                                    <input type="text" id="name" class="form-control" x-model="formData.name"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </template>
+
+
     </main>
 
 
@@ -136,18 +165,14 @@
                 },
 
                 openModal(product = null) {
+
                     this.isEdite = product !== null;
                     if (this.isEdite) {
                         this.currentProduct = {
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            name: this.currentProduct.name,
                         };
                     } else {
                         this.resetForm();
@@ -164,14 +189,8 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
                     };
-                    document.getElementById('image').value = '';
                 },
-
 
                 async submitForm() {
                     this.isLoading = true;
@@ -188,26 +207,20 @@
 
                     const formData = new FormData();
                     formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('city_id', this.currentProduct ? this.currentProduct.id : null);
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('city.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.city;
 
                             if (product) {
                                 Swal.fire({
@@ -256,7 +269,6 @@
                         this.isLoading = false;
                     }
                 },
-
 
                 get paginatedProducts() {
                     let start = (this.currentPage - 1) * this.productsPerPage;
@@ -337,10 +349,10 @@
                     this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
                 },
 
-                async deleteProduct(productId) {
+                async deleteVille(productId) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('city.destroy', ['city' => '__ID__']) }}`.replace(
                                 "__ID__",
                                 productId
                             );
