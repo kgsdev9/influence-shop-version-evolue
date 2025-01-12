@@ -20,69 +20,46 @@ class AbonnementController extends Controller
         return view('dashboard.planabonnement.index', compact('listeabonnement'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $abonnementId = $request->input('abonnement_id');
+        if ($abonnementId) {
+            // Si abonnement_id existe, on modifie l'abonnement
+            $abonnement = Abonnement::find($abonnementId);
+
+            // Si l'abonnement n'existe pas, créer un nouvel abonnement
+            if (!$abonnement) {
+                return $this->createAbonnement($request);
+            }
+
+            return $this->updateAbonnement($abonnement, $request);
+        } else {
+            // Créer un nouvel abonnement
+            return $this->createAbonnement($request);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    private function updateAbonnement($abonnement, Request $request)
     {
-        //
+        $data = [
+            'libelle' => $request->libelle,
+            'price' => $request->prix,
+            'description' => $request->description,
+        ];
+
+        $abonnement->update($data);
+        return response()->json(['message' => 'Abonnement mis à jour avec succès', 'abonnement' => $abonnement], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    private function createAbonnement(Request $request)
     {
-        //
-    }
+        $abonnement = Abonnement::create([
+            'libelle' => $request->libelle,
+            'price' => $request->prix,
+            'description' => $request->description,
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json(['message' => 'Abonnement créé avec succès', 'abonnement' => $abonnement], 201);
     }
 }

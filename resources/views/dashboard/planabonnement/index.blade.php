@@ -13,15 +13,17 @@
                                 <!-- Card header -->
                                 <div class="p-4 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h3 class="mb-0">Liste des plans souscriptions </h3>
-                                        <span>Gestion des souscriptions .</span>
+                                        <h3 class="mb-0">Liste des plans abonnements </h3>
+                                        <span>Gestion des abonnements .</span>
                                     </div>
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -40,8 +42,9 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
-
+                                                <th scope="col">Libelle </th>
+                                                <th scope="col">Prix</th>
+                                                <th scope="col">Description</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -53,51 +56,109 @@
 
                                                             <div class="">
                                                                 <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="truncateText(product.name, 20)"></h5>
+                                                                    x-text="truncateText(product.libelle, 20)"></h5>
                                                             </div>
                                 </div>
                                 </a>
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.price"></h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+
+
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.description"></h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+                        <td>
+                            <button @click="openModal(product)">Edition</button>
+                            <button @click="deleteAbonnement(product.id)">Suppresion</button>
+                        </td>
+
+
+
+                        </tr>
+
+                        </template>
+                        </tbody>
+                        </table>
                     </div>
 
-
-
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                    </li>
+                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
+
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="libelle" class="form-label">Libellé</label>
+                                    <input type="text" id="libelle" class="form-control" x-model="formData.libelle"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="prix" class="form-label">Prix</label>
+                                    <input type="text" id="prix" class="form-control" x-model="formData.prix"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description </label>
+                                    <input type="text" id="description" class="form-control"
+                                        x-model="formData.description" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </main>
 
 
@@ -119,11 +180,9 @@
                 showModal: false,
                 isEdite: false,
                 formData: {
-                    name: '',
-                    prixachat: '',
-                    prixvente: '',
-                    image: '',
-                    category_id: ''
+                    libelle: '',
+                    prix: '',
+                    description: '',
                 },
                 currentProduct: null,
 
@@ -142,12 +201,9 @@
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            libelle: this.currentProduct.libelle,
+                            prix: this.currentProduct.price,
+                            description: this.currentProduct.description,
                         };
                     } else {
                         this.resetForm();
@@ -164,22 +220,40 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        prix: '',
+                        description: '',
+
                     };
-                    document.getElementById('image').value = '';
                 },
 
 
                 async submitForm() {
                     this.isLoading = true;
 
-                    if (!this.formData.name || this.formData.name.trim() === '') {
+                    if (!this.formData.libelle || this.formData.libelle.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le libellé est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.prix || this.formData.prix.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le prix est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.description || this.formData.description.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'La description est requise.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -187,32 +261,28 @@
                     }
 
                     const formData = new FormData();
-                    formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('libelle', this.formData.libelle);
+                    formData.append('prix', this.formData.prix);
+                    formData.append('description', this.formData.description);
+                    formData.append('abonnement_id', this.currentProduct ? this.currentProduct.id : null);
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('abonnement.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.abonnement;
 
                             if (product) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Abonnement enregistré avec succès !',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -267,7 +337,7 @@
                 filterProducts() {
                     const term = this.searchTerm.toLowerCase();
                     this.filteredProducts = this.products.filter(user => {
-                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
+                        return user.libelle && user.libelle.toLowerCase().includes(term) || user.created_at &&
 
                             user.created_at.toLowerCase().includes(term);
                     });
