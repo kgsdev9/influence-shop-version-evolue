@@ -19,9 +19,11 @@
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -86,7 +88,7 @@
 
                         <td>
                             <button @click="openModal(product)">Edition</button>
-                            <button>Suppresion</button>
+                            <button @click="deleteUsers(product.id)">Suppresion</button>
                         </td>
 
 
@@ -133,17 +135,43 @@
                         <div class="modal-body">
                             <form @submit.prevent="submitForm">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Libellé categories </label>
+                                    <label for="name" class="form-label">Nom d'utilisateur </label>
                                     <input type="text" id="name" class="form-control" x-model="formData.name"
                                         required>
                                 </div>
-                                <button type="submit" class="btn btn-primary"
-                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
 
-                            </form>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Adresse email </label>
+                                    <input type="email" id="email" class="form-control" x-model="formData.email"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="role_id" class="form-label">Role</label>
+                                    <select x-model="formData.role_id" class="form-select">
+                                        <option value="">Choisir un role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password </label>
+                                    <input type="password" id="password" class="form-control" x-model="formData.password"
+                                        required>
+                                </div>
+
                         </div>
+
+
+                        <button type="submit" class="btn btn-primary"
+                            x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                        </form>
                     </div>
                 </div>
+            </div>
             </div>
         </template>
     </main>
@@ -189,11 +217,11 @@
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
+                            name: this.currentProduct.name,
+                            email: this.currentProduct.email,
+                            password: this.currentProduct.password,
                             role_id: this.currentProduct.role.id,
-                            image: null,
+
 
                         };
                     } else {
@@ -211,12 +239,12 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        email: '',
+                        password: '',
+                        role_id: '',
+
                     };
-                    document.getElementById('image').value = '';
+
                 },
 
 
@@ -226,7 +254,27 @@
                     if (!this.formData.name || this.formData.name.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le nom est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.email || this.formData.email.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'L\'adresse email est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.role_id || this.formData.role_id.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le rôle est requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -235,31 +283,27 @@
 
                     const formData = new FormData();
                     formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
-
+                    formData.append('email', this.formData.email);
+                    formData.append('role_id', this.formData.role_id);
+                    formData.append('password', this.formData.password);
+                    formData.append('user_id', this.currentProduct ? this.currentProduct.id : null);
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('users.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.users;
 
                             if (product) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Users enregistré avec succès !',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -281,7 +325,7 @@
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Produit non valide.',
+                                    title: 'Users non valide.',
                                     showConfirmButton: true
                                 });
                             }

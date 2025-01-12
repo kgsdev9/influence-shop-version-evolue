@@ -84,6 +84,12 @@
                                                         </h5>
                                                     </td>
 
+                                                    <td>
+                                                        <button>Editer</button>
+                                                        <button>Suppression</button>
+                                                      
+                                                    </td>
+
                                                 </tr>
 
                                             </template>

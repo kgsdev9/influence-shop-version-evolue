@@ -16,13 +16,7 @@
                                         <h3 class="mb-0">Liste des souscriptions </h3>
                                         <span>Gestion des souscritions .</span>
                                     </div>
-                                    <!-- Nav -->
-                                    <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
-                                    </div>
                                 </div>
 
                                 <div class="p-4 row">
@@ -40,8 +34,11 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Libelle Catégorie</th>
-
+                                                <th scope="col">Entreprise</th>
+                                                <th scope="col">Plan</th>
+                                                <th scope="col">Prix</th>
+                                                <th scope="col">date debut</th>
+                                                <th scope="col">date fin</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -53,48 +50,89 @@
 
                                                             <div class="">
                                                                 <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="truncateText(product.name, 20)"></h5>
+                                                                    x-text="truncateText(product.entreprise.name, 20)"></h5>
                                                             </div>
                                 </div>
                                 </a>
                                 </td>
 
                                 <td>
-                                    <button>Edition</button>
-                                    <button>Suppresion</button>
-                                </td>
+                                    <a href="#" class="text-inherit">
 
-
-
-                                </tr>
-
-                                </template>
-                                </tbody>
-                                </table>
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover"
+                                                x-text="truncateText(product.abonnement.libelle, 20)"></h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
 
-                            <div class="row mt-4">
-                                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage - 1)">Précedent</button>
-                                            </li>
-                                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                <button class="page-link"
-                                                    @click="goToPage(currentPage + 1)">Suivant</button>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover"
+                                            x-text="truncateText(product.abonnement.price, 20)"></h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+
+                        <td>
+                            <a href="#" class="text-inherit">
+
+                                <div class="">
+                                    <h5 class="mb-0 text-primary-hover" x-text="truncateText(product.date_debut, 20)"></h5>
+                                </div>
                     </div>
+                    </a>
+                    </td>
 
+                    <td>
+                        <a href="#" class="text-inherit">
 
-
+                            <div class="">
+                                <h5 class="mb-0 text-primary-hover" x-text="truncateText(product.date_fin, 20)"></h5>
+                            </div>
                 </div>
+                </a>
+                </td>
+
+
+
+
+                <td>
+                    <button>Suppresion</button>
+                </td>
+
+                </tr>
+
+                </template>
+                </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                            </li>
+                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            </div>
+            </div>
+
+
+
+            </div>
             </div>
             </div>
         </section>
@@ -267,7 +305,8 @@
                 filterProducts() {
                     const term = this.searchTerm.toLowerCase();
                     this.filteredProducts = this.products.filter(user => {
-                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
+                        return user.entreprise.name && user.entreprise.name.toLowerCase().includes(term) || user
+                            .created_at &&
 
                             user.created_at.toLowerCase().includes(term);
                     });

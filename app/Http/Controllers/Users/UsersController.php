@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -16,72 +18,68 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::with('role')->get();
-
-        return view('dashboard.users.index', compact('users'));
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $roles = Role::all();
+        return view('dashboard.users.index', compact('users', 'roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function store(Request $request)
     {
-        //
+        $userId = $request->input('user_id');
+
+        if ($userId) {
+            // Si `user_id` existe, on met à jour l'utilisateur
+            $user = User::find($userId);
+
+            if (!$user) {
+                return $this->createUser($request);
+            }
+
+            return $this->updateUser($user, $request);
+        } else {
+            // Sinon, on crée un nouvel utilisateur
+            return $this->createUser($request);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    private function updateUser($user, Request $request)
     {
-        //
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'role_id' => $request->role_id,
+        ];
+
+        if ($request->password) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $user->update($data);
+
+        $user->load('role');
+
+        return response()->json([
+            'message' => 'Utilisateur mis à jour avec succès',
+            'user' => $user,
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    private function createUser(Request $request)
     {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role_id' => $request->role_id,
+            'password' => Hash::make($request->password),
+        ]);
+        $user->load('role');
+        return response()->json([
+            'message' => 'Utilisateur créé avec succès',
+            'user' => $user,
+        ], 201);
     }
 }

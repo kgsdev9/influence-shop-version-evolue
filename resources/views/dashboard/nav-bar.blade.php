@@ -74,6 +74,7 @@
                     </li>
 
 
+                    @can('is_admin_k')
                     <li class="nav-item {{ request()->routeIs('linkspayment.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('linkspayment.index') }}">
                             <i class="fe fe-credit-card nav-icon"></i>
@@ -81,6 +82,16 @@
                             Lien de paiement
                         </a>
                     </li>
+
+                    <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('paiementadresse.index') }}">
+                            <i class="fe fe-credit-card nav-icon"></i>
+
+                            Adresse Paiement
+                        </a>
+                    </li>
+                    @endcan
+
 
                     <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('abonnement.index') }}">
@@ -91,13 +102,7 @@
                     </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('paiementadresse.index') }}">
-                            <i class="fe fe-credit-card nav-icon"></i>
 
-                            Adresse Paiement
-                        </a>
-                    </li>
 
                     <li class="nav-item {{ request()->routeIs('souscribers.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('souscribers.index') }}">

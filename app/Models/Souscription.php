@@ -15,4 +15,15 @@ class Souscription extends Model
         'date_fin',
         'date_debut'
     ];
+
+
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class, 'entreprise_id');
+    }
+
+    public function abonnement()
+    {
+        return $this->belongsTo(Abonnement::class);
+    }
 }

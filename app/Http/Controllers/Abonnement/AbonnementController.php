@@ -62,4 +62,27 @@ class AbonnementController extends Controller
 
         return response()->json(['message' => 'Abonnement créé avec succès', 'abonnement' => $abonnement], 201);
     }
+
+
+    public function destroy($id)
+    {
+        try {
+            $abonnement = Abonnement::findOrFail($id);
+            $abonnement->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'abonnement supprimé avec succès.',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'abonnement introuvable.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression de la abonnement.',
+            ], 500);
+        }
+    }
 }

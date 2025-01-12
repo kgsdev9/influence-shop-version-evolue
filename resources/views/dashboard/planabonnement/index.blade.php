@@ -407,12 +407,12 @@
                     this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
                 },
 
-                async deleteProduct(productId) {
+                async deleteAbonnement(abonnementId) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('abonnement.destroy', ['abonnement' => '__ID__']) }}`.replace(
                                 "__ID__",
-                                productId
+                                abonnementId
                             );
 
                         const response = await fetch(url, {
@@ -433,7 +433,7 @@
                                 });
 
                                 // Retirer le produit de la liste `this.products`
-                                this.products = this.products.filter(product => product.id !== productId);
+                                this.products = this.products.filter(product => product.id !== abonnementId);
 
                                 // Après suppression, appliquer le filtre pour mettre à jour la liste affichée
                                 this.filterProducts();
