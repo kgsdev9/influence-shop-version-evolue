@@ -19,9 +19,11 @@
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
 
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
                                     </div>
                                 </div>
 
@@ -41,6 +43,8 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th scope="col">Libelle</th>
+                                                <th scope="col">Produit</th>
+                                                <th scope="col">Entreprise</th>
                                                 <th scope="col">Date debut </th>
                                                 <th scope="col">Date fin </th>
 
@@ -65,7 +69,8 @@
                                     <a href="#" class="text-inherit">
 
                                         <div class="">
-                                            <h5 class="mb-0 text-primary-hover" x-text="product.start_date"></h5>
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.product.name">
+                                            </h5>
                                         </div>
                             </div>
                             </a>
@@ -75,41 +80,62 @@
                                 <a href="#" class="text-inherit">
 
                                     <div class="">
-                                        <h5 class="mb-0 text-primary-hover" x-text="product.end_date"></h5>
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.entreprise.name">
+                                        </h5>
                                     </div>
                         </div>
                         </a>
                         </td>
 
                         <td>
-                            <button>Edition</button>
-                            <button>Suppresion</button>
-                        </td>
+                            <a href="#" class="text-inherit">
 
-
-
-                        </tr>
-
-                        </template>
-                        </tbody>
-                        </table>
+                                <div class="">
+                                    <h5 class="mb-0 text-primary-hover" x-text="product.start_date"></h5>
+                                </div>
                     </div>
+                    </a>
+                    </td>
 
-                    <div class="row mt-4">
-                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
-                                    </li>
-                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
+                    <td>
+                        <a href="#" class="text-inherit">
+
+                            <div class="">
+                                <h5 class="mb-0 text-primary-hover" x-text="product.end_date"></h5>
+                            </div>
                 </div>
+                </a>
+                </td>
+
+                <td>
+                    <button @click="openModal(product)">Edition</button>
+                    <button>Suppresion</button>
+                </td>
+
+
+
+                </tr>
+
+                </template>
+                </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                            </li>
+                            <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            </div>
             </div>
 
 
@@ -118,6 +144,84 @@
             </div>
             </div>
         </section>
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="row">
+                                    <!-- Nom de la compagne -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="name" class="form-label">Nom de la compagne</label>
+                                        <input type="text" id="name" class="form-control" x-model="formData.name"
+                                            required>
+                                    </div>
+
+                                    <!-- Date début -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="start_date" class="form-label">Date debut</label>
+                                        <input type="date" id="start_date" class="form-control"
+                                            x-model="formData.start_date" required>
+                                    </div>
+
+                                    <!-- Date fin -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="end_date" class="form-label">Date de fin</label>
+                                        <input type="date" id="end_date" class="form-control"
+                                            x-model="formData.end_date" required>
+                                    </div>
+
+                                    <!-- Produits -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="product_id" class="form-label">Produits</label>
+                                        <select x-model="formData.product_id" class="form-select">
+                                            <option value="">Choisir un produit</option>
+                                            @foreach ($listeproducts as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Entreprise -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="entreprise_id" class="form-label">Entreprise</label>
+                                        <select x-model="formData.entreprise_id" class="form-select">
+                                            <option value="">Choisir une entreprise</option>
+                                            @foreach ($listeentreprise as $entreprise)
+                                                <option value="{{ $entreprise->id }}">{{ $entreprise->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Budget -->
+                                    <div class="col-md-6 mb-3">
+                                        <label for="total_budget" class="form-label">Budget de la compagne</label>
+                                        <input type="text" id="total_budget" class="form-control"
+                                            x-model="formData.total_budget" required>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="col-md-12 mb-3">
+                                        <label for="description" class="form-label">Description de la compagne</label>
+                                        <input type="text" id="description" class="form-control"
+                                            x-model="formData.description" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
     </main>
 
 
@@ -140,10 +244,12 @@
                 isEdite: false,
                 formData: {
                     name: '',
-                    prixachat: '',
-                    prixvente: '',
-                    image: '',
-                    category_id: ''
+                    description: '',
+                    start_date: '',
+                    end_date: '',
+                    total_budget: '',
+                    entreprise_id: '',
+                    product_id: ''
                 },
                 currentProduct: null,
 
@@ -162,12 +268,13 @@
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            name: this.currentProduct.name,
+                            start_date: this.currentProduct.start_date,
+                            end_date: this.currentProduct.end_date,
+                            entreprise_id: this.currentProduct.entreprise.id,
+                            product_id: this.currentProduct.product.id,
+                            total_budget: this.currentProduct.total_budget,
+                            description: this.currentProduct.description,
                         };
                     } else {
                         this.resetForm();
@@ -184,12 +291,13 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        description: '',
+                        start_date: '',
+                        end_date: '',
+                        total_budget: '',
+                        entreprise_id: '',
+                        product_id: '',
                     };
-                    document.getElementById('image').value = '';
                 },
 
 
@@ -199,7 +307,67 @@
                     if (!this.formData.name || this.formData.name.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le nom de la compagne est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.description || this.formData.description.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'La description de la compagne est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.start_date) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'La date de début est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.end_date) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'La date de fin est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.total_budget || this.formData.total_budget.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le budget total est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.entreprise_id) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'L\'entreprise est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.product_id) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le produit est requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -208,31 +376,32 @@
 
                     const formData = new FormData();
                     formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('description', this.formData.description);
+                    formData.append('start_date', this.formData.start_date);
+                    formData.append('end_date', this.formData.end_date);
+                    formData.append('total_budget', this.formData.total_budget);
+                    formData.append('entreprise_id', this.formData.entreprise_id);
+                    formData.append('product_id', this.formData.product_id);
+                    formData.append('compagne_id', this.currentProduct ? this.currentProduct.id : null);
+
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('compagne.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.compagne;
 
                             if (product) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Action effectuée avec succés!',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -254,7 +423,7 @@
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Produit non valide.',
+                                    title: 'Compagne non valide.',
                                     showConfirmButton: true
                                 });
                             }

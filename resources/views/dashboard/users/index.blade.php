@@ -192,7 +192,7 @@
                             name: this.currentProduct.libelleproduct,
                             prixachat: this.currentProduct.prixachat,
                             prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
+                            role_id: this.currentProduct.role.id,
                             image: null,
 
                         };
