@@ -78,4 +78,26 @@ class GestionCompagneController extends Controller
 
         return response()->json(['message' => 'Compagne créée avec succès', 'compagne' => $compagne], 201);
     }
+
+    public function destroy($id)
+    {
+        try {
+            $compagne = Compagne::findOrFail($id);
+            $compagne->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'compagne supprimé avec succès.',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'compagne introuvable.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression de la compagne.',
+            ], 500);
+        }
+    }
 }

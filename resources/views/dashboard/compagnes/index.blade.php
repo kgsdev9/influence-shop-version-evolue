@@ -109,7 +109,7 @@
 
                 <td>
                     <button @click="openModal(product)">Edition</button>
-                    <button>Suppresion</button>
+                    <button @click="deleteCompagne(product.id)">Suppresion</button>
                 </td>
 
 
@@ -506,7 +506,7 @@
 
 
                 filterByCategory() {
-                    // Réinitialiser filteredProducts à la liste complète des produits
+
                     this.filteredProducts = this.products;
 
                     if (this.selectedCategory) {
@@ -526,12 +526,12 @@
                     this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
                 },
 
-                async deleteProduct(productId) {
+                async deleteCompagne(compagneId) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('compagne.destroy', ['compagne' => '__ID__']) }}`.replace(
                                 "__ID__",
-                                productId
+                                compagneId
                             );
 
                         const response = await fetch(url, {
@@ -552,9 +552,9 @@
                                 });
 
                                 // Retirer le produit de la liste `this.products`
-                                this.products = this.products.filter(product => product.id !== productId);
+                                this.products = this.products.filter(product => product.id !== compagneId);
 
-                                // Après suppression, appliquer le filtre pour mettre à jour la liste affichée
+
                                 this.filterProducts();
                             } else {
                                 Swal.fire({
