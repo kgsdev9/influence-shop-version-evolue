@@ -63,151 +63,122 @@
 
             <div class="row gy-4">
 
-                <div class="col-xxl-3 col-xl-4 col-lg-6 col-12">
-                    <!-- card -->
-                    <div class="card h-100">
-                        <!-- card body -->
-                        <div class="card-body">
-                            <div class="d-flex flex-column gap-4">
-                                <div class="d-flex flex-column gap-3">
-                                    <!-- heading-->
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <!-- text-->
+                @foreach ($compagnes as $compagne)
+                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-12">
+                        <!-- card -->
+                        <div class="card h-100">
+                            <!-- card body -->
+                            <div class="card-body">
+                                <div class="d-flex flex-column gap-4">
+                                    <div class="d-flex flex-column gap-3">
+                                        <!-- heading-->
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <!-- text-->
 
-                                        <div class="d-flex align-items-center">
-                                            <div class="icon-shape icon-lg rounded-3 border p-4">
-                                                <i class="fe fe-shopping-cart fs-3"></i>
+                                            <div class="d-flex align-items-center">
+                                                <div class="icon-shape icon-lg rounded-3 border p-4">
+                                                    <i class="fe fe-shopping-cart fs-3"></i>
+                                                </div>
+                                                <div class="ms-3">
+                                                    <h4 class="mb-0"><a href="#"
+                                                            class="text-inherit">{{ $compagne->name }}</a></h4>
+                                                    <span class="fs-6">{{ $compagne->product->name }}</span>
+                                                </div>
                                             </div>
-                                            <div class="ms-3">
-                                                <h4 class="mb-0"><a href="#" class="text-inherit">E-Commerce
-                                                        Project</a></h4>
-                                                <span class="fs-6">Web Development</span>
-                                            </div>
-                                        </div>
-                                        <!-- dropdown-->
-                                        <div class="d-flex">
-                                            <div class="dropdown dropstart">
-                                                <a href="#" class="btn-icon btn btn-ghost btn-sm rounded-circle"
-                                                    id="dropdownProjectSix" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <i class="bi bi-three-dots-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownProjectSix">
-                                                    <span class="dropdown-header">Settings</span>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-edit dropdown-item-icon"></i>
-                                                        Edit Details
-                                                    </a>
+                                            <!-- dropdown-->
+                                            <div class="d-flex">
+                                                <div class="dropdown dropstart">
 
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-link dropdown-item-icon"></i>
-                                                        Copy project link
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-save dropdown-item-icon"></i>
-                                                        Save as Default
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-copy dropdown-item-icon"></i>
-                                                        Duplicate
-                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownProjectSix">
+                                                        <span class="dropdown-header">Action PUB</span>
+                                                        <a class="dropdown-item" href="#">
+                                                            <i class="fe fe-edit dropdown-item-icon"></i>
+                                                            Edit Details
+                                                        </a>
 
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-upload dropdown-item-icon"></i>
-                                                        Import
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-printer dropdown-item-icon"></i>
-                                                        Export / Print
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-users dropdown-item-icon"></i>
-                                                        Move to another team
-                                                    </a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-archive dropdown-item-icon"></i>
-                                                        Archive
-                                                    </a>
-                                                    <a class="dropdown-item" href="#">
-                                                        <i class="fe fe-trash dropdown-item-icon"></i>
-                                                        Delete Project
-                                                    </a>
+                                                        <a class="dropdown-item" href="#">
+                                                            <i class="fe fe-link dropdown-item-icon"></i>
+                                                            Copy project link
+                                                        </a>
+                                                        <a class="dropdown-item" href="#">
+                                                            <i class="fe fe-save dropdown-item-icon"></i>
+                                                            Save as Default
+                                                        </a>
+                                                        <a class="dropdown-item" href="#">
+                                                            <i class="fe fe-copy dropdown-item-icon"></i>
+                                                            Duplicate
+                                                        </a>
+
+
+
+
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- para-->
-                                    <div>
-                                        <p class="mb-0">Donec vel tellus nec purus mollis consequat sed at urna. In sit
-                                            amet vehicula odio.</p>
-                                    </div>
-                                </div>
-                                <!-- progress -->
-                                <div class="d-flex justify-content-between align-items-center mb-5">
-                                    <div class="d-flex align-items-center">
-                                        <!-- avatar group -->
-                                        <div class="avatar-group">
-                                            <span class="avatar avatar-md">
-                                                <img alt="avatar" src="../../assets/images/avatar/avatar-15.jpg"
-                                                    class="rounded-circle imgtooltip" data-template="sixteen ">
-                                                <span id="sixteen" class="d-none">
-                                                    <small class="fw-semibold">Gilbert Farr</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md avatar-danger imgtooltip"
-                                                data-template="textFive">
-                                                <span class="avatar-initials rounded-circle">GK</span>
-
-                                                <span id="textFive" class="d-none">
-                                                    <small class="fw-semibold">Geeks Only</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md">
-                                                <img alt="avatar" src="../../assets/images/avatar/avatar-17.jpg"
-                                                    class="rounded-circle imgtooltip" data-template="eighteen ">
-                                                <span id="eighteen" class="d-none">
-                                                    <small class="fw-semibold">Jamie Lusar</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md">
-                                                <span class="avatar-initials rounded-circle bg-light text-dark">5+</span>
-                                            </span>
+                                        <!-- para-->
+                                        <div>
+                                            <p class="mb-0">{{ $compagne->description }}</p>
                                         </div>
                                     </div>
-                                    <!-- text -->
-                                    <div>
-                                        <span class="badge bg-success-soft">Finished</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <!-- progress bar -->
+                                    <!-- progress -->
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <div class="d-flex align-items-center">
+                                            <!-- avatar group -->
+                                            <div class="avatar-group">
+                                                <span class="avatar avatar-md">
+                                                    <img alt="avatar" src="../../assets/images/avatar/avatar-15.jpg"
+                                                        class="rounded-circle imgtooltip" data-template="sixteen ">
+                                                    <span id="sixteen" class="d-none">
+                                                        <small class="fw-semibold">Gilbert Farr</small>
+                                                    </span>
+                                                </span>
+                                                <span class="avatar avatar-md avatar-danger imgtooltip"
+                                                    data-template="textFive">
+                                                    <span class="avatar-initials rounded-circle">GK</span>
 
-                                <div class="progress progress-tooltip" style="height: 6px">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                        <span>100%</span>
+                                                    <span id="textFive" class="d-none">
+                                                        <small class="fw-semibold">Geeks Only</small>
+                                                    </span>
+                                                </span>
+                                                <span class="avatar avatar-md">
+                                                    <img alt="avatar" src="../../assets/images/avatar/avatar-17.jpg"
+                                                        class="rounded-circle imgtooltip" data-template="eighteen ">
+                                                    <span id="eighteen" class="d-none">
+                                                        <small class="fw-semibold">Jamie Lusar</small>
+                                                    </span>
+                                                </span>
+                                                <span class="avatar avatar-md">
+                                                    <span
+                                                        class="avatar-initials rounded-circle bg-light text-dark">5+</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- text -->
+                                        <div>
+                                            <span class="badge bg-success-soft">En cours</span>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-                        </div>
-                        <!-- card footer -->
-                        <div class="card-footer p-0">
-                            <div class="d-flex justify-content-between">
-                                <div class="w-50 py-3 px-4">
-                                    <h6 class="mb-0">Due Date:</h6>
-                                    <p class="text-dark fs-6 fw-semibold mb-0">31 June, 2022</p>
-                                </div>
-                                <div class="border-start w-50 py-3 px-4">
-                                    <h6 class="mb-0">Budget:</h6>
-                                    <p class="text-dark fs-6 fw-semibold mb-0">$2,53,000</p>
+                            <!-- card footer -->
+                            <div class="card-footer p-0">
+                                <div class="d-flex justify-content-between">
+                                    <div class="w-50 py-3 px-4">
+                                        <h6 class="mb-0">Date fin :</h6>
+                                        <p class="text-dark fs-6 fw-semibold mb-0">{{ $compagne->end_date }}</p>
+                                    </div>
+                                    <div class="border-start w-50 py-3 px-4">
+                                        <h6 class="mb-0">Budget:</h6>
+                                        <p class="text-dark fs-6 fw-semibold mb-0">{{ $compagne->total_budget }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endforeach
+
 
 
             </div>
@@ -250,8 +221,8 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column gap-4">
                                     <div>
-                                        <h4 class="mb-0"><a :href="`{{ route('product.show', '') }}/${product.id}`" class="text-inherit"
-                                                x-text="product.name"></a></h4>
+                                        <h4 class="mb-0"><a :href="`{{ route('product.show', '') }}/${product.id}`"
+                                                class="text-inherit" x-text="product.name"></a></h4>
                                         <span class="fs-6" x-text="product.description"></span>
                                     </div>
                                 </div>

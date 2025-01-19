@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Compagne;
 use App\Models\Country;
 use App\Models\PaymentAdresse;
 use App\Models\PriceDeliveryByCountry;
@@ -22,7 +23,8 @@ class HomeController extends Controller
     public function index()
     {
         $listeproduct = Product::with('images')->get();
-        return view('welcome', compact('listeproduct'));
+        $compagnes = Compagne::all();
+        return view('welcome', compact('listeproduct', 'compagnes'));
     }
 
     public function homeCompagne()
