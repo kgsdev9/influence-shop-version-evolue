@@ -85,9 +85,11 @@
                                                     </td>
 
                                                     <td>
-                                                        <button>Editer</button>
-                                                        <button>Suppression</button>
-                                                      
+                                                        <a :href="`/products/${product.id}/edit`">
+                                                            <button>Editer</button>
+                                                        </a>
+                                                        <button @click="deleteProduct(product.id)">Suppression</button>
+
                                                     </td>
 
                                                 </tr>
@@ -362,6 +364,9 @@
                 },
 
                 async deleteProduct(productId) {
+
+                    alert(productId);
+                    return;
                     try {
                         const url =
                             `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(

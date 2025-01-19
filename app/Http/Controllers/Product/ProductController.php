@@ -89,8 +89,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $product = Product::with('images')->findOrFail($id);
+        $allCategories = Category::all();   // Récupère toutes les catégories
+        return view('product.edit', compact('product', 'allCategories'));
     }
+
 
     /**
      * Update the specified resource in storage.

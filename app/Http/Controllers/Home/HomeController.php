@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\PaymentAdresse;
 use App\Models\PriceDeliveryByCountry;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-  
+
     /**
      * Affichage d'une ressource spécifique .
      *
@@ -35,7 +36,8 @@ class HomeController extends Controller
     public function homeProduct()
     {
         $listeproduct = Product::with('images')->get();
-        return view('home.product', compact('listeproduct'));
+        $categories  = Category::all();
+        return view('home.product', compact('listeproduct', 'categories'));
     }
 
     public function homeBlog()
