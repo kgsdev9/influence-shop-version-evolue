@@ -262,7 +262,7 @@
                                 title: 'Produit enregistré avec succès !',
                                 showConfirmButton: true
                             });
-                            // window.location.href = '/confirmationregister';
+                            window.location.href = '/products';
                         } else {
                             Swal.fire({
                                 icon: 'error',

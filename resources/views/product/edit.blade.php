@@ -250,7 +250,7 @@
 
                     try {
                         const response = await fetch('{{ route('products.update', $product->id) }}', {
-                            method: 'POST',
+                            method: 'PATCH',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
@@ -264,6 +264,9 @@
                                 title: 'Produit mis à jour avec succès !',
                                 showConfirmButton: true
                             });
+
+                            window.location.href = '/products';
+
                         } else {
                             Swal.fire({
                                 icon: 'error',
