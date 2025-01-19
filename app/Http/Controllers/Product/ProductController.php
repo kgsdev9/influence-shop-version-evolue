@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -70,16 +71,6 @@ class ProductController extends Controller
         return response()->json(['message' => 'Produit ajouté avec succès']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -116,6 +107,31 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            // Trouver le produit à supprimer
+            $product = Product::findOrFail($id);
+
+            // Supprimer les images associées au produit
+            foreach ($product->images as $image) {
+                // Supprimer l'image du répertoire 'public/products'
+                Storage::delete('public/products/' . $image->imagename);
+
+                // Supprimer l'enregistrement de l'image dans la base de données
+                $image->delete();
+            }
+
+            // Supprimer le produit
+            $product->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Produit et images supprimés avec succès !',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Une erreur est survenue lors de la suppression du produit.',
+            ], 500);
+        }
     }
 }

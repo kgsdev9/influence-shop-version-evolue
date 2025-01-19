@@ -86,9 +86,12 @@
 
                                                     <td>
                                                         <a :href="`/products/${product.id}/edit`">
-                                                            <button>Editer</button>
+                                                            <button class="btn btn-outline-primary btn-sm">Editer</button>
                                                         </a>
-                                                        <button @click="deleteProduct(product.id)">Suppression</button>
+                                                        <button class="btn btn-outline-danger btn-sm"
+                                                            @click="deleteProduct(product.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                                                                <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z"></path>
+                                                            </svg></button>
 
                                                     </td>
 
@@ -199,89 +202,6 @@
                 },
 
 
-                async submitForm() {
-                    this.isLoading = true;
-
-                    if (!this.formData.name || this.formData.name.trim() === '') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Le nom du produit est requis.',
-                            showConfirmButton: true
-                        });
-                        this.isLoading = false;
-                        return;
-                    }
-
-                    const formData = new FormData();
-                    formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
-
-                    try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            },
-                            body: formData, // Utilisez FormData pour envoyer l'image
-                        });
-
-                        if (response.ok) {
-                            const data = await response.json();
-                            const product = data.product;
-
-                            if (product) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-
-                                if (this.isEdite) {
-                                    const index = this.products.findIndex(p => p.id === product.id);
-                                    if (index !== -1) {
-                                        this.products[index] = product;
-                                    }
-
-                                } else {
-                                    this.products.push(product);
-                                    this.products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                                }
-
-                                this.filterProducts();
-                                this.resetForm();
-                                this.hideModal();
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Produit non valide.',
-                                    showConfirmButton: true
-                                });
-                            }
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erreur lors de l\'enregistrement.',
-                                showConfirmButton: true
-                            });
-                        }
-                    } catch (error) {
-                        console.error('Erreur réseau :', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Une erreur est survenue.',
-                            showConfirmButton: true
-                        });
-                    } finally {
-                        this.isLoading = false;
-                    }
-                },
 
 
                 get paginatedProducts() {
@@ -301,45 +221,6 @@
                     this.currentPage = 1;
                 },
 
-
-                printProducts() {
-                    let printContent = '<h1>Liste des Produits</h1>';
-                    printContent +=
-                        '<table border="1"><thead><tr><th>ID</th><th>Nom</th><th>Catégorie</th></tr></thead><tbody>';
-
-                    this.filteredProducts.forEach(product => {
-                        printContent +=
-                            `<tr><td>${product.id}</td><td>${product.libelleproduct}</td><td>${product.category.libellecategorieproduct}</td></tr>`;
-                    });
-
-                    printContent += '</tbody></table>';
-
-                    const printWindow = window.open('', '', 'height=500,width=800');
-                    printWindow.document.write('<html><head><title>Impression des produits</title></head><body>');
-                    printWindow.document.write(printContent);
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
-                },
-
-                exportProducts() {
-                    let csvContent = "ID,Nom,Catégorie\n";
-
-                    this.filteredProducts.forEach(product => {
-                        csvContent +=
-                            `${product.id},${product.libelleproduct},${product.category.libellecategorieproduct}\n`;
-                    });
-
-                    // Créer un fichier CSV et le télécharger
-                    const blob = new Blob([csvContent], {
-                        type: 'text/csv;charset=utf-8;'
-                    });
-                    const link = document.createElement("a");
-                    const url = URL.createObjectURL(blob);
-                    link.setAttribute("href", url);
-                    link.setAttribute("download", "produits_filtrés.csv");
-                    link.click();
-                },
 
 
                 filterByCategory() {
@@ -365,8 +246,7 @@
 
                 async deleteProduct(productId) {
 
-                    alert(productId);
-                    return;
+                   
                     try {
                         const url =
                             `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
