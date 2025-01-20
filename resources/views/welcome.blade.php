@@ -80,7 +80,8 @@
                                                     <i class="fe fe-shopping-cart fs-3"></i>
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h4 class="mb-0"><a href="#"
+                                                    <h4 class="mb-0"><a
+                                                            href="{{ route('detailCompagne', $compagne->id) }}"
                                                             class="text-inherit">{{ $compagne->name }}</a></h4>
                                                     <span class="fs-6">{{ $compagne->product->name }}</span>
                                                 </div>

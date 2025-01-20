@@ -42,8 +42,8 @@ use App\Http\Controllers\Vente\VenteController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
+Route::get('/compaign', [HomeController::class, 'homeCompagne'])->name('homeCompagne');
 Route::get('/products/home', [HomeController::class, 'homeProduct'])->name('product.home');
-Route::get('/compagne/home', [HomeController::class, 'homeCompagne'])->name('campagne.home');
 
 Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product')->middleware('auth');
 Route::get('/product/detail/{id}', [HomeController::class, 'showProduct'])->name('product.show');
@@ -65,7 +65,9 @@ Route::post('/confirmatedcodeinfluenceurs', [RegisterController::class, 'confirm
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboards');
 
-Route::get('/compagnes', [HomeController::class, 'homeCompagnes'])->name('home.compagnes');
+Route::get('/compagnes', [HomeController::class, 'homeCompagne'])->name('home.compagnes');
+Route::get('/detail/compagne/{id}', [HomeController::class, 'detailCompagne'])->name('detailCompagne');
+
 Route::get('/produits', [DashboardController::class, 'homeProducts'])->name('home.entreprise');
 Route::get('/entreprises', [DashboardController::class, 'homeEntreprises'])->name('home.entreprise');
 Route::get('/publicites', [DashboardController::class, 'homePublicites'])->name('home.publicites');

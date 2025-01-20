@@ -27,11 +27,24 @@ class HomeController extends Controller
         return view('welcome', compact('listeproduct', 'compagnes'));
     }
 
+
+
     public function homeCompagne()
     {
-        $listeproduct = Product::with('images')->get();
-        return view('home.compagne', compact('listeproduct'));
+        $compagnes = Compagne::with('product')->get();
+        $categories  = [];
+        return view('home.compagne', compact('compagnes', 'categories'));
     }
+
+    public function detailCompagne()
+    {
+        $compagnes = Compagne::with('product')->get();
+        $categories  = [];
+        return view('home.detailcompagne', compact('compagnes', 'categories'));
+    }
+
+
+
 
 
 

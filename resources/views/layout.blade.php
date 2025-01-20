@@ -92,14 +92,11 @@
                     <li class="nav-item dropdown"><a class="nav-link" href="{{ route('product.home') }}">Nos
                             Produits</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link" href="#">Nos Compagnes</a>
+                        <a class="nav-link" href="{{ route('home.compagnes') }}">Nos Compagnes</a>
                     </li>
+
                     <li class="nav-item dropdown">
-                        <a class="nav-link " href="{{ route('register.entreprise') }}" tabindex="-1"
-                            aria-disabled="true">Boutique</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="{{ route('homeBlog') }}"> Blog</a>
+                        <a class="nav-link" href="{{ route('homeBlog') }}">Nos Publicités</a>
                     </li>
 
                 </ul>
@@ -173,7 +170,8 @@
                         <!-- list -->
                         <h3 class="fw-bold mb-3">Support</h3>
                         <ul class="list-unstyled nav nav-footer flex-column nav-x-0">
-                            <li><a href="#" class="nav-link">Aide et suport</a></li>
+                            <li><a href="{{ route('register.entreprise') }}" class="nav-link">Devenir Vendeur</a>
+                            </li>
                             <li><a href="#" class="nav-link">Dévenir Influenceur</a></li>
                             <li><a href="#" class="nav-link">Condition d'utilisation </a></li>
                             <li><a href="#" class="nav-link">FAQ’s</a></li>
@@ -215,7 +213,7 @@
                                         document.getElementById("copyright5").appendChild(document.createTextNode(new Date().getFullYear()));
                                     </script>2024
                                 </span>
-                                Geeks-UI
+                                VTP GROUP
                             </span>
                         </div>
                         <div>
