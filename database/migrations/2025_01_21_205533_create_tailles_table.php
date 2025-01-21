@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTVenteRealisesTable extends Migration
+class CreateTaillesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTVenteRealisesTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_vente_realises', function (Blueprint $table) {
+        Schema::create('tailles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateTVenteRealisesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_vente_realises');
+        Schema::dropIfExists('tailles');
     }
 }

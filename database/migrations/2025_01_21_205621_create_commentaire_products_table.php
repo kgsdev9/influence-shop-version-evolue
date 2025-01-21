@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBlogsTable extends Migration
+class CreateCommentaireProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateBlogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('commentaire_products', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('mini_description');
-            $table->text('description');
-            $table->string('temps_lecture');
-            $table->boolean('publish_at')->default(0);
             $table->timestamps();
         });
     }
@@ -31,6 +26,6 @@ class CreateBlogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('commentaire_products');
     }
 }
