@@ -442,8 +442,8 @@
                         <div class="card-body">
                             <!-- Jumia Express Section -->
                             <div class="mb-3">
-                                <h6 class="text-danger fw-bold">JUMIA <span class="text-warning">EXPRESS</span></h6>
-                                <p class="small text-muted">Livraison en maximum 48h à Abidjan. <a href="#"
+                                <h6 class="text-danger fw-bold">VTP  <span class="text-warning">EXPRESS</span></h6>
+                                <p class="small text-muted">Livraison en maximum 48h dans le monde . <a href="#"
                                         class="text-decoration-underline">Détails</a></p>
                             </div>
 

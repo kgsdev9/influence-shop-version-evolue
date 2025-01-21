@@ -1,7 +1,7 @@
 @extends('layout')
-@section('title', 'Lidte des commandes')
+@section('title', 'Gestion des publicités')
 @section('content')
-    <main x-data="productSearch()" x-init="init()">
+    <main x-data="blogManagement()" x-init="init()">
         <section class="pt-5 pb-5 bg-light">
             <div class="container">
                 <div class="row mt-0 mt-md-4">
@@ -13,26 +13,27 @@
                                 <!-- Card header -->
                                 <div class="p-4 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h3 class="mb-0">Liste des articles </h3>
-                                        <span>Gestion des articles .</span>
+                                        <h3 class="mb-0">Gestion des publicités</h3>
+                                        <span>Gérez vos publicités sur le site.</span>
                                     </div>
                                     <!-- Nav -->
                                     <div class="nav btn-group flex-nowrap" role="tablist">
-
-                                        <a href="{{ route('products.create') }}" class="btn btn-outline-secondary">
-                                            <i class="fe fe-plus"></i> Création
-                                        </a>
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Ajouter une publicité
+                                        </button>
                                     </div>
                                 </div>
 
                                 <div class="p-4 row">
-                                    <!-- Form -->
+                                    <!-- Formulaire de recherche -->
                                     <form class="d-flex align-items-center col-12 col-md-8 col-lg-3">
                                         <span class="position-absolute ps-3 search-icon">
                                             <i class="fe fe-search"></i>
                                         </span>
                                         <input type="search" class="form-control ps-6" x-model="searchTerm"
-                                            @input="filterProducts">
+                                            @input="filterBlogs">
                                     </form>
                                 </div>
 
@@ -40,88 +41,64 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Nom d'utilisateur</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Role</th>
+                                                <th scope="col">Titre</th>
+                                                <th scope="col">Description courte</th>
+                                                <th scope="col">Temps lecture</th>
+                                                <th scope="col">Publié le</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <template x-for="product in paginatedProducts" :key="product.id">
+                                            <template x-for="blog in paginatedBlogs" :key="blog.id">
                                                 <tr>
                                                     <td>
                                                         <a href="#" class="text-inherit">
-
-                                                            <div class="">
-                                                                <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="truncateText(product.name, 20)"></h5>
-                                                            </div>
+                                                            <h5 class="mb-0 text-primary-hover" x-text="blog.title"></h5>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.mini_description"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.temps_lecture"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.publish_at"></p>
+                                                    </td>
+                                                    <td>
+                                                        <button @click="openModal(blog)">Éditer</button>
+                                                        <button @click="deleteBlog(blog.id)">Supprimer</button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                </a>
-                                </td>
 
-
-                                <td>
-                                    <a href="#" class="text-inherit">
-
-                                        <div class="">
-                                            <h5 class="mb-0 text-primary-hover" x-text="product.email">
-                                            </h5>
-                                        </div>
-                            </div>
-                            </a>
-                            </td>
-
-
-                            <td>
-                                <a href="#" class="text-inherit">
-
-                                    <div class="">
-                                        <h5 class="mb-0 text-primary-hover" x-text="product.role.name">
-                                        </h5>
+                                <div class="row mt-4">
+                                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                                        <nav>
+                                            <ul class="pagination">
+                                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                                    <button class="page-link"
+                                                        @click="goToPage(currentPage - 1)">Précedent</button>
+                                                </li>
+                                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                                    <button class="page-link"
+                                                        @click="goToPage(currentPage + 1)">Suivant</button>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
-                        </div>
-                        </a>
-                        </td>
-
-                        <td>
-                            <button @click="openModal(product)">Edition</button>
-                            <button>Suppresion</button>
-                        </td>
-
-
-
-                        </tr>
-
-                        </template>
-                        </tbody>
-                        </table>
-                    </div>
-
-                    <div class="row mt-4">
-                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
-                                    </li>
-                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
-                                    </li>
-                                </ul>
-                            </nav>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-            </div>
-            </div>
-            </div>
         </section>
 
+        <!-- Modal de création/édition -->
         <template x-if="showModal">
             <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
                 <div class="modal-dialog">
@@ -133,13 +110,32 @@
                         <div class="modal-body">
                             <form @submit.prevent="submitForm">
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Libellé categories </label>
-                                    <input type="text" id="name" class="form-control" x-model="formData.name"
+                                    <label for="title" class="form-label">Titre</label>
+                                    <input type="text" id="title" class="form-control" x-model="formData.title"
                                         required>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="mini_description" class="form-label">Description courte</label>
+                                    <input type="text" id="mini_description" class="form-control"
+                                        x-model="formData.mini_description" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description complète</label>
+                                    <textarea id="description" class="form-control" x-model="formData.description" rows="4" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="temps_lecture" class="form-label">Temps de lecture</label>
+                                    <input type="text" id="temps_lecture" class="form-control"
+                                        x-model="formData.temps_lecture" required>
+                                </div>
+
+
+
                                 <button type="submit" class="btn btn-primary"
                                     x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
-
                             </form>
                         </div>
                     </div>
@@ -148,85 +144,76 @@
         </template>
     </main>
 
-
 @endsection
 
 @push('script')
     <script>
-        function productSearch() {
+        function blogManagement() {
             return {
                 searchTerm: '',
-                products: @json($listeblogs),
-                filteredProducts: [],
-                selectedCategory: '',
-                showCategorySelect: true,
+                blogs: @json($listeblogs),
+                filteredBlogs: [],
                 currentPage: 1,
-                productsPerPage: 10,
+                blogsPerPage: 10,
                 totalPages: 0,
-                isLoading: true,
                 showModal: false,
                 isEdite: false,
                 formData: {
-                    name: '',
-                    email: '',
-                    role_id: '',
-                    password: '',
+                    title: '',
+                    mini_description: '',
+                    description: '',
+                    temps_lecture: '',
+                    publish_at: '',
+                    blog_id: null
                 },
-                currentProduct: null,
+                currentBlog: null,
 
                 hideModal() {
-
                     this.showModal = false;
-                    this.currentProduct = null;
+                    this.currentBlog = null;
                     this.resetForm();
-                    this.isEdite = false;
                 },
 
-                openModal(product = null) {
-                    this.isEdite = product !== null;
+                openModal(blog = null) {
+                    this.isEdite = blog !== null;
                     if (this.isEdite) {
-                        this.currentProduct = {
-                            ...product
+                        this.currentBlog = {
+                            ...blog
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
+                            title: this.currentBlog.title,
+                            mini_description: this.currentBlog.mini_description,
+                            description: this.currentBlog.description,
+                            temps_lecture: this.currentBlog.temps_lecture,
+                            publish_at: this.currentBlog.publish_at,
+                            blog_id: this.currentBlog.id
                         };
                     } else {
                         this.resetForm();
-
-                        this.isEdite = false;
                     }
                     this.showModal = true;
                 },
 
-                handleFileChange(event) {
-                    this.formData.image = event.target.files[0];
-                },
-
                 resetForm() {
                     this.formData = {
-                        name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        title: '',
+                        mini_description: '',
+                        description: '',
+                        temps_lecture: '',
+                        publish_at: '',
+                        blog_id: null
                     };
-                    document.getElementById('image').value = '';
                 },
-
 
                 async submitForm() {
                     this.isLoading = true;
 
-                    if (!this.formData.name || this.formData.name.trim() === '') {
+                    // Validation des champs
+                    if (!this.formData.title || !this.formData.mini_description || !this.formData.description || !this
+                        .formData.temps_lecture ) {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Tous les champs sont requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -234,56 +221,46 @@
                     }
 
                     const formData = new FormData();
-                    formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
+                    formData.append('title', this.formData.title);
+                    formData.append('mini_description', this.formData.mini_description);
+                    formData.append('description', this.formData.description);
+                    formData.append('temps_lecture', this.formData.temps_lecture);
+                    formData.append('publish_at', this.formData.publish_at);
+                    formData.append('pub_blog_id', this.currentBlog ? this.currentBlog.id : null);
 
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('blogs.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const blog = data.blog;
 
-                            if (product) {
+                            if (blog) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Publicité enregistrée avec succès !',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
 
                                 if (this.isEdite) {
-                                    const index = this.products.findIndex(p => p.id === product.id);
+                                    const index = this.blogs.findIndex(b => b.id === blog.id);
                                     if (index !== -1) {
-                                        this.products[index] = product;
+                                        this.blogs[index] = blog;
                                     }
-
                                 } else {
-                                    this.products.push(product);
-                                    this.products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                                    this.blogs.push(blog);
                                 }
 
-                                this.filterProducts();
+                                this.filterBlogs();
                                 this.resetForm();
                                 this.hideModal();
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Produit non valide.',
-                                    showConfirmButton: true
-                                });
                             }
                         } else {
                             Swal.fire({
@@ -304,147 +281,24 @@
                     }
                 },
 
-
-                get paginatedProducts() {
-                    let start = (this.currentPage - 1) * this.productsPerPage;
-                    let end = start + this.productsPerPage;
-                    return this.filteredProducts.slice(start, end);
+                get paginatedBlogs() {
+                    let start = (this.currentPage - 1) * this.blogsPerPage;
+                    let end = start + this.blogsPerPage;
+                    return this.filteredBlogs.slice(start, end);
                 },
 
-                filterProducts() {
+                filterBlogs() {
                     const term = this.searchTerm.toLowerCase();
-                    this.filteredProducts = this.products.filter(user => {
-                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
-
-                            user.created_at.toLowerCase().includes(term);
+                    this.filteredBlogs = this.blogs.filter(blog => {
+                        return blog.title.toLowerCase().includes(term) || blog.mini_description.toLowerCase()
+                            .includes(term);
                     });
-                    this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
-                    this.currentPage = 1;
+                    this.totalPages = Math.ceil(this.filteredBlogs.length / this.blogsPerPage);
                 },
 
-
-                printProducts() {
-                    let printContent = '<h1>Liste des Produits</h1>';
-                    printContent +=
-                        '<table border="1"><thead><tr><th>ID</th><th>Nom</th><th>Catégorie</th></tr></thead><tbody>';
-
-                    this.filteredProducts.forEach(product => {
-                        printContent +=
-                            `<tr><td>${product.id}</td><td>${product.libelleproduct}</td><td>${product.category.libellecategorieproduct}</td></tr>`;
-                    });
-
-                    printContent += '</tbody></table>';
-
-                    const printWindow = window.open('', '', 'height=500,width=800');
-                    printWindow.document.write('<html><head><title>Impression des produits</title></head><body>');
-                    printWindow.document.write(printContent);
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
+                deleteBlog(id) {
+                    // Logique pour supprimer une publicité
                 },
-
-                exportProducts() {
-                    let csvContent = "ID,Nom,Catégorie\n";
-
-                    this.filteredProducts.forEach(product => {
-                        csvContent +=
-                            `${product.id},${product.libelleproduct},${product.category.libellecategorieproduct}\n`;
-                    });
-
-                    // Créer un fichier CSV et le télécharger
-                    const blob = new Blob([csvContent], {
-                        type: 'text/csv;charset=utf-8;'
-                    });
-                    const link = document.createElement("a");
-                    const url = URL.createObjectURL(blob);
-                    link.setAttribute("href", url);
-                    link.setAttribute("download", "produits_filtrés.csv");
-                    link.click();
-                },
-
-
-                filterByCategory() {
-                    // Réinitialiser filteredProducts à la liste complète des produits
-                    this.filteredProducts = this.products;
-
-                    if (this.selectedCategory) {
-                        // Appliquer le filtre sur les produits par catégorie
-                        this.filteredProducts = this.filteredProducts.filter(product => product.category.id === parseInt(
-                            this.selectedCategory));
-                    }
-
-                    // Optionnel : Appliquer également un filtrage par recherche textuelle (si nécessaire)
-                    if (this.searchTerm) {
-                        this.filteredProducts = this.filteredProducts.filter(product => {
-                            return product.libelleproduct.toLowerCase().includes(this.searchTerm.toLowerCase());
-                        });
-                    }
-
-                    // Calculer le nombre de pages en fonction du nombre de produits filtrés
-                    this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
-                },
-
-                async deleteProduct(productId) {
-                    try {
-                        const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
-                                "__ID__",
-                                productId
-                            );
-
-                        const response = await fetch(url, {
-                            method: "DELETE",
-                            headers: {
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                            },
-                        });
-
-                        if (response.ok) {
-                            const result = await response.json();
-                            if (result.success) {
-                                Swal.fire({
-                                    icon: "success",
-                                    title: result.message,
-                                    showConfirmButton: false,
-                                    timer: 1500,
-                                });
-
-                                // Retirer le produit de la liste `this.products`
-                                this.products = this.products.filter(product => product.id !== productId);
-
-                                // Après suppression, appliquer le filtre pour mettre à jour la liste affichée
-                                this.filterProducts();
-                            } else {
-                                Swal.fire({
-                                    icon: "error",
-                                    title: result.message,
-                                    showConfirmButton: true,
-                                });
-                            }
-                        } else {
-                            Swal.fire({
-                                icon: "error",
-                                title: "Erreur lors de la requête.",
-                                showConfirmButton: true,
-                            });
-                        }
-                    } catch (error) {
-                        console.error("Erreur réseau :", error);
-                        Swal.fire({
-                            icon: "error",
-                            title: "Une erreur réseau s'est produite.",
-                            showConfirmButton: true,
-                        });
-                    }
-                },
-
-                truncateText(text, length) {
-                    if (text.length > length) {
-                        return text.substring(0, length) + '...'; // Ajoute "..." si le texte est trop long
-                    }
-                    return text;
-                },
-
 
                 goToPage(page) {
                     if (page < 1 || page > this.totalPages) return;
@@ -452,9 +306,7 @@
                 },
 
                 init() {
-
-                    this.filterProducts();
-                    this.isLoading = false;
+                    this.filterBlogs();
                 }
             };
         }

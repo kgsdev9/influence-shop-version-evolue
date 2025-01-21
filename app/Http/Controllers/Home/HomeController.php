@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\PaymentAdresse;
 use App\Models\PriceDeliveryByCountry;
 use App\Models\Product;
+use App\Models\PubBlog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,7 +33,7 @@ class HomeController extends Controller
     public function homeCompagne()
     {
         $compagnes = Compagne::with('product')->get();
-        $categories  = [];
+        $categories  = Category::all();
         return view('home.compagne', compact('compagnes', 'categories'));
     }
 
@@ -57,8 +58,8 @@ class HomeController extends Controller
 
     public function homeBlog()
     {
-        $listeproduct = Product::with('images')->get();
-        return view('home.blog', compact('listeproduct'));
+        $listepub = PubBlog::all();
+        return view('home.blog', compact('listepub'));
     }
     /**
      * Show the form for creating a new resource.

@@ -16,7 +16,7 @@
                                         <h3 class="mb-0">Liste des commandes </h3>
                                         <span>Gestion des commandes .</span>
                                     </div>
-                                   
+
                                 </div>
 
                                 <div class="p-4 row">
@@ -42,86 +42,86 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                             <template x-for="product in paginatedProducts" :key="product.id">
                                                 <tr>
                                                     <td>
                                                         <a href="#" class="text-inherit">
-
-                                                            <div class="">
+                                                            <div>
                                                                 <h5 class="mb-0 text-primary-hover"
                                                                     x-text="product.reference"></h5>
                                                             </div>
+                                                        </a>
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="#" class="text-inherit">
+                                                            <div>
+                                                                <h5 class="mb-0 text-primary-hover"
+                                                                    x-text="product.qtecmde"></h5>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="#" class="text-inherit">
+                                                            <div>
+                                                                <h5 class="mb-0 text-primary-hover"
+                                                                    x-text="product.montantht"></h5>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+
+                                                    <td>
+                                                        <a href="#" class="text-inherit">
+                                                            <div>
+                                                                <h5 class="mb-0 text-primary-hover" x-text="product.status">
+                                                                </h5>
+                                                            </div>
+                                                        </a>
+                                                    </td>
+
+                                                    <td>
+                                                        <!-- Affichage des boutons selon le statut -->
+                                                        <template x-if="product.status === 'pending'">
+                                                            <button>Terminer l'achat</button>
+                                                        </template>
+
+                                                        <template x-if="product.status !== 'pending'">
+                                                            <button>Vérifier le statut de la livraison</button>
+                                                        </template>
+                                                    </td>
+                                                </tr>
+                                            </template>
+
+
+                                        </tbody>
+                                    </table>
                                 </div>
-                                </a>
-                                </td>
 
-                                <td>
-                                    <a href="#" class="text-inherit">
-
-                                        <div class="">
-                                            <h5 class="mb-0 text-primary-hover" x-text="product.qtecmde"></h5>
-                                        </div>
-                            </div>
-                            </a>
-                            </td>
-
-                            <td>
-                                <a href="#" class="text-inherit">
-
-                                    <div class="">
-                                        <h5 class="mb-0 text-primary-hover" x-text="product.montantht"></h5>
+                                <div class="row mt-4">
+                                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                                        <nav>
+                                            <ul class="pagination">
+                                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                                    <button class="page-link"
+                                                        @click="goToPage(currentPage - 1)">Précedent</button>
+                                                </li>
+                                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                                    <button class="page-link"
+                                                        @click="goToPage(currentPage + 1)">Suivant</button>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </div>
-                        </div>
-                        </a>
-                        </td>
-
-
-
-                        <td>
-                            <a href="#" class="text-inherit">
-
-                                <div class="">
-                                    <h5 class="mb-0 text-primary-hover" x-text="product.status"></h5>
                                 </div>
-                    </div>
-                    </a>
-                    </td>
-
-                    <td>
-                        <button>Consulter</button>
-                        <button>Terminer l'achat </button>
-                    </td>
+                            </div>
+                        </div>
 
 
 
-                    </tr>
-
-                    </template>
-                    </tbody>
-                    </table>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                    <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
-                                </li>
-                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                    <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
-            </div>
-            </div>
-
-
-
-            </div>
-            </div>
             </div>
         </section>
     </main>

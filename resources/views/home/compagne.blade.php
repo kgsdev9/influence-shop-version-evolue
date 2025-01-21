@@ -39,7 +39,7 @@
                                             <input class="form-check-input" type="checkbox" value="{{ $value->id }}"
                                                 wire:model="selectedCategories" id="category-{{ $value->id }}">
                                             <label class="form-check-label ps-1" for="category-{{ $value->id }}">
-                                                {{ $value->libellespecialite }}
+                                                {{ $value->name }}
                                             </label>
                                         </div>
                                     @endforeach
