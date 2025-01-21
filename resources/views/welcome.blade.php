@@ -207,85 +207,41 @@
 
             <div x-data="productManager()" class="row gy-4">
                 <template x-for="product in products" :key="product.id">
-                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-12">
-                        <div x-data="{ zoomed: false }" class="card h-100">
+                    <div class="col-md-3 mb-4">
+                        <div class="card shadow-sm border-light h-100">
                             <!-- Image avec gestion de zoom -->
                             <div class="image-container" style="cursor: pointer; overflow: hidden; position: relative;">
                                 <img :src="product.images.length ? `/storage/${product.images[0].imagename}` :
                                     '../../assets/images/default-product.jpg'"
                                     alt="Product Image" @click="zoomed = !zoomed" :class="zoomed ? 'zoomed' : ''"
-                                    class="img-fluid rounded-top"
+                                    class="card-img-top img-fluid rounded-top"
                                     style="max-height: 200px; width: 100%; object-fit: contain; transition: transform 0.3s ease;">
                             </div>
 
                             <!-- Informations produit -->
-                            <div class="card-body">
-                                <div class="d-flex flex-column gap-4">
-                                    <div>
-                                        <h4 class="mb-0"><a :href="`{{ route('product.show', '') }}/${product.id}`"
-                                                class="text-inherit" x-text="product.name"></a></h4>
-                                        <span class="fs-6" x-text="product.description"></span>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex justify-content-between align-items-center mb-5">
-                                    <div class="d-flex align-items-center">
-                                        <!-- avatar group -->
-                                        <div class="avatar-group">
-                                            <span class="avatar avatar-md">
-                                                <img alt="avatar" src="../../assets/images/avatar/avatar-15.jpg"
-                                                    class="rounded-circle imgtooltip" data-template="sixteen ">
-                                                <span id="sixteen" class="d-none">
-                                                    <small class="fw-semibold">Gilbert Farr</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md avatar-danger imgtooltip"
-                                                data-template="textFive">
-                                                <span class="avatar-initials rounded-circle">GK</span>
-
-                                                <span id="textFive" class="d-none">
-                                                    <small class="fw-semibold">Geeks Only</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md">
-                                                <img alt="avatar" src="../../assets/images/avatar/avatar-17.jpg"
-                                                    class="rounded-circle imgtooltip" data-template="eighteen ">
-                                                <span id="eighteen" class="d-none">
-                                                    <small class="fw-semibold">Jamie Lusar</small>
-                                                </span>
-                                            </span>
-                                            <span class="avatar avatar-md">
-                                                <span class="avatar-initials rounded-circle bg-light text-dark">5+</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <!-- text -->
-                                    <div>
-                                        <span class="badge bg-success-soft">Promoteur</span>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <!-- Footer de la carte -->
-                            <div class="card-footer p-0">
-                                <div class="d-flex justify-content-between">
-                                    <div class="w-60 py-3 px-2">
-                                        <a href="#!" class="btn btn-outline-secondary">
-                                            <i class="fe fe-shopping-cart fs-3"></i> Acheter
-                                        </a>
-                                    </div>
-                                    <div class="border-start w-50 py-3 px-4">
-                                        <a :href="`{{ route('buy.product', '') }}/${product.id}`"
-                                            class="btn btn-outline-secondary">Promouvoir</a>
-                                    </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">
+                                    <a :href="`{{ route('product.show', '') }}/${product.id}`" class="text-inherit"
+                                        x-text="product.name"></a>
+                                </h5>
+                                <p class="card-text text-muted"
+                                    x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description">
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-auto">
+                                    <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
+                                    <a :href="`{{ route('buy.product', '') }}/${product.id}`"
+                                        class="btn btn-danger btn-sm"> <i class="fe fe-shopping-cart fs-3"></i> Acheter</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </template>
             </div>
+
+
+
+
 
         </div>
     </section>
