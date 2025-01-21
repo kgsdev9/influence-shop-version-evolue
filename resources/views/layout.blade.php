@@ -28,7 +28,7 @@
 <body class="bg-white">
     <nav class="navbar navbar-expand-lg">
         <div class="container px-0">
-            <a class="navbar-brand text-dark" href="/">INFLUENCESHOP </a>
+            <a class="navbar-brand text-dark" href="/">GROUP VTP  </a>
             <div class="ms-auto d-flex align-items-center order-lg-3">
                 <div class="d-flex gap-2 align-items-center">
 
@@ -113,9 +113,9 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- about company -->
                     <div class="mb-4">
-                        INFLUENCE SHOP
+                        GROUP VTP
                         <div class="mt-4">
-                            <p>Influence Shop connecte les marques et les influenceurs pour des partenariats marketing,
+                            <p>VTP GROUP  connecte les marques et les influenceurs pour des partenariats marketing,
                                 facilitant la promotion des produits grâce à des collaborations ciblées sur les réseaux
                                 sociaux.</p>
                             <!-- social media -->
