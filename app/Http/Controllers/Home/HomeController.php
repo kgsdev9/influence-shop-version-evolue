@@ -25,7 +25,8 @@ class HomeController extends Controller
     {
         $listeproduct = Product::with('images')->get();
         $compagnes = Compagne::all();
-        return view('welcome', compact('listeproduct', 'compagnes'));
+        $categories = Category::take(4)->inRandomOrder()->get();
+        return view('welcome', compact('listeproduct', 'compagnes', 'categories'));
     }
 
 
