@@ -13,24 +13,49 @@
                             <p class="mb-0 pe-xxl-8 me-xxl-5">Connectez-vous aux meilleurs influenceurs pour propulser
                                 vos produits et atteindre une audience ciblée.</p>
                         </div>
-                        <form>
-                            <div class="input-group shadow">
-                                <label for="productSearch" class="form-label visually-hidden">Rechercher un
-                                    produit</label>
-                                <input type="text" class="form-control rounded-start-3" id="productSearch"
-                                    name="productSearch" placeholder="Quel produit souhaitez-vous promouvoir ?"
-                                    aria-label="Quel produit souhaitez-vous promouvoir ?"
-                                    aria-describedby="searchButton" required="" x-model="searchQuery">
-                                <button class="btn btn-warning" id="searchButton" type="submit">Rechercher</button>
-                            </div>
-                        </form>
-                        <div class="d-flex flex-row gap-1 flex-wrap">
-                            <!-- Affichage dynamique des catégories -->
-                            <template x-for="category in categories" :key="category . id">
-                                <a href="#!" class="btn btn-tag" @click.prevent="searchQuery = category.name"
-                                    x-text="category.name"></a>
-                            </template>
+
+                        <div class="input-group shadow">
+                            <label for="productSearch" class="form-label visually-hidden">Rechercher un produit</label>
+                            <input
+                                type="text"
+                                class="form-control rounded-start-3"
+                                id="productSearch"
+                                name="productSearch"
+                                placeholder="Quel produit souhaitez-vous promouvoir ?"
+                                aria-label="Quel produit souhaitez-vous promouvoir ?"
+                                aria-describedby="searchButton"
+                                required=""
+                                x-model="searchQuery"
+                                @input="filterProducts"
+                            />
+                            <button class="btn btn-warning" type="button" @click="filterProducts">Rechercher</button>
                         </div>
+
+                        <div class="d-flex flex-row gap-1 flex-wrap">
+                            <!-- Boutons dynamiques pour les catégories -->
+                            <template x-for="category in categories" :key="category.id">
+                                <button
+                                    type="button"
+                                    class="btn btn-tag"
+                                    :class="{'btn-primary': selectedCategory === category.id, 'btn-secondary': selectedCategory !== category.id}"
+                                    @click="selectedCategory = category.id; filterProducts()"
+                                    x-text="category.name"
+                                ></button>
+                            </template>
+
+                            <!-- Bouton pour réinitialiser le filtre -->
+                            <button
+                                type="button"
+                                class="btn btn-tag"
+                                @click="resetFilter"
+                            >
+                                Tous les produits
+                            </button>
+                        </div>
+
+
+
+
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 d-none d-lg-block">
@@ -84,10 +109,15 @@
                     <div class="col-md-3 mb-4">
                         <div class="card shadow-sm border-light h-100">
                             <!-- Image -->
-                            <div class="image-container" style="cursor: pointer; overflow: hidden; position: relative;">
-                                <img :src="product . images . length ? `/storage/${product . images[0] . imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
+                            <div class="image-container" style="overflow: hidden; position: relative;">
+
+                                <a :href="`/product/detail/${product . id}`">
+                                    <img  :src="product . images . length ? `/storage/${product . images[0] . imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
                                     class="card-img-top img-fluid rounded-top"
                                     style="max-height: 200px; width: 100%; object-fit: contain;">
+
+                                </a>
+
                             </div>
                             <!-- Informations produit -->
                             <div class="card-body d-flex flex-column">
@@ -100,7 +130,7 @@
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                    <a :href="`/buy/${product . id}`" class="btn btn-danger btn-sm">
+                                    <a :href="`/buyProduct/${product . id}`" class="btn btn-danger btn-sm">
                                         <i class="fe fe-shopping-cart fs-3"></i> Acheter
                                     </a>
                                 </div>
@@ -113,63 +143,6 @@
     </section>
 
 
-
-    {{-- <section class="py-xl-8 py-6">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-10 col-md-10 col-12 mx-auto">
-                    <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
-                        <h2 class="h1 mb-0">Produit incontournable de la semaine</h2>
-                        <p class="mb-0 px-xl-5">Explorez des opportunités passionnantes et faites partie d'une aventure
-                            marketing unique grâce à notre sélection de produits et campagnes innovants. Rejoignez-nous
-                            pour
-                            transformer votre influence en succès !</p>
-
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row gy-4">
-                <template x-for="product in products" :key="product . id">
-                    <div class="col-md-3 mb-4">
-                        <div class="card shadow-sm border-light h-100">
-                            <!-- Image avec gestion de zoom -->
-                            <div class="image-container" style="cursor: pointer; overflow: hidden; position: relative;">
-                                <img :src="product . images . length ? `/storage/${product . images[0] . imagename}` :
-        '../../assets/images/default-product.jpg'" alt="Product Image" @click="zoomed = !zoomed"
-                                    :class="zoomed ? 'zoomed' : ''" class="card-img-top img-fluid rounded-top"
-                                    style="max-height: 200px; width: 100%; object-fit: contain; transition: transform 0.3s ease;">
-                            </div>
-
-                            <!-- Informations produit -->
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">
-                                    <a :href="`{{ route('product.show', '') }}/${product . id}`" class="text-inherit"
-                                        x-text="product.name"></a>
-                                </h5>
-                                <p class="card-text text-muted"
-                                    x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description">
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                    <a :href="`{{ route('buy.product', '') }}/${product . id}`"
-                                        class="btn btn-danger btn-sm"> <i class="fe fe-shopping-cart fs-3"></i>
-                                        Acheter</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </template>
-            </div>
-
-
-
-
-
-        </div>
-    </section> --}}
 
 
     <section class="py-6 py-lg-2 bg-white mt-2">
@@ -318,35 +291,45 @@
 </main>
 
 @endsection
-{{-- @push('script')
-<script>
-    function productManager() {
-        return {
-            searchQuery: '',
-            categories: @json($categories),
-            products: @json($listeproduct),
-        };
-    }
-</script>
-@endpush --}}
-
 
 @push('script')
     <script>
         function productManager() {
             return {
-                searchQuery: '',
-                categories: @json($categories),
-                products: [],
-                isLoading: true, // Indique si les données sont en cours de chargement
+                searchQuery: '', // Recherche par mot-clé
+                selectedCategory: null, // ID de la catégorie sélectionnée (null = toutes les catégories)
+                categories: @json($categories), // Catégories récupérées depuis le backend
+                products: [], // Liste complète des produits
+                filteredProducts: [], // Liste des produits filtrés
+                isLoading: true, // Indique si les produits sont en cours de chargement
 
                 init() {
-                    // Simule un délai pour charger les produits
+                    // Simulation du chargement
                     setTimeout(() => {
-                        this.products = @json($listeproduct);
-                        this.isLoading = false; // Le chargement est terminé, les produits sont affichés
-                    }, 2000); // 2 secondes
+                        this.products = @json($listeproduct); // Charge tous les produits depuis Laravel
+                        this.filteredProducts = this.products; // Par défaut, tous les produits sont affichés
+                        this.isLoading = false; // Chargement terminé
+                    }, 2000); // Délai simulé (2 secondes)
                 },
+
+                filterProducts() {
+
+                    const query = this.searchQuery.toLowerCase();
+
+                    this.filteredProducts = this.products.filter(product => {
+                        const matchesQuery = product.name.toLowerCase().includes(query);
+                        const matchesCategory =
+                            this.selectedCategory === null || product.category_id === this.selectedCategory;
+
+                        return matchesQuery && matchesCategory;
+                    });
+                },
+
+                resetFilter() {
+                    this.searchQuery = ''; // Réinitialise la recherche
+                    this.selectedCategory = null; // Réinitialise la catégorie sélectionnée
+                    this.filterProducts(); // Recharge tous les produits
+                }
             };
         }
     </script>

@@ -23,6 +23,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+       
         // Vérifier si pub_blog_id existe dans la requête
         $pubBlogId = $request->input('pub_blog_id');
 

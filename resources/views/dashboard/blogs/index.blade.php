@@ -123,7 +123,9 @@
 
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description complète</label>
-                                    <textarea id="description" class="form-control" x-model="formData.description" rows="4" required></textarea>
+
+                                    <trix-editor input="description" x-ref="description" @trix-change="updateDescription"></trix-editor>
+
                                 </div>
 
                                 <div class="mb-3">
@@ -175,24 +177,40 @@
                 },
 
                 openModal(blog = null) {
-                    this.isEdite = blog !== null;
-                    if (this.isEdite) {
-                        this.currentBlog = {
-                            ...blog
-                        };
-                        this.formData = {
-                            title: this.currentBlog.title,
-                            mini_description: this.currentBlog.mini_description,
-                            description: this.currentBlog.description,
-                            temps_lecture: this.currentBlog.temps_lecture,
-                            publish_at: this.currentBlog.publish_at,
-                            blog_id: this.currentBlog.id
-                        };
-                    } else {
-                        this.resetForm();
-                    }
-                    this.showModal = true;
+    this.isEdite = blog !== null;
+
+    if (this.isEdite) {
+        this.currentBlog = {
+            ...blog
+        };
+        this.formData = {
+            title: this.currentBlog.title,
+            mini_description: this.currentBlog.mini_description,
+            description: this.currentBlog.description,
+            temps_lecture: this.currentBlog.temps_lecture,
+            publish_at: this.currentBlog.publish_at,
+            blog_id: this.currentBlog.id
+        };
+
+        // Mettez à jour l'éditeur Trix manuellement
+        this.$nextTick(() => {
+            this.$refs.description.editor.loadHTML(this.formData.description);
+        });
+    } else {
+        this.resetForm();
+    }
+
+    this.showModal = true;
+},
+
+
+                updateDescription(event) {
+
+                    this.formData.description = this.$refs.description.editor.getDocument().toString();
+                    console.log(this.formData.description);  // Afficher la valeur pour débogage
+
                 },
+
 
                 resetForm() {
                     this.formData = {
@@ -209,16 +227,16 @@
                     this.isLoading = true;
 
                     // Validation des champs
-                    if (!this.formData.title || !this.formData.mini_description || !this.formData.description || !this
-                        .formData.temps_lecture ) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Tous les champs sont requis.',
-                            showConfirmButton: true
-                        });
-                        this.isLoading = false;
-                        return;
-                    }
+                    // if (!this.formData.title || !this.formData.mini_description || !this.formData.description || !this
+                    //     .formData.temps_lecture ) {
+                    //     Swal.fire({
+                    //         icon: 'error',
+                    //         title: 'Tous les champs sont requis.',
+                    //         showConfirmButton: true
+                    //     });
+                    //     this.isLoading = false;
+                    //     return;
+                    // }
 
                     const formData = new FormData();
                     formData.append('title', this.formData.title);
@@ -310,5 +328,11 @@
                 }
             };
         }
+
+
+
     </script>
+
+
+
 @endpush
