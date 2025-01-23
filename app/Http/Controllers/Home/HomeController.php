@@ -61,7 +61,7 @@ class HomeController extends Controller
     public function homeProduct()
     {
         $listeproduct = Product::with('images')->get();
-        $categories  = Category::all();
+        $categories = Category::has('products')->get();
         return view('home.product', compact('listeproduct', 'categories'));
     }
 

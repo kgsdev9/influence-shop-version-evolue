@@ -22,6 +22,44 @@
                             </div>
                         </nav>
                     </aside>
+
+                    <aside class="sidebar-fixed mt-4">
+                        <nav class="navbar sidebar-courses navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                            <div class="navbar-collapse collapse" id="navbarNav">
+                                <div class="side-nav me-auto flex-column navbar-nav">
+                                    <p class="navbar-header nav-item mb-2 p-0 text-dark mt-4">CATEGORIES</p>
+                                    @foreach ($categories as $value)
+                                        <div class="form-check my-1">
+                                            <input class="form-check-input" type="checkbox" value="{{ $value->id }}"
+                                                wire:model="selectedCategories" id="category-{{ $value->id }}">
+                                            <label class="form-check-label ps-1" for="category-{{ $value->id }}">
+                                                {{ $value->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </nav>
+                    </aside>
+
+                    <aside class="sidebar-fixed mt-4">
+                        <nav class="navbar sidebar-courses navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
+                            <div class="navbar-collapse collapse" id="navbarNav">
+                                <div class="side-nav me-auto flex-column navbar-nav">
+                                    <p class="navbar-header nav-item mb-2 p-0 text-dark mt-4">CATEGORIES</p>
+                                    @foreach ($categories as $value)
+                                        <div class="form-check my-1">
+                                            <input class="form-check-input" type="checkbox" value="{{ $value->id }}"
+                                                wire:model="selectedCategories" id="category-{{ $value->id }}">
+                                            <label class="form-check-label ps-1" for="category-{{ $value->id }}">
+                                                {{ $value->name }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </nav>
+                    </aside>
                 </div>
 
 

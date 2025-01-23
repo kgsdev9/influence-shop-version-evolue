@@ -1,5 +1,5 @@
 @extends('layout')
-
+@section('title', 'Bievnenue Sur VTP MARKET ')
 @section('content')
 <main x-data="productManager()">
     <section class="py-md-8 py-6"
@@ -37,11 +37,15 @@
                                 <button
                                     type="button"
                                     class="btn btn-tag"
-                                    :class="{'btn-primary': selectedCategory === category.id, 'btn-secondary': selectedCategory !== category.id}"
+                                    :class="{
+                                        'btn btn-warning rounded': selectedCategory === category.id,
+                                        'btn btn-tag': selectedCategory !== category.id
+                                    }"
                                     @click="selectedCategory = category.id; searchQuery = category.name; filterProducts()"
                                     x-text="category.name"
                                 ></button>
                             </template>
+
 
                             <!-- Bouton pour réinitialiser le filtre -->
                             <button
