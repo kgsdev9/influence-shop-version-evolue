@@ -23,11 +23,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // Récupère tous les produits avec leurs images
         $listeproduct = Product::with('images')->get();
+
+        // Récupère toutes les catégories qui ont des produits associés
+        $categories = Category::has('products')->get();
+
+        // Récupère toutes les campagnes (compagnes)
         $compagnes = Compagne::all();
-        $categories = Category::take(4)->inRandomOrder()->get();
+
+        // Retourne la vue avec les données nécessaires
         return view('welcome', compact('listeproduct', 'compagnes', 'categories'));
     }
+
 
 
 

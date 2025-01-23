@@ -74,7 +74,19 @@
 
     <section class="py-xl-8 py-6">
         <div class="container">
-
+            <div class="row">
+                {{-- <div class="col-xl-10 col-md-10 col-12 mx-auto">
+                    <div class="d-flex flex-column gap-2 text-center mb-xl-7 mb-5">
+                        <h2 class="h1 mb-0">Produit incontournable de la semaine</h2>
+                        <p class="mb-0 px-xl-5">
+                            Explorez des opportunités passionnantes et faites partie d'une aventure marketing unique
+                            grâce
+                            à notre sélection de produits et campagnes innovants. Rejoignez-nous pour transformer votre
+                            influence en succès !
+                        </p>
+                    </div>
+                </div> --}}
+            </div>
 
             <!-- Placeholders (lazy loader) -->
             <div id="placeholder" class="row gy-4" x-show="isLoading">
@@ -93,26 +105,32 @@
 
             <!-- Produits réels -->
             <div class="row gy-4" x-show="!isLoading">
-                <template x-for="product in filteredProducts" :key="product.id">
+                <template x-for="product in products" :key="product . id">
                     <div class="col-md-3 mb-4">
                         <div class="card shadow-sm border-light h-100">
                             <!-- Image -->
                             <div class="image-container" style="overflow: hidden; position: relative;">
-                                <a :href="`/product/detail/${product.id}`">
-                                    <img :src="product.images.length ? `/storage/${product.images[0].imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
-                                        class="card-img-top img-fluid rounded-top"
-                                        style="max-height: 200px; width: 100%; object-fit: contain;">
+
+                                <a :href="`/product/detail/${product . id}`">
+                                    <img  :src="product . images . length ? `/storage/${product . images[0] . imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
+                                    class="card-img-top img-fluid rounded-top"
+                                    style="max-height: 200px; width: 100%; object-fit: contain;">
+
                                 </a>
+
                             </div>
                             <!-- Informations produit -->
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">
-                                    <a :href="`/product/${product.id}`" class="text-inherit" x-text="product.name"></a>
+                                    <a :href="`/product/${product . id}`" class="text-inherit"
+                                        x-text="product.name"></a>
                                 </h5>
-                                <p class="card-text text-muted" x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description"></p>
+                                <p class="card-text text-muted"
+                                    x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description">
+                                </p>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                    <a :href="`/buyProduct/${product.id}`" class="btn btn-danger btn-sm">
+                                    <a :href="`/buyProduct/${product . id}`" class="btn btn-danger btn-sm">
                                         <i class="fe fe-shopping-cart fs-3"></i> Acheter
                                     </a>
                                 </div>
@@ -121,7 +139,6 @@
                     </div>
                 </template>
             </div>
-
         </div>
     </section>
 
@@ -296,14 +313,26 @@
                 },
 
                 filterProducts() {
-                    // Vérifier si une catégorie est sélectionnée
-                    this.filteredProducts = this.products.filter(product => {
-                        // Si aucune catégorie n'est sélectionnée, tous les produits sont retournés
-                        // Sinon, seuls les produits appartenant à la catégorie sélectionnée sont retournés
-                        return this.selectedCategory === null || product.category_id === this.selectedCategory;
-                    });
-                },
+    // Affiche la catégorie sélectionnée pour déboguer
+    console.log("selectedCategory:", this.selectedCategory);
 
+    // Filtre les produits en fonction de la catégorie sélectionnée
+    this.filteredProducts = this.products.filter(product => {
+
+        // Vérifie l'ID de la catégorie du produit
+        console.log("product.category_id:", product.category_id);
+
+        // Vérifie si le produit correspond à la catégorie sélectionnée
+        const matchesCategory = this.selectedCategory === null || product.category_id === this.selectedCategory;
+
+        console.log("matchesCategory:", matchesCategory); // Affiche si le produit correspond ou pas
+
+        return matchesCategory;
+    });
+
+    // Affiche le résultat filtré
+    console.log("filteredProducts:", this.filteredProducts);
+},
 
 
 
