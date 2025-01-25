@@ -3,6 +3,7 @@
 use App\Http\Controllers\Abonnement\AbonnementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\City\CityController;
@@ -97,3 +98,10 @@ Route::resource('/blogs', BlogController::class);
 Route::resource('/linkspayment', PaymentLinkController::class);
 Route::resource('/abonnement', AbonnementController::class);
 Route::resource('/souscribers', SouscriptionController::class);
+
+
+// verification code
+
+
+Route::post('/send-verification-code', [VerificationCodeController::class, 'sendVerificationCode']);
+Route::post('/verify-code', [VerificationCodeController::class, 'verifyCode']);

@@ -16,7 +16,7 @@ class Order extends Model
         'entreprise_id',
         'cost_delivery',
         'compagne_id',
-        'qtecmde', 
+        'qtecmde',
         'influenceur_id',
         'product_id',
         'montantht',
@@ -29,4 +29,8 @@ class Order extends Model
         'pricedeliverybycountry_id',
         'delivery_time',
     ];
+
+    public function user(){
+        
+    }
 }
