@@ -1,14 +1,14 @@
 @extends('layout')
-
+@section('title', 'Tous les Produits')
 @section('content')
 <div x-data="productManager" x-init="init()">
     <div class="container py-5">
         <div class="row">
             <!-- Sidebar des catégories -->
-            <div class="col-lg-3 d-none d-lg-block">
+            <div class="col-lg-3  d-lg-block">
                 <aside class="sidebar-fixed mt-7">
                     <nav class="navbar sidebar-courses navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
-                        <div class="navbar-collapse collapse" id="navbarNav">
+                        <div class="navbar-collapse collapse">
                             <div class="side-nav me-auto flex-column navbar-nav">
                                 <p class="navbar-header nav-item mb-2 p-0 text-dark mt-4">CATEGORIES</p>
                                 <template x-for="category in categories" :key="category . id">

@@ -2,6 +2,11 @@
 @section('title', 'Bievnenue Sur VTP MARKET ')
 @section('content')
 <main x-data="productManager()">
+
+
+        
+
+
     <section class="py-md-8 py-6"
         style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: contain">
         <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">

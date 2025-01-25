@@ -17,7 +17,7 @@ class OrdersController extends Controller
     public function index()
     {
         $listeoders = Order::all();
-      
+
         return view('dashboard.orders.index', compact('listeoders'));
     }
 
@@ -42,16 +42,6 @@ class OrdersController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -62,6 +52,12 @@ class OrdersController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    public function show($id)
+    {
+        $order = Order::find($id);
+        return view('dashboard.orders.detail', compact('order'));
     }
 
     /**

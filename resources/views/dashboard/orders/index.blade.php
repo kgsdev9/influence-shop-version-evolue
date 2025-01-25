@@ -36,8 +36,9 @@
                                             <tr>
                                                 <th scope="col">Réference</th>
                                                 <th scope="col">Qte Cmde</th>
-                                                <th scope="col">Montant </th>
+                                                <th scope="col">Montant TTC </th>
                                                 <th scope="col">Status</th>
+                                                <th scope="col">Livraison</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -45,13 +46,22 @@
 
                                             <template x-for="product in paginatedProducts" :key="product.id">
                                                 <tr>
+
+
                                                     <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div>
-                                                                <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="product.reference"></h5>
-                                                            </div>
-                                                        </a>
+                                                        <div class="d-flex align-items-center">
+                                                            <!-- SVG pour la commande -->
+                                                            <i class="fe fe-file-text nav-icon"></i>
+
+                                                            <!-- Optionnel : texte ou autre contenu à côté -->
+                                                            <a href="#" class="text-inherit">
+                                                                <div>
+                                                                    <h5 class="mb-0 text-primary-hover"
+                                                                        x-text="product.reference"></h5>
+                                                                </div>
+                                                            </a>
+                                                          </div>
+
                                                     </td>
 
                                                     <td>
@@ -82,14 +92,40 @@
                                                     </td>
 
                                                     <td>
+                                                        <span>En Cours</span>
+                                                    </td>
+
+                                                    <td>
                                                         <!-- Affichage des boutons selon le statut -->
                                                         <template x-if="product.status === 'pending'">
-                                                            <button>Terminer l'achat</button>
+                                                            <div class="d-flex gap-3">
+                                                                <!-- Bouton Finaliser l'achat -->
+                                                                <button class="btn btn-outline-success">
+                                                                    <i class="fe fe-shopping-cart nav-icon"></i>
+                                                                </button>
+
+                                                                <!-- Bouton Supprimer -->
+                                                                <button class="btn btn-outline-danger">
+                                                                    <i class="fe fe-trash-2 nav-icon"></i>
+                                                                </button>
+                                                            </div>
                                                         </template>
 
-                                                        <template x-if="product.status !== 'pending'">
-                                                            <button>Vérifier le statut de la livraison</button>
+
+                                                        <template x-if="product.status === 'succes'">
+                                                            <div class="d-flex gap-2">
+                                                                <button class="btn btn-dark"><i class="fe fe-printer nav-icon"></i>                                                                </button>
+                                                                <button class="btn btn-success"><i class="fe fe-truck nav-icon"></i>
+                                                                </button>
+
+
+
+                                                            </div>
                                                         </template>
+
+
+
+
                                                     </td>
                                                 </tr>
                                             </template>
