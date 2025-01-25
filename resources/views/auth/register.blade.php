@@ -60,9 +60,14 @@
                                         <div class="d-flex justify-content-between">
                                             <button type="button" class="btn btn-secondary"
                                                 @click="previousStep">Précédent</button>
-                                            <button type="submit" class="btn btn-primary">Envoyer le code</button>
+                                            <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                    role="status" aria-hidden="true"></span>
+                                                Envoyer le code
+                                            </button>
                                         </div>
                                     </form>
+
                                 </div>
 
                                 <!-- Etape 3 : Vérification du code -->
@@ -70,18 +75,19 @@
                                     <form @submit.prevent="verifyCode">
                                         <!-- Code de vérification -->
                                         <div class="mb-3">
-                                            <label for="verification_code" class="form-label">Code de
-                                                vérification</label>
-                                            <input type="text" id="verification_code" class="form-control"
-                                                x-model="verificationCode" placeholder="Entrez le code reçu" required>
+                                            <label for="verification_code" class="form-label">Code de vérification</label>
+                                            <input type="text" id="verification_code" class="form-control" x-model="verificationCode" placeholder="Entrez le code reçu" required>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary"
-                                                @click="previousStep">Précédent</button>
-                                            <button type="submit" class="btn btn-primary">Vérifier</button>
+                                            <button type="button" class="btn btn-secondary" @click="previousStep">Précédent</button>
+                                            <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                <span x-show="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                Vérifier
+                                            </button>
                                         </div>
                                     </form>
+
                                 </div>
 
                                 <!-- Erreur -->

@@ -15,7 +15,6 @@ class VerificationCodeController extends Controller
 {
 
 
-
     private function generateUsername()
     {
         // Utiliser la donnée 'name' directement à partir de la requête ou d'une propriété déjà disponible
@@ -42,9 +41,6 @@ class VerificationCodeController extends Controller
 
         return $username;
     }
-
-
-
 
     public function sendVerificationCode(Request $request)
     {
@@ -85,7 +81,6 @@ class VerificationCodeController extends Controller
             ]);
         }
     }
-
 
 
     // Vérification du code envoyé par l'utilisateur

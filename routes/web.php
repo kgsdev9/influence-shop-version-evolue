@@ -3,6 +3,7 @@
 use App\Http\Controllers\Abonnement\AbonnementController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Category\CategoryController;
@@ -102,6 +103,19 @@ Route::resource('/souscribers', SouscriptionController::class);
 
 // verification code
 
-
 Route::post('/send-verification-code', [VerificationCodeController::class, 'sendVerificationCode']);
 Route::post('/verify-code', [VerificationCodeController::class, 'verifyCode']);
+
+
+Route::prefix('password')->group(function () {
+    // Route pour envoyer l'email de vérification
+
+    Route::get('/reset-password', [ResetPasswordController::class, 'formResetPassword'])->name('reset.password');;
+    Route::post('send-verification-email', [ResetPasswordController::class, 'sendVerificationEmail']);
+
+    // Route pour vérifier le code envoyé par email
+    Route::post('verify-code-email', [ResetPasswordController::class, 'verifyCodeEmail']);
+
+    // Route pour réinitialiser le mot de passe
+    Route::post('reset-password', [ResetPasswordController::class, 'resetPassword']);
+});
