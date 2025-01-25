@@ -9,6 +9,7 @@ class PaymentController extends Controller
 {
     public function initialisePayment(Request $request)
     {
+        dd($request->all());
         // Préparation des données pour la requête
         $data = [
             'merchantId' => "PP-F2197",
@@ -58,6 +59,4 @@ class PaymentController extends Controller
         // Retourner la réponse en JSON
         return response()->json(['payment_url' => $urlPayement], 200);
     }
-
-   
 }

@@ -37,6 +37,11 @@ class HomeController extends Controller
     }
 
 
+    public function cart()
+    {
+        return view('home.cart');
+    }
+
 
 
     public function homeCompagne()
@@ -87,7 +92,7 @@ class HomeController extends Controller
 
     public function showProduct($id)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Product::with(['images', 'sizes', 'colors'])->findOrFail($id);
         $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
         $allCountries  = Country::all();
         $allAdressePayment = [];

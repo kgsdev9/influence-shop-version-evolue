@@ -44,6 +44,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
 Route::get('/compaign', [HomeController::class, 'homeCompagne'])->name('homeCompagne');
 Route::get('/products/home', [HomeController::class, 'homeProduct'])->name('product.home');
+Route::get('/cart', [HomeController::class, 'cart'])->name('cart.home');
 
 Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product')->middleware('auth');
 Route::get('/product/detail/{id}', [HomeController::class, 'showProduct'])->name('product.show');

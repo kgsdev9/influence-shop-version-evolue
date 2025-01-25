@@ -132,7 +132,7 @@
                                                 <p class="mb-0">
                                                     <span x-text="file.city || 'N/A'"></span><br><br>
                                                     <span x-text="file.adresse || 'N/A'"></span><br>
-                                                    United States
+
                                                 </p>
 
                                                 <div class="d-flex justify-content-between mt-3">
@@ -156,10 +156,6 @@
                                         </div>
                                     </template>
                                 </div>
-
-
-
-
 
                                 <hr>
                                 <h6 class="mb-3">Mode de paiement :</h6>
@@ -215,7 +211,6 @@
                                                     <!-- img -->
                                                     <img src="{{ asset('Visa-Logo.png') }}" alt=""
                                                         class="img-fluid mb-2" style="max-width: 50px;">
-
                                                 </div>
 
                                             </div>
@@ -236,18 +231,10 @@
                                                     <img src="{{ asset('PayPal-1024x271px.svg.png') }}" alt=""
                                                         class="img-fluid mb-2" style="max-width: 50px;">
                                                     <!-- text -->
-
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </div>
-
-
-
-
-
                                 </div>
 
                             </div>
@@ -376,9 +363,11 @@
                 listedeveliryPriceByCountries: @json($listedeveliryPriceByCountries),
                 files: [],
                 pricedelivery: 0,
+                deliverycountryid:'',
                 showModal: false,
                 selectedAdresse: null,
-
+                adressepaymentid:null,
+                netapyer:0,
                 quantite: 1,
                 form: {
                     country_origine: '',
@@ -394,7 +383,10 @@
                 currentAdresse: '',
 
                 selectAdresse(file) {
+
                     this.selectedAdresse = file;
+                    this.adressepaymentid = this.selectedAdresse.id;
+
                 },
                 // Validation des champs obligatoires
                 validateStep() {
@@ -447,11 +439,10 @@
                     });
                 },
 
-
                 calculateTTC() {
                     const priceVente = Number(this.product.price_vente) || 0;
                     const priceDelivery = Number(this.pricedelivery) || 0;
-                    const quantity = Number(this.quantite) || 1; // Par défaut, quantité = 1 si elle est invalide
+                    const quantity = Number(this.quantite) || 1;
                     return ((priceVente * quantity) + priceDelivery).toFixed(2);
                 },
 
@@ -474,12 +465,13 @@
                 },
 
                 selectCountry(deliveryprice) {
+
+                    this.deliverycountryid  = deliveryprice.id;
                     this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
                     this.pricedelivery = deliveryprice.prix;
-                    // this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
-                    // Mettre l'ID du pays dans un champ caché ou autre logique
+
                     this.$nextTick(() => {
-                        this.errors = {}; // Réinitialiser les erreurs après sélection
+                        this.errors = {};
                     });
                 },
 
@@ -510,7 +502,7 @@
 
 
                     } else {
-                        alert('icici');
+
                         this.resetForm();
                         this.isEdite = false;
                     }
@@ -567,8 +559,38 @@
 
                 // Traitement du paiement
                 async processPayment() {
+
+
+                    if (!this.deliverycountryid) {
+                        // this.errors.deliverycountryid = 'Le pays de livraison est requis.';
+                        alert('Pays de livraison est réquis');
+                        return;
+                    }
+
+
+                    if (!this.selectedAdresse)
+                    {
+                        alert('adresse paiemnts');
+                        return;
+                        this.errors.selectedAdresse = 'Vous devez sélectionner une adresse de paiement.';
+                    }
+
+                    if (!this.adressepyament)
+                    {
+                        alert('adresse paiemnts');
+                        return;
+                        this.errors.selectedAdresse = 'Vous devez sélectionner une adresse de paiement.';
+                    }
+
+                    this.netapyer = this.calculateTTC();
+
+
                     const formData = new FormData();
                     formData.append('product_id', this.product.id);
+                    formData.append('adressepaymentid', this.selectedAdresse.id);
+                    formData.append('deliverycountryid', this.deliverycountryid);
+                    formData.append('pricedelivery', this.pricedelivery);
+                    formData.append('netapyer', this.netapyer);
 
                     try {
                         const response = await fetch('{{ route('begin.payment') }}', {
@@ -652,22 +674,6 @@
 
                             this.resetForm();
                             this.hideModal();
-
-                            // this.adressepyament.push(data.adresse);
-                            // Reset form fields
-
-
-                            // if (this.isEdite) {
-                            //     const index = this.users.findIndex(u => u.id === client.id);
-                            //     if (index !== -1) this.users[index] = client;
-                            // } else {
-                            //     this.users.push(client);
-
-                            //     this.users.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                            // }
-
-
-
 
 
                         } else {

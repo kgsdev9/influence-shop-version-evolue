@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Couleur;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\Taille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,7 +45,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // Enregistrer le produit sans les fichiers
         $product = new Product();
         $product->name = $request->product_name;
@@ -54,6 +56,28 @@ class ProductController extends Controller
         $product->qtedisponible = $request->qtedispo;
         $product->category_id = $request->product_category;
         $product->save();
+
+        // Enregistrer les couleurs si elles existent
+        if ($request->has('colors')) {
+
+           
+            foreach ($request->colors as $color) {
+                Couleur::create([
+                    'name' => $color,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
+
+        // Enregistrer les tailles si elles existent
+        if ($request->has('sizes')) {
+            foreach ($request->sizes as $size) {
+                Taille::create([
+                    'name' => $size,
+                    'product_id' => $product->id,
+                ]);
+            }
+        }
 
         // Si des fichiers sont envoyés, les traiter
         if ($request->hasFile('files')) {
@@ -71,6 +95,7 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Produit ajouté avec succès']);
     }
+
 
 
     /**

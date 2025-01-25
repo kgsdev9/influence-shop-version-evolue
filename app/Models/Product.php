@@ -22,6 +22,16 @@ class Product extends Model
         'status',
     ];
 
+    public function sizes()
+    {
+        return $this->hasMany(Taille::class);
+    }
+
+    public function colors()
+    {
+        return $this->hasMany(Couleur::class);
+    }
+
 
     public function category()
     {

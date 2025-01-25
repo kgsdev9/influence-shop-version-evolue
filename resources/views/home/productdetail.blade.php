@@ -297,87 +297,34 @@
                             <div class="mb-4 d-md-flex justify-content-between align-items-center">
                                 <h5 class="mb-2 mb-md-0">Couleur</h5>
                                 <div>
-                                    <!-- form check radio -->
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioPrimary" />
-                                        <label
-                                            class="btn btn-primary rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioPrimary">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioSuccess" />
-                                        <label
-                                            class="btn btn-success rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioSuccess">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioDanger" />
-                                        <label
-                                            class="btn btn-danger rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioDanger">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioInfo" />
-                                        <label
-                                            class="btn btn-info rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioInfo">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioWarning" />
-                                        <label
-                                            class="btn btn-warning rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioWarning">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioDark" />
-                                        <label
-                                            class="btn btn-dark rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                            for="btnradioDark">
-                                            <i class="fe fe-check icon-checked"></i>
-                                        </label>
+                                    <!-- Dynamically generate color radio buttons -->
+                                    <div class="btn-group" role="group" aria-label="Couleur">
+                                        <template x-for="(color, index) in product.colors" :key="index">
+                                            <div>
+                                                <input type="radio" class="btn-check" :id="'btnradioColor' + index" name="color" :value="color.name" />
+                                                <label :for="'btnradioColor' + index" class="btn rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                    :class="'btn-' + color.name.toLowerCase()"
+                                                    x-text="color.name">
+                                                    <i class="fe fe-check icon-checked"></i>
+                                                </label>
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
+                            
                             </div>
                             <div class="mb-6 d-md-flex justify-content-between align-items-center">
                                 <!-- size -->
                                 <h5 class="mb-2 mb-md-0">Taille</h5>
                                 <div>
-                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio6">6</label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio7" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio7">7</label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio8" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio8">8</label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio9" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio9">9</label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio10" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio10">10</label>
-                                        <!-- form check radio -->
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" />
-                                        <label
-                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                            for="btnradio11">11</label>
+                                    <div class="btn-group" role="group" aria-label="Taille">
+                                        <!-- Dynamically generate radio buttons for each size -->
+                                        <template x-for="(size, index) in product.sizes" :key="index">
+                                            <div>
+                                                <input type="radio" class="btn-check" :id="'btnradio' + index" name="size" :value="size.name" />
+                                                <label class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md" :for="'btnradio' + index" x-text="size.name"></label>
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
