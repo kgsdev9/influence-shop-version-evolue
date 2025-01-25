@@ -21,7 +21,17 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['category', 'images'])->get();
+        if (Auth::check() && Auth::user()->role->name == "utilisateur")
+        {
+            $products = Product::with(['category', 'images'])
+                ->where('user_id', Auth::user()->id)
+                ->get();
+        } else {
+            // Sinon, on renvoie tous les produits
+            $products = Product::with(['category', 'images'])->get();
+        }
+
+
         return view('dashboard.products.liste', compact('products'));
     }
 
@@ -46,8 +56,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // Enregistrer le produit sans les fichiers
+
         $product = new Product();
         $product->name = $request->product_name;
         $product->price_achat = $request->product_price;

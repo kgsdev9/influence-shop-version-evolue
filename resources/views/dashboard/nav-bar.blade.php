@@ -43,55 +43,53 @@
                     </li>
 
 
+                    @can('access-admin')
 
+                        <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('compagne.index') }}">
+                                <i class="fe fe-volume nav-icon"></i>
+                                Compagnes
+                            </a>
+                        </li>
 
-                    <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('compagne.index') }}">
-                            <i class="fe fe-volume nav-icon"></i>
-                            Compagnes
-                        </a>
-                    </li>
+                        <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('users.index') }}">
+                                <i class="fe fe-users nav-icon"></i>
 
-                    <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('users.index') }}">
-                            <i class="fe fe-users nav-icon"></i>
-
-                            Utilisateurs
-                        </a>
-                    </li>
-
-
-
+                                Utilisateurs
+                            </a>
+                        </li>
 
 
 
-                    <li class="nav-item {{ request()->routeIs('blogs.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('blogs.index') }}">
-                            <i class="fe fe-edit-3 nav-icon"></i>
-
-                            Blogs
-                        </a>
-                    </li>
 
 
-                    @can('is_admin_k')
-                    <li class="nav-item {{ request()->routeIs('linkspayment.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('linkspayment.index') }}">
-                            <i class="fe fe-credit-card nav-icon"></i>
 
-                            Lien de paiement
-                        </a>
-                    </li>
+                        <li class="nav-item {{ request()->routeIs('blogs.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('blogs.index') }}">
+                                <i class="fe fe-edit-3 nav-icon"></i>
 
-                    <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('paiementadresse.index') }}">
-                            <i class="fe fe-credit-card nav-icon"></i>
+                                Blogs
+                            </a>
+                        </li>
 
-                            Adresse Paiement
-                        </a>
-                    </li>
-                    @endcan
 
+
+                        <li class="nav-item {{ request()->routeIs('linkspayment.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('linkspayment.index') }}">
+                                <i class="fe fe-credit-card nav-icon"></i>
+
+                                Lien de paiement
+                            </a>
+                        </li>
+
+                        <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('paiementadresse.index') }}">
+                                <i class="fe fe-credit-card nav-icon"></i>
+
+                                Adresse Paiement
+                            </a>
+                        </li>
 
                     <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('abonnement.index') }}">
@@ -100,9 +98,6 @@
                             Plan Abonnement
                         </a>
                     </li>
-
-
-
 
                     <li class="nav-item {{ request()->routeIs('souscribers.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('souscribers.index') }}">
@@ -145,6 +140,8 @@
                         </a>
                     </li>
                 </ul>
+
+                @endcan
                 <!-- Navbar header -->
                 <span class="navbar-header">Parametre de compte</span>
                 <ul class="list-unstyled ms-n2 mb-0">

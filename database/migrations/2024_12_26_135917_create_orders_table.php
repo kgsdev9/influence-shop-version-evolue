@@ -22,8 +22,8 @@ class CreateOrdersTable extends Migration
             $table->integer('qtecmde')->default(1);
             $table->unsignedBigInteger('influenceur_id')->nullable();
             $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('compagne_id');
-            $table->unsignedBigInteger('pricedeliverybycountry_id');
+            $table->unsignedBigInteger('compagne_id')->nullable();
+            $table->unsignedBigInteger('pricedeliverybycountry_id')->nullable();
             $table->decimal('montantht', 15, 2); // Montant HT
             $table->decimal('montanttva', 15, 2); // Montant TVA
             $table->decimal('montanttc', 15, 2); // Montant TTC

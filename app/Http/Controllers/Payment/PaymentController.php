@@ -79,12 +79,12 @@ class PaymentController extends Controller
         $order->reference = $referenceTransaction;
         $order->user_id = $userId;
         $order->codeinfluenceur = $request->codeinfluenceur;
-        $order->entreprise_id = 1;
+        $order->entreprise_id = $request->entreprise_id ?? 1;
         $order->cost_delivery = $request->pricedelivery;
-        $order->compagne_id = 1;
+        $order->compagne_id = $request->compagneid ?? 1;
         $order->qtecmde = $request->qtecmde;
         $order->paymentaresse_id = $request->adressepaymentid;
-        $order->influenceur_id = 1;
+        $order->influenceur_id = $request->idinfulenceur;
         $order->product_id = $request->product_id;
         $order->montantht = $request->netapyer;
         $order->montanttva = 0;

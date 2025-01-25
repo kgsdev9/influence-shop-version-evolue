@@ -13,10 +13,18 @@
                                 <!-- Card header -->
                                 <div class="p-4 d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h3 class="mb-0">Liste des commandes </h3>
-                                        <span>Gestion des commandes .</span>
+                                        <h3 class="mb-0">Liste des users </h3>
+                                        <span>Gestion des users .</span>
                                     </div>
+                                    <!-- Nav -->
+                                    <div class="nav btn-group flex-nowrap" role="tablist">
 
+                                        <button class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm"
+                                            @click="showModal = true">
+                                            <i class='fa fa-add'></i>
+                                            Création
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div class="p-4 row">
@@ -34,132 +42,138 @@
                                     <table class="table mb-0 text-nowrap table-centered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th scope="col">Réference</th>
-                                                <th scope="col">Qte Cmde</th>
-                                                <th scope="col">Montant TTC </th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Livraison</th>
+                                                <th scope="col">Nom d'utilisateur</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Role</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                             <template x-for="product in paginatedProducts" :key="product.id">
                                                 <tr>
-
-
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <!-- SVG pour la commande -->
-                                                            <i class="fe fe-file-text nav-icon"></i>
-
-                                                            <!-- Optionnel : texte ou autre contenu à côté -->
-                                                            <a href="#" class="text-inherit">
-                                                                <div>
-                                                                    <h5 class="mb-0 text-primary-hover"
-                                                                        x-text="product.reference"></h5>
-                                                                </div>
-                                                            </a>
-                                                          </div>
-
-                                                    </td>
-
                                                     <td>
                                                         <a href="#" class="text-inherit">
-                                                            <div>
+
+                                                            <div class="">
                                                                 <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="product.qtecmde"></h5>
+                                                                    x-text="truncateText(product.name, 20)"></h5>
                                                             </div>
-                                                        </a>
-                                                    </td>
-
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div>
-                                                                <h5 class="mb-0 text-primary-hover"
-                                                                    x-text="product.montantht"></h5>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div>
-                                                                <h5 class="mb-0 text-primary-hover" x-text="product.status">
-                                                                </h5>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-
-                                                    <td>
-                                                        <span>En Cours</span>
-                                                    </td>
-
-                                                    <td>
-                                                        <!-- Affichage des boutons selon le statut -->
-                                                        <template x-if="product.status === 'pending'">
-                                                            <div class="d-flex gap-3">
-                                                                <!-- Bouton Finaliser l'achat -->
-                                                                <button class="btn btn-outline-success">
-                                                                    <i class="fe fe-shopping-cart nav-icon"></i>
-                                                                </button>
-
-                                                                <!-- Bouton Supprimer -->
-                                                                <button class="btn btn-outline-danger">
-                                                                    <i class="fe fe-trash-2 nav-icon"></i>
-                                                                </button>
-                                                            </div>
-                                                        </template>
-
-
-                                                        <template x-if="product.status === 'succes'">
-                                                            <div class="d-flex gap-2">
-                                                                <button class="btn btn-dark"><i class="fe fe-printer nav-icon"></i>                                                                </button>
-                                                                <button class="btn btn-success"><i class="fe fe-truck nav-icon"></i>
-                                                                </button>
-
-
-
-                                                            </div>
-                                                        </template>
-
-
-
-
-                                                    </td>
-                                                </tr>
-                                            </template>
-
-
-                                        </tbody>
-                                    </table>
                                 </div>
+                                </a>
+                                </td>
 
-                                <div class="row mt-4">
-                                    <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
-                                        <nav>
-                                            <ul class="pagination">
-                                                <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
-                                                    <button class="page-link"
-                                                        @click="goToPage(currentPage - 1)">Précedent</button>
-                                                </li>
-                                                <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
-                                                    <button class="page-link"
-                                                        @click="goToPage(currentPage + 1)">Suivant</button>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
+
+                                <td>
+                                    <a href="#" class="text-inherit">
+
+                                        <div class="">
+                                            <h5 class="mb-0 text-primary-hover" x-text="product.email">
+                                            </h5>
+                                        </div>
                             </div>
+                            </a>
+                            </td>
+
+
+                            <td>
+                                <a href="#" class="text-inherit">
+
+                                    <div class="">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.role.name">
+                                        </h5>
+                                    </div>
                         </div>
+                        </a>
+                        </td>
+
+                        <td>
+                            <button @click="openModal(product)">Edition</button>
+                            <button @click="deleteUsers(product.id)">Suppresion</button>
+                        </td>
 
 
 
+                        </tr>
+
+                        </template>
+                        </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
+                                        <button class="page-link" @click="goToPage(currentPage - 1)">Précedent</button>
+                                    </li>
+                                    <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
+                                        <button class="page-link" @click="goToPage(currentPage + 1)">Suivant</button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+
+            </div>
+            </div>
+            </div>
         </section>
+
+        <template x-if="showModal">
+            <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                            <button type="button" class="btn-close" @click="hideModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form @submit.prevent="submitForm">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nom d'utilisateur </label>
+                                    <input type="text" id="name" class="form-control" x-model="formData.name"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Adresse email </label>
+                                    <input type="email" id="email" class="form-control" x-model="formData.email"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="role_id" class="form-label">Role</label>
+                                    <select x-model="formData.role_id" class="form-select">
+                                        <option value="">Choisir un role</option>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password </label>
+                                    <input type="password" id="password" class="form-control" x-model="formData.password"
+                                        required>
+                                </div>
+
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary"
+                            x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </template>
     </main>
 
 
@@ -170,7 +184,7 @@
         function productSearch() {
             return {
                 searchTerm: '',
-                products: @json($listeOrders),
+                products: @json($users),
                 filteredProducts: [],
                 selectedCategory: '',
                 showCategorySelect: true,
@@ -182,10 +196,9 @@
                 isEdite: false,
                 formData: {
                     name: '',
-                    prixachat: '',
-                    prixvente: '',
-                    image: '',
-                    category_id: ''
+                    email: '',
+                    role_id: '',
+                    password: '',
                 },
                 currentProduct: null,
 
@@ -204,11 +217,11 @@
                             ...product
                         };
                         this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
+                            name: this.currentProduct.name,
+                            email: this.currentProduct.email,
+                            password: this.currentProduct.password,
+                            role_id: this.currentProduct.role.id,
+
 
                         };
                     } else {
@@ -226,12 +239,12 @@
                 resetForm() {
                     this.formData = {
                         name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
+                        email: '',
+                        password: '',
+                        role_id: '',
+
                     };
-                    document.getElementById('image').value = '';
+
                 },
 
 
@@ -241,7 +254,27 @@
                     if (!this.formData.name || this.formData.name.trim() === '') {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Le nom du produit est requis.',
+                            title: 'Le nom est requis.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.email || this.formData.email.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'L\'adresse email est requise.',
+                            showConfirmButton: true
+                        });
+                        this.isLoading = false;
+                        return;
+                    }
+
+                    if (!this.formData.role_id || this.formData.role_id.trim() === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Le rôle est requis.',
                             showConfirmButton: true
                         });
                         this.isLoading = false;
@@ -250,31 +283,27 @@
 
                     const formData = new FormData();
                     formData.append('name', this.formData.name);
-                    formData.append('prixachat', this.formData.prixachat);
-                    formData.append('prixvente', this.formData.prixvente);
-                    formData.append('category_id', this.formData.category_id);
-                    formData.append('product_id', this.currentProduct ? this.currentProduct.id : null);
-                    if (this.formData.image) {
-                        formData.append('image', this.formData.image);
-                    }
-
+                    formData.append('email', this.formData.email);
+                    formData.append('role_id', this.formData.role_id);
+                    formData.append('password', this.formData.password);
+                    formData.append('user_id', this.currentProduct ? this.currentProduct.id : null);
                     try {
-                        const response = await fetch('{{ route('products.store') }}', {
-                            method: 'POST', // Toujours 'POST', même pour la mise à jour
+                        const response = await fetch('{{ route('users.store') }}', {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // Utilisez FormData pour envoyer l'image
+                            body: formData,
                         });
 
                         if (response.ok) {
                             const data = await response.json();
-                            const product = data.product;
+                            const product = data.users;
 
                             if (product) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Users enregistré avec succès !',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });
@@ -296,7 +325,7 @@
                             } else {
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Produit non valide.',
+                                    title: 'Users non valide.',
                                     showConfirmButton: true
                                 });
                             }
@@ -329,8 +358,7 @@
                 filterProducts() {
                     const term = this.searchTerm.toLowerCase();
                     this.filteredProducts = this.products.filter(user => {
-                        return user.reference && user.reference.toLowerCase().includes(term) || reference
-                            .created_at &&
+                        return user.name && user.name.toLowerCase().includes(term) || user.created_at &&
 
                             user.created_at.toLowerCase().includes(term);
                     });

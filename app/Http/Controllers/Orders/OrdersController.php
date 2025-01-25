@@ -16,9 +16,16 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $listeoders = Order::all();
+        // Vérifie si l'utilisateur est connecté et son rôle
+        if (Auth::check() && Auth::user()->role->name == "utilisateur") {
+            // Si l'utilisateur est de rôle 'utilisateur', on filtre par user_id
+            $listeOrders = Order::where('user_id', Auth::user()->id)->get();
+        } else {
+            // Sinon, on renvoie toutes les commandes
+            $listeOrders = Order::all();
+        }
 
-        return view('dashboard.orders.index', compact('listeoders'));
+        return view('dashboard.orders.index', compact('listeOrders'));
     }
 
     /**
