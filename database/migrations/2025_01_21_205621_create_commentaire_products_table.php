@@ -15,6 +15,10 @@ class CreateCommentaireProductsTable extends Migration
     {
         Schema::create('commentaire_products', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->string('commentaire');
+            $table->integer('note');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }

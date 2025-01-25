@@ -15,6 +15,7 @@ class CreatePaymentLinksTable extends Migration
     {
         Schema::create('payment_links', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->timestamps();
         });
     }

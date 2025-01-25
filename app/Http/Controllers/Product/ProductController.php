@@ -43,6 +43,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         // Enregistrer le produit sans les fichiers
         $product = new Product();
         $product->name = $request->product_name;

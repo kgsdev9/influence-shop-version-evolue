@@ -1,22 +1,38 @@
 @extends('layout')
 @section('content')
-    <section class="my-5 mx-3" x-data="formSteps()">
+<section class="my-5 mx-3" x-data="formSteps()">
 
-        <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
+    <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
 
-            <div class="d-flex flex-column gap-3">
-                <h1 class="mb-0 display-4 fw-bold text-warning"> Enregistrer un nouveau produit
-                </h1>
-                <p class="mb-0 pe-xxl-8 me-xxl-5">Transformez votre influence en revenus. Influence Shop vous connecte
-                    directement à des marques qui souhaitent promouvoir leurs produits ou services auprès de votre
-                    communauté.</p>
-            </div>
+        <div class="d-flex flex-column gap-3">
+            <h1 class="mb-0 display-4 fw-bold text-warning"> Enregistrer un nouveau produit
+            </h1>
+            <p class="mb-0 pe-xxl-8 me-xxl-5">Transformez votre influence en revenus. Influence Shop vous connecte
+                directement à des marques qui souhaitent promouvoir leurs produits ou services auprès de votre
+                communauté.</p>
+        </div>
 
-            <div class="card mb-4 position-relative mt-4">
-                <div class="card-body">
+        <div class="card mb-4 position-relative mt-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <!-- Informations du Produit à gauche -->
                     <h5 class="card-title">Informations du Produit</h5>
-                    <p class="card-text">Veuillez remplir les informations pour enregistrer votre produit.</p>
+
+                    <!-- Options disponibles à droite -->
+
                     <div>
+                        <label class="form-check-label" for="addOptionsCheckbox">
+                            Voulez-vous ajouter d'autres informations sur le produit Oui
+                        </label>
+                        <input class="form-check-input" type="checkbox" id="addOptionsCheckbox"
+                            x-model="addAdditionalOptions">
+                    </div>
+
+                </div>
+
+                <p class="card-text">Veuillez remplir les informations pour enregistrer votre produit.</p>
+                <div class="row">
+                    <div class="col-md-8">
                         <div class="row">
                             <!-- Nom du produit -->
                             <div class="col-md-3 mb-3">
@@ -84,7 +100,7 @@
                                                 @click="document.getElementById(`fileInput${index}`).click()">
                                                 <!-- Aperçu de l'image -->
                                                 <template x-if="file.preview">
-                                                    <img :src="file.preview" class="img-fluid rounded"
+                                                    <img :src="file . preview" class="img-fluid rounded"
                                                         style="max-height: 150px; width: 100%; object-fit: cover;"
                                                         alt="Aperçu">
                                                 </template>
@@ -134,7 +150,8 @@
                             <div class="col-md-12 mb-3 mt-4">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="product_description"
-                                        placeholder="Description du produit" x-model="form.product_description" required>
+                                        placeholder="Description du produit" x-model="form.product_description"
+                                        required>
                                     <label for="product_description">Description du produit</label>
                                     <template x-if="errors.product_description">
                                         <span class="text-danger" x-text="errors.product_description"></span>
@@ -145,24 +162,93 @@
 
 
                         </div>
+                    </div>
+                    <div class="col-md-4" x-show="addAdditionalOptions" x-transition>
 
+                        <div class="form-group">
+                            <h6 class="mb-3">Couleurs disponibles :</h6>
+                            <div class="d-flex align-items-center">
+                                <input type="text" x-model="newColor" placeholder="Ajouter une couleur"
+                                    class="form-control me-2" style="max-width: 200px;">
+                                <button type="button" @click="addColor" class="btn btn-outline-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v3h3v2H9v3H7V9H4V7h3V4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="d-flex flex-row gap-1 flex-wrap mt-3">
+                                <template x-for="(color, index) in colors" :key="index">
+                                    <div class="d-flex align-items-center gap-1">
+                                        <a href="#!" class="btn btn-tag" x-text="color"></a>
+                                        <button type="button" @click="removeColor(index)"
+                                            class="btn btn-outline-danger btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.707L8.707 8l2.647 2.646a.5.5 0 0 1-.707.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.707L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <h6 class="mb-3">Tailles disponibles :</h6>
+                            <div class="d-flex align-items-center">
+                                <input type="text" x-model="newSize" placeholder="Ajouter une taille"
+                                    class="form-control me-2" style="max-width: 200px;">
+                                <button type="button" @click="addSize" class="btn btn-outline-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                        <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v3h3v2H9v3H7V9H4V7h3V4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="d-flex flex-row gap-1 flex-wrap mt-3">
+                                <template x-for="(size, index) in sizes" :key="index">
+                                    <div class="d-flex align-items-center gap-1">
+                                        <a href="#!" class="btn btn-tag" x-text="size"></a>
+                                        <button type="button" @click="removeSize(index)"
+                                            class="btn btn-outline-danger btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.707L8.707 8l2.647 2.646a.5.5 0 0 1-.707.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.707L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                                                </path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
                     </div>
 
-                    <button type="button" class="btn btn-outline-secondary mt-4" @click="storeProduct()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-arrow-right" viewBox="0 0 16 16">
-                            <path
-                                d="M11.354 8l-4.646 4.646a.5.5 0 0 1-.708-.708L9.793 9H1.5a.5.5 0 0 1 0-1h8.293L6.707 3.708a.5.5 0 1 1 .708-.708L11.354 8z" />
-                        </svg>
-                        Enregistrer
-                    </button>
+
+
 
                 </div>
+
+                <button type="button" class="btn btn-outline-secondary mt-4" @click="storeProduct()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path
+                            d="M11.354 8l-4.646 4.646a.5.5 0 0 1-.708-.708L9.793 9H1.5a.5.5 0 0 1 0-1h8.293L6.707 3.708a.5.5 0 1 1 .708-.708L11.354 8z" />
+                    </svg>
+                    Enregistrer
+                </button>
+
             </div>
-
-
         </div>
-    </section>
+
+
+    </div>
+</section>
 @endsection
 
 @push('script')
@@ -177,7 +263,13 @@
                     qtedispo: '',
                     product_category: '',
                 },
+
+                colors: [],
+                sizes: [],
+                newColor: '',
+                newSize: '',
                 errors: {},
+                addAdditionalOptions: false,
                 validateStep() {
                     this.errors = {};
                     if (!this.form.product_name) this.errors.product_name = 'Le champ Nom du produit est requis.';
@@ -186,6 +278,33 @@
                     if (!this.form.product_category) this.errors.product_category = 'Veuillez sélectionner une catégorie.';
                     if (!this.form.product_description) this.errors.product_description = 'La description est obligatoire.';
                     return Object.keys(this.errors).length === 0;
+                },
+
+
+
+                addColor() {
+
+                    if (this.newColor || !this.colors.includes(this.newColor)) {
+                        this.colors.push(this.newColor);
+                        this.newColor = '';
+                    }
+                },
+
+                // Ajouter une taille à la liste
+                addSize() {
+                    if (this.newSize && !this.sizes.includes(this.newSize)) {
+                        this.sizes.push(this.newSize);
+                        this.newSize = '';
+                    }
+                },
+
+                removeColor(index) {
+                    this.colors.splice(index, 1);
+                },
+
+                // Supprimer une taille
+                removeSize(index) {
+                    this.sizes.splice(index, 1);
                 },
 
                 addFileSlot() {
@@ -245,6 +364,16 @@
                     for (const [key, value] of Object.entries(this.form)) {
                         formData.append(key, value);
                     }
+
+                    // Ajouter les couleurs et tailles au FormData
+                    this.colors.forEach((color, index) => {
+                        formData.append(`colors[${index}]`, color); // Ajouter chaque couleur dans le tableau colors
+                    });
+
+                    this.sizes.forEach((size, index) => {
+                        formData.append(`sizes[${index}]`, size); // Ajouter chaque taille dans le tableau sizes
+                    });
+
 
                     try {
                         const response = await fetch('{{ route('products.store') }}', {

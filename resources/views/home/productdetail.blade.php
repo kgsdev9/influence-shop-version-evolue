@@ -1,500 +1,465 @@
 @extends('layout')
 @section('content')
-    <section class="my-5 mx-3" x-data="formSteps()">
-        <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
-            <div class="d-flex flex-column gap-3">
-                <h5 class="mb-0 display-4 fw-bold text-warning"> Detail de produit {{ $product->name }}
-                </h5>
-                <p class="mb-0 pe-xxl-8 me-xxl-5">Transformez votre influence en revenus. Influence Shop vous connecte
-                    directement à des marques qui souhaitent promouvoir leurs produits ou services auprès de votre
-                    communauté.</p>
-            </div>
+<section class="my-5 mx-3" x-data="formSteps()">
+    <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
+        <div class="d-flex flex-column gap-3">
+            <h5 class="mb-0 display-4 fw-bold text-warning"> Detail de produit {{ $product->name }}
+            </h5>
 
-            <div class="row ">
-                <div class="col-md-9 ">
-                    <div class="row ">
+        </div>
 
-                        <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
-                            <div class="row gy-4">
-                                <!-- Image principale -->
-                                <div class="col-12">
-                                    <div>
-                                        <a :href="`/storage/${product.images[selectedImage].imagename}`" class="glightbox" data-gallery="gallery1">
-                                            <img :src="`/storage/${product.images[selectedImage].imagename}`"
-                                                 alt="Image principale du produit"
-                                                 class="img-fluid rounded-3"
-                                                 style="width:400px; height:400px; object-fit: cover;" />
-                                        </a>
+        <div class="row mt-4 ">
+            <div class="col-md-9 ">
+                <div class="row ">
 
-
-                                    </div>
-                                </div>
-
-                                <!-- Images secondaires -->
+                    <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
+                        <div class="row gy-4">
+                            <!-- Image principale -->
+                            <div class="col-12">
                                 <div>
-                                    <div x-show="product && product.images && product.images.length > 1">
-                                        <div class="row">
-                                            <template x-for="(image, index) in product.images.slice(1)"
-                                                :key="index">
-                                                <div class="col-md-2 col-6 mb-4 d-flex justify-content-center">
-                                                    <div class="w-100" style="height:40px;">
-                                                        <a href="javascript:void(0)" @click="selectedImage = index + 1"
-                                                            class="glightbox" :data-gallery="'gallery1'">
-                                                            <img :src="`/storage/${image.imagename}`" alt="Image secondaire"
-                                                                class="img-fluid rounded-3 w-100 h-100"
-                                                                style="object-fit: cover;" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
+                                    <a :href="`/storage/${product . images[selectedImage] . imagename}`"
+                                        class="glightbox" data-gallery="gallery1">
+                                        <img :src="`/storage/${product . images[selectedImage] . imagename}`"
+                                            alt="Image principale du produit" class="img-fluid rounded-3"
+                                            style="width:400px; height:400px; object-fit: cover;" />
+                                    </a>
+
+
                                 </div>
-
-
-                                <hr class="mt-4 mb-2" />
-                                <div class="mb-4" id="ecommerceAccordion">
-                                    <!-- List group -->
-                                    <ul class="list-group list-group-flush">
-                                        <!-- List group item -->
-                                        <li class="list-group-item px-0">
-                                            <!-- Toggle -->
-                                            <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
-                                                data-bs-toggle="collapse" href="#productDetails" role="button"
-                                                aria-expanded="false" aria-controls="productDetails">
-                                                <div class="me-auto">Fiche technique produit </div>
-                                                <!-- Chevron -->
-                                                <span class="chevron-arrow ms-4">
-                                                    <i class="fe fe-chevron-down fs-4"></i>
-                                                </span>
-                                            </a>
-                                            <!-- Row -->
-                                            <!-- Collapse -->
-                                            <div class="collapse show" id="productDetails"
-                                                data-bs-parent="#ecommerceAccordion">
-                                                <div class="py-3">
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean nisi
-                                                        magna, rhoncus in diam vel, aliquet volutpat nisl. Proin nisl dolor,
-                                                        sagittis vitae pulvinar eu,
-                                                        pharetra ultrices felis.
-                                                    </p>
-                                                    <!-- list -->
-                                                    <h4>Features:</h4>
-                                                    <ul>
-                                                        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                                                        <li>Integer ut justo quis diam finibus lobortis vel at dui.</li>
-                                                        <li>Morbi ultricies leo sit amet nisl suscipit, et vulputate orci
-                                                            fringilla.</li>
-                                                        <li>Nullam sit amet lacus ut nibh pharetra rutrum venenatis ac
-                                                            purus.</li>
-                                                        <li>Sed ut arcu dapibus, viverra ex vitae, fermentum libero.</li>
-                                                        <li>Fusce eget mauris in elit ultricies vehicula.</li>
-                                                        <li>Vivamus tincidunt ligula id sollicitudin finibus.</li>
-                                                        <li>Nullam facilisis enim viverra nulla malesuada consequat.</li>
-                                                        <li>Nullam feugiat turpis ullamcorper augue fringilla, at facilisis
-                                                            magna dignissim.</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-
-                                    </ul>
-                                </div>
-                                <div class="mb-4">
-                                    <h3 class="mb-4">Commentaires</h3>
-                                    <div class="row align-items-center mb-4">
-                                        <div class="col-md-4 mb-4 mb-md-0">
-                                            <!-- rating -->
-                                            <h3 class="display-2 fw-bold">4.5</h3>
-                                            <span class="fs-6">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-star-fill text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-star-fill text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-star-fill text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-star-fill text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                    fill="currentColor" class="bi bi-star-fill text-success"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                    </path>
-                                                </svg>
-                                            </span>
-                                            <p class="mb-0">595 Verified Buyers</p>
-                                        </div>
-                                        <div class="offset-lg-1 col-lg-7 col-md-8">
-                                            <!-- progress -->
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="text-nowrap me-3">
-                                                    <span class="d-inline-block align-middle me-1">5</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-secondary"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div class="w-100">
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                            style="width: 60%" aria-valuenow="60" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <span class="ms-3">420</span>
-                                            </div>
-                                            <!-- progress -->
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="text-nowrap me-3">
-                                                    <span class="d-inline-block align-middle me-1">4</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-secondary"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div class="w-100">
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="50"></div>
-                                                    </div>
-                                                </div>
-                                                <span class="ms-3">90</span>
-                                            </div>
-                                            <!-- progress -->
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="text-nowrap me-3">
-                                                    <span class="d-inline-block align-middle me-1">3</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-secondary"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div class="w-100">
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-success" role="progressbar"
-                                                            style="width: 35%" aria-valuenow="35" aria-valuemin="0"
-                                                            aria-valuemax="35"></div>
-                                                    </div>
-                                                </div>
-                                                <span class="ms-3">33</span>
-                                            </div>
-                                            <!-- progress -->
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="text-nowrap me-3">
-                                                    <span class="d-inline-block align-middle me-1">2</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-secondary"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div class="w-100">
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-warning" role="progressbar"
-                                                            style="width: 22%" aria-valuenow="22" aria-valuemin="0"
-                                                            aria-valuemax="22"></div>
-                                                    </div>
-                                                </div>
-                                                <span class="ms-3">12</span>
-                                            </div>
-                                            <!-- progress -->
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="text-nowrap me-3">
-                                                    <span class="d-inline-block align-middle me-1">1</span>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-secondary"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </div>
-                                                <div class="w-100">
-                                                    <div class="progress" style="height: 6px">
-                                                        <div class="progress-bar bg-danger" role="progressbar"
-                                                            style="width: 14%" aria-valuenow="14" aria-valuemin="0"
-                                                            aria-valuemax="14"></div>
-                                                    </div>
-                                                </div>
-                                                <span class="ms-3">40</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <!-- review -->
-                                        <div class="border-top py-4 mt-4">
-                                            <div class="border d-inline-block px-2 py-1 rounded-pill mb-3">
-                                                <span class="text-dark fw-semibold">
-                                                    4.4
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                        fill="currentColor" class="bi bi-star-fill text-success"
-                                                        viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
-                                                        </path>
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <!-- text -->
-                                            <p> awesome , I never thought about geeks that awesome shoes.very pretty.
-                                            </p>
-                                            <div>
-                                                <span>James Ennis</span>
-                                                <span class="ms-4">28 Nov 2022</span>
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-                                </div>
-
                             </div>
-                        </div>
+
+                            <!-- Images secondaires -->
+                            <div>
+                                <div x-show="product && product.images && product.images.length > 1">
+                                    <div class="row">
+                                        <template x-for="(image, index) in product.images.slice(1)" :key="index">
+                                            <div class="col-md-2 col-6 mb-4 d-flex justify-content-center">
+                                                <div class="w-100" style="height:40px;">
+                                                    <a href="javascript:void(0)" @click="selectedImage = index + 1"
+                                                        class="glightbox" :data-gallery="'gallery1'">
+                                                        <img :src="`/storage/${image . imagename}`"
+                                                            alt="Image secondaire"
+                                                            class="img-fluid rounded-3 w-100 h-100"
+                                                            style="object-fit: cover;" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
 
 
-                        <div class="col-xl-6 col-12">
-                            <div class="my-5 mx-lg-8">
-                                <!-- heading -->
-                                <div class="d-flex flex-column gap-2">
-                                    <h4 class="mb-0" x-text="product.name"></h4>
-                                    <div>
-                                        <!-- review -->
-                                        <span>
-                                            <span class="me-1 text-dark fw-semibold">
+                            <hr class="mt-4 mb-2" />
+                            <div class="mb-4">
+                                <!-- List group -->
+                                <ul class="list-group list-group-flush">
+                                    <!-- List group item -->
+                                    <li class="list-group-item px-0">
+                                        <!-- Toggle -->
+                                        <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
+                                           >
+                                            <div class="me-auto">Fiche technique produit </div>
+
+                                        </a>
+                                        <!-- Row -->
+                                        <!-- Collapse -->
+                                        <div class="collapse show">
+                                            {{ $product->description }}
+                                        </div>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                            <div class="mb-4">
+                                <h3 class="mb-4">Commentaires</h3>
+                                <div class="row align-items-center mb-4">
+                                    <div class="col-md-4 mb-4 mb-md-0">
+                                        <!-- rating -->
+                                        <h3 class="display-2 fw-bold">4.5</h3>
+                                        <span class="fs-6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-star-fill text-success"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-star-fill text-success"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-star-fill text-success"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-star-fill text-success"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                fill="currentColor" class="bi bi-star-fill text-success"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                        <p class="mb-0">595 Verified Buyers</p>
+                                    </div>
+                                    <div class="offset-lg-1 col-lg-7 col-md-8">
+                                        <!-- progress -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="text-nowrap me-3">
+                                                <span class="d-inline-block align-middle me-1">5</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor" class="bi bi-star-fill text-secondary"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="progress" style="height: 6px">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: 60%" aria-valuenow="60" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                            <span class="ms-3">420</span>
+                                        </div>
+                                        <!-- progress -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="text-nowrap me-3">
+                                                <span class="d-inline-block align-middle me-1">4</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor" class="bi bi-star-fill text-secondary"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="progress" style="height: 6px">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                        aria-valuemax="50"></div>
+                                                </div>
+                                            </div>
+                                            <span class="ms-3">90</span>
+                                        </div>
+                                        <!-- progress -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="text-nowrap me-3">
+                                                <span class="d-inline-block align-middle me-1">3</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor" class="bi bi-star-fill text-secondary"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="progress" style="height: 6px">
+                                                    <div class="progress-bar bg-success" role="progressbar"
+                                                        style="width: 35%" aria-valuenow="35" aria-valuemin="0"
+                                                        aria-valuemax="35"></div>
+                                                </div>
+                                            </div>
+                                            <span class="ms-3">33</span>
+                                        </div>
+                                        <!-- progress -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="text-nowrap me-3">
+                                                <span class="d-inline-block align-middle me-1">2</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor" class="bi bi-star-fill text-secondary"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="progress" style="height: 6px">
+                                                    <div class="progress-bar bg-warning" role="progressbar"
+                                                        style="width: 22%" aria-valuenow="22" aria-valuemin="0"
+                                                        aria-valuemax="22"></div>
+                                                </div>
+                                            </div>
+                                            <span class="ms-3">12</span>
+                                        </div>
+                                        <!-- progress -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="text-nowrap me-3">
+                                                <span class="d-inline-block align-middle me-1">1</span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                    fill="currentColor" class="bi bi-star-fill text-secondary"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <div class="w-100">
+                                                <div class="progress" style="height: 6px">
+                                                    <div class="progress-bar bg-danger" role="progressbar"
+                                                        style="width: 14%" aria-valuenow="14" aria-valuemin="0"
+                                                        aria-valuemax="14"></div>
+                                                </div>
+                                            </div>
+                                            <span class="ms-3">40</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!-- review -->
+                                    <div class="border-top py-4 mt-4">
+                                        <div class="border d-inline-block px-2 py-1 rounded-pill mb-3">
+                                            <span class="text-dark fw-semibold">
                                                 4.4
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                                    fill="currentColor"
-                                                    class="bi bi-star-fill text-success ms-1 align-baseline"
+                                                    fill="currentColor" class="bi bi-star-fill text-success"
                                                     viewBox="0 0 16 16">
                                                     <path
                                                         d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
                                                     </path>
                                                 </svg>
                                             </span>
-                                            592 avis
+                                        </div>
+                                        <!-- text -->
+                                        <p> awesome , I never thought about geeks that awesome shoes.very pretty.
+                                        </p>
+                                        <div>
+                                            <span>James Ennis</span>
+                                            <span class="ms-4">28 Nov 2022</span>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-xl-6 col-12">
+                        <div class="my-5 mx-lg-8">
+                            <!-- heading -->
+                            <div class="d-flex flex-column gap-2">
+                                <h4 class="mb-0" x-text="product.name"></h4>
+                                <div>
+                                    <!-- review -->
+                                    <span>
+                                        <span class="me-1 text-dark fw-semibold">
+                                            4.4
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+                                                fill="currentColor"
+                                                class="bi bi-star-fill text-success ms-1 align-baseline"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z">
+                                                </path>
+                                            </svg>
                                         </span>
-                                    </div>
+                                        592 avis
+                                    </span>
                                 </div>
-                                <hr class="my-3" />
-                                <div class="mb-5 d-flex flex-column gap-1">
-                                    <!-- text -->
-                                    <h4 class="mb-0">
-                                        <span x-text="product.price_vente"> </span>
+                            </div>
+                            <hr class="my-3" />
+                            <div class="mb-5 d-flex flex-column gap-1">
+                                <!-- text -->
+                                <h4 class="mb-0">
+                                    <span x-text="product.price_vente"> </span>
 
-                                        <span class="text-warning">Profitez de -45% sur ce produit exceptionnel !</span>
-                                    </h4>
-                                    <span>Profitez de notre offre spéciale, taxes incluses !</span>
+                                    <span class="text-warning">Profitez de -45% sur ce produit exceptionnel !</span>
+                                </h4>
+                                <span>Profitez de notre offre spéciale, taxes incluses !</span>
 
-                                </div>
-                                <!-- color -->
-                                <div class="mb-4 d-md-flex justify-content-between align-items-center">
-                                    <h5 class="mb-2 mb-md-0">Couleur</h5>
-                                    <div>
+                            </div>
+                            <!-- color -->
+                            <div class="mb-4 d-md-flex justify-content-between align-items-center">
+                                <h5 class="mb-2 mb-md-0">Couleur</h5>
+                                <div>
+                                    <!-- form check radio -->
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioPrimary" />
+                                        <label
+                                            class="btn btn-primary rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioPrimary">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
                                         <!-- form check radio -->
-                                        <div class="btn-group" role="group"
-                                            aria-label="Basic radio toggle button group">
-                                            <input type="radio" class="btn-check" name="btnradio"
-                                                id="btnradioPrimary" />
-                                            <label
-                                                class="btn btn-primary rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioPrimary">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio"
-                                                id="btnradioSuccess" />
-                                            <label
-                                                class="btn btn-success rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioSuccess">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio"
-                                                id="btnradioDanger" />
-                                            <label
-                                                class="btn btn-danger rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioDanger">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioInfo" />
-                                            <label
-                                                class="btn btn-info rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioInfo">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio"
-                                                id="btnradioWarning" />
-                                            <label
-                                                class="btn btn-warning rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioWarning">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradioDark" />
-                                            <label
-                                                class="btn btn-dark rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                for="btnradioDark">
-                                                <i class="fe fe-check icon-checked"></i>
-                                            </label>
-                                        </div>
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioSuccess" />
+                                        <label
+                                            class="btn btn-success rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioSuccess">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioDanger" />
+                                        <label
+                                            class="btn btn-danger rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioDanger">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioInfo" />
+                                        <label
+                                            class="btn btn-info rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioInfo">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioWarning" />
+                                        <label
+                                            class="btn btn-warning rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioWarning">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradioDark" />
+                                        <label
+                                            class="btn btn-dark rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                            for="btnradioDark">
+                                            <i class="fe fe-check icon-checked"></i>
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="mb-6 d-md-flex justify-content-between align-items-center">
-                                    <!-- size -->
-                                    <h5 class="mb-2 mb-md-0">Taille</h5>
-                                    <div>
-                                        <div class="btn-group" role="group"
-                                            aria-label="Basic radio toggle button group">
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio6">6</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio7" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio7">7</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio8" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio8">8</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio9" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio9">9</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio10" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio10">10</label>
-                                            <!-- form check radio -->
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio11" />
-                                            <label
-                                                class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
-                                                for="btnradio11">11</label>
-                                        </div>
+                            </div>
+                            <div class="mb-6 d-md-flex justify-content-between align-items-center">
+                                <!-- size -->
+                                <h5 class="mb-2 mb-md-0">Taille</h5>
+                                <div>
+                                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio6" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio6">6</label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio7" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio7">7</label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio8" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio8">8</label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio9" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio9">9</label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio10" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio10">10</label>
+                                        <!-- form check radio -->
+                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio11" />
+                                        <label
+                                            class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                            for="btnradio11">11</label>
                                     </div>
                                 </div>
-                                <!-- row -->
-                                <div class="row row flex-md-row flex-column gap-2 gap-md-0">
-                                    <!-- col -->
-                                    <div class="col-md-12">
-                                        <div class="d-grid">
-                                            <!-- btn -->
-                                            <a href="shopping-cart.html" class="btn btn-danger">
-                                                <i class="fe fe-shopping-cart me-2"></i>
-                                                Acheter
-                                            </a>
-                                        </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row row flex-md-row flex-column gap-2 gap-md-0">
+                                <!-- col -->
+                                <div class="col-md-12">
+                                    <div class="d-grid">
+                                        <!-- btn -->
+                                        <a href="shopping-cart.html" class="btn btn-danger">
+                                            <i class="fe fe-shopping-cart me-2"></i>
+                                            Acheter
+                                        </a>
                                     </div>
-
                                 </div>
 
                             </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <!-- Jumia Express Section -->
-                            <div class="mb-3">
-                                <h6 class="text-danger fw-bold">VTP  <span class="text-warning">EXPRESS</span></h6>
-                                <p class="small text-muted">Livraison en maximum 48h dans le monde . <a href="#"
-                                        class="text-decoration-underline">Détails</a></p>
-                            </div>
-
-                            <!-- Choisissez le lieu Section -->
-                            <div class="mb-3">
-                                <label for="region" class="form-label">Choisissez le lieu</label>
-                                <select id="region" class="form-select mb-2">
-                                    <option>Vallée du Bandama</option>
-                                    <option>Lagunes</option>
-                                    <option>Bas-Sassandra</option>
-                                </select>
-                                <select id="agence" class="form-select">
-                                    <option>Bouaké Agence</option>
-                                    <option>Yamoussoukro Agence</option>
-                                    <option>Korhogo Agence</option>
-                                </select>
-                            </div>
-
-                            <!-- Point Relais Section -->
-                            <div class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
-                                    <div>
-                                        <p class="fw-bold mb-1">Point relais</p>
-                                        <p class="small text-muted mb-0">Frais de livraison 500 FCFA (livraison gratuite si
-                                            supérieur à 5,000 FCFA).</p>
-                                        <p class="small text-muted">Prêt pour le retrait entre <strong>02 janvier</strong>
-                                            et <strong>03 janvier</strong> si vous commandez dans les prochaines
-                                            <strong>7hrs 0mins</strong>.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Politique de retour Section -->
-                            <div class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-arrow-counterclockwise text-success me-2 fs-5"></i>
-                                    <div>
-                                        <p class="fw-bold mb-1">Politique de retour</p>
-                                        <p class="small text-muted">Retours gratuits sur 10 jours.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
             </div>
+            <div class="col-md-3">
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <!-- Jumia Express Section -->
+                        <div class="mb-3">
+                            <h6 class="text-danger fw-bold">VTP <span class="text-warning">EXPRESS</span></h6>
+                            <p class="small text-muted">Livraison en maximum 48h dans le monde . <a href="#"
+                                    class="text-decoration-underline">Détails</a></p>
+                        </div>
+
+                        <!-- Choisissez le lieu Section -->
+                        <div class="mb-3">
+                            <label for="region" class="form-label">Choisissez le lieu</label>
+                            <select id="region" class="form-select mb-2">
+                                <option>Vallée du Bandama</option>
+                                <option>Lagunes</option>
+                                <option>Bas-Sassandra</option>
+                            </select>
+                            <select id="agence" class="form-select">
+                                <option>Bouaké Agence</option>
+                                <option>Yamoussoukro Agence</option>
+                                <option>Korhogo Agence</option>
+                            </select>
+                        </div>
+
+                        <!-- Point Relais Section -->
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
+                                <div>
+                                    <p class="fw-bold mb-1">Point relais</p>
+                                    <p class="small text-muted mb-0">Frais de livraison 500 FCFA (livraison gratuite si
+                                        supérieur à 5,000 FCFA).</p>
+                                    <p class="small text-muted">Prêt pour le retrait entre <strong>02 janvier</strong>
+                                        et <strong>03 janvier</strong> si vous commandez dans les prochaines
+                                        <strong>7hrs 0mins</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Politique de retour Section -->
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-arrow-counterclockwise text-success me-2 fs-5"></i>
+                                <div>
+                                    <p class="fw-bold mb-1">Politique de retour</p>
+                                    <p class="small text-muted">Retours gratuits sur 10 jours.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-    </section>
+    </div>
+</section>
 @endsection
 
 @push('script')

@@ -4,7 +4,7 @@
         <div class="container py-5">
             <div class="row">
                 <div class="col-lg-3 d-none d-lg-block">
-                    <aside class="sidebar-fixed">
+                    <aside class="sidebar-fixed mt-7">
                         <nav class="navbar sidebar-courses navbar-expand-md navbar-light shadow-sm mb-4 mb-lg-0 sidenav">
                             <div class="navbar-collapse collapse" id="navbarNav">
                                 <div class="side-nav me-auto flex-column navbar-nav">
@@ -67,7 +67,7 @@
                     <div class="d-flex align-items-center gap-2 mb-3">
                         <h3 class="pb-0 fw-bold text-dark m-0">Tous les produits</h3>
                     </div>
-                    <div x-data="productManager()" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-5">
+                    <div x-data="productManager()" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mb-5">
                         <template x-for="product in products" :key="product.id">
                             <div class="col-md-3 mb-4">
                                 <div class="card shadow-sm border-light h-100">
