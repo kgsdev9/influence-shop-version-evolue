@@ -44,6 +44,9 @@ use App\Http\Controllers\Vente\VenteController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
+Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('detail.blog');
+
+
 Route::get('/compaign', [HomeController::class, 'homeCompagne'])->name('homeCompagne');
 Route::get('/products/home', [HomeController::class, 'homeProduct'])->name('product.home');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart.home');

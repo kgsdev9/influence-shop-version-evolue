@@ -98,6 +98,15 @@ class HomeController extends Controller
         return view('home.buy', compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
     }
 
+
+
+
+
+    public function detailBlog($id)
+    {
+        $detailblog = PubBlog::where('id', $id)->first();
+        return view('home.detailblog', compact('detailblog'));
+    }
     public function showProduct($id)
     {
         $product = Product::with(['images', 'sizes', 'colors'])->findOrFail($id);
@@ -107,6 +116,4 @@ class HomeController extends Controller
 
         return view('home.productdetail', compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
     }
-
-   
 }
