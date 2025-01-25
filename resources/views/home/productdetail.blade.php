@@ -17,15 +17,14 @@
                             <!-- Image principale -->
                             <div class="col-12">
                                 <div>
-                                    <a :href="`/storage/${product . images[selectedImage] . imagename}`"
-                                        class="glightbox" data-gallery="gallery1">
-                                        <img :src="`/storage/${product . images[selectedImage] . imagename}`"
+                                    <a :href="`/s3/${product . images[selectedImage] . imagename}`" class="glightbox"
+                                        data-gallery="gallery1">
+                                        <img :src="product . images . length ? `/s3/${product . images[selectedImage] . imagename}` : '../../assets/images/default-product.jpg'"
                                             alt="Image principale du produit" class="img-fluid rounded-3"
                                             style="width:400px; height:400px; object-fit: cover;" />
                                     </a>
-
-
                                 </div>
+
                             </div>
 
                             <!-- Images secondaires -->
@@ -57,8 +56,7 @@
                                     <!-- List group item -->
                                     <li class="list-group-item px-0">
                                         <!-- Toggle -->
-                                        <a class="d-flex align-items-center text-inherit fw-semibold mb-0"
-                                           >
+                                        <a class="d-flex align-items-center text-inherit fw-semibold mb-0">
                                             <div class="me-auto">Fiche technique produit </div>
 
                                         </a>
@@ -301,17 +299,18 @@
                                     <div class="btn-group" role="group" aria-label="Couleur">
                                         <template x-for="(color, index) in product.colors" :key="index">
                                             <div>
-                                                <input type="radio" class="btn-check" :id="'btnradioColor' + index" name="color" :value="color.name" />
-                                                <label :for="'btnradioColor' + index" class="btn rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
-                                                    :class="'btn-' + color.name.toLowerCase()"
-                                                    x-text="color.name">
+                                                <input type="radio" class="btn-check" :id="'btnradioColor' + index"
+                                                    name="color" :value="color . name" />
+                                                <label :for="'btnradioColor' + index"
+                                                    class="btn rounded-circle me-2 btn-icon btn-xs border border-2 border-white shadow"
+                                                    :class="'btn-' + color . name . toLowerCase()" x-text="color.name">
                                                     <i class="fe fe-check icon-checked"></i>
                                                 </label>
                                             </div>
                                         </template>
                                     </div>
                                 </div>
-                            
+
                             </div>
                             <div class="mb-6 d-md-flex justify-content-between align-items-center">
                                 <!-- size -->
@@ -321,8 +320,11 @@
                                         <!-- Dynamically generate radio buttons for each size -->
                                         <template x-for="(size, index) in product.sizes" :key="index">
                                             <div>
-                                                <input type="radio" class="btn-check" :id="'btnradio' + index" name="size" :value="size.name" />
-                                                <label class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md" :for="'btnradio' + index" x-text="size.name"></label>
+                                                <input type="radio" class="btn-check" :id="'btnradio' + index"
+                                                    name="size" :value="size . name" />
+                                                <label
+                                                    class="btn btn-outline-light border rounded-circle me-2 text-body btn-icon btn-md"
+                                                    :for="'btnradio' + index" x-text="size.name"></label>
                                             </div>
                                         </template>
                                     </div>
@@ -334,7 +336,7 @@
                                 <div class="col-md-12">
                                     <div class="d-grid">
                                         <!-- btn -->
-                                        <a href="shopping-cart.html" class="btn btn-danger">
+                                        <a :href="`/buyProduct/${product . id}`" class="btn btn-danger">
                                             <i class="fe fe-shopping-cart me-2"></i>
                                             Acheter
                                         </a>

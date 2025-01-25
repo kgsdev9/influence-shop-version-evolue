@@ -253,7 +253,7 @@
 
                                     <div class="d-flex flex-row gap-4">
                                         <div>
-                                            <img :src="`/storage/${product.images[0].imagename}`" alt="Image du produit"
+                                            <img :src="`/s3/${product.images[0].imagename}`" alt="Image du produit"
                                                 class="img-4by3-xl rounded">
 
                                         </div>
@@ -565,7 +565,7 @@
                 // Traitement du paiement
                 async processPayment() {
 
-                    
+
                     if (!this.deliverycountryid) {
                         // this.errors.deliverycountryid = 'Le pays de livraison est requis.';
                         alert('Pays de livraison est réquis');

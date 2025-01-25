@@ -56,9 +56,10 @@
                                                             <div class="d-flex align-items-center flex-row gap-3">
                                                                 <div>
                                                                     <img :src="product.images.length ?
-                                                                        `/storage/${product.images[0].imagename}` :
-                                                                        '../../assets/images/default-product.jpg'"
-                                                                        alt="Product Image" class="img-4by3-md rounded">
+                                                                    `/s3/${product.images[0].imagename}` :
+                                                                    '../../assets/images/default-product.jpg'"
+                                                             alt="Product Image" class="img-4by3-md rounded">
+
 
 
                                                                 </div>
@@ -246,7 +247,7 @@
 
                 async deleteProduct(productId) {
 
-                   
+
                     try {
                         const url =
                             `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(

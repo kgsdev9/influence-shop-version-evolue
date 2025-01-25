@@ -4,7 +4,7 @@
 <main x-data="productManager()">
 
 
-        
+
 
 
     <section class="py-md-8 py-6"
@@ -108,17 +108,19 @@
                             <!-- Image -->
                             <div class="image-container" style="overflow: hidden; position: relative;">
                                 <a :href="`/product/detail/${product.id}`">
-                                    <img :src="product.images.length ? `/storage/${product.images[0].imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
+                                    <img :src="product.images.length ? `/s3/${product.images[0].imagename}` : '../../assets/images/default-product.jpg'"
+                                        alt="Product Image"
                                         class="card-img-top img-fluid rounded-top"
                                         style="max-height: 200px; width: 100%; object-fit: contain;">
                                 </a>
                             </div>
+
                             <!-- Informations produit -->
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">
                                     <a :href="`/product/${product.id}`" class="text-inherit" x-text="product.name"></a>
                                 </h5>
-                                <p class="card-text text-muted" x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description"></p>
+                                <p class="card-text text-muted" x-text="product.shortdescription.length > 50 ? product.shortdescription.substring(0, 50) + '...' : product.description"></p>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
                                     <a :href="`/buyProduct/${product.id}`" class="btn btn-danger btn-sm">

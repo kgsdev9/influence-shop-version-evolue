@@ -34,7 +34,8 @@
                                 <template x-for="size in sizes" :key="size . id">
                                     <div class="form-check my-1">
                                         <input class="form-check-input" type="checkbox" :value="size . id"
-                                            x-model="selectedSizes" :id="'size-' + size . id" @change="filterProducts()">
+                                            x-model="selectedSizes" :id="'size-' + size . id"
+                                            @change="filterProducts()">
                                         <label class="form-check-label ps-1" :for="'size-' + size . id"
                                             x-text="size.name"></label>
                                     </div>
@@ -107,15 +108,15 @@
                         <div class="col-md-3 mb-4">
                             <div class="card shadow-sm border-light h-100">
                                 <div class="image-container" style="overflow: hidden; position: relative;">
-                                    <img :src="product . images . length ? `/storage/${product . images[0] . imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
+                                    <img :src="product . images . length ? `/s3/${product . images[0] . imagename}` : '../../assets/images/default-product.jpg'" alt="Product Image"
                                         class="card-img-top img-fluid rounded-top"
                                         style="max-height: 200px; width: 100%; object-fit: contain;">
                                 </div>
 
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title">
-                                        <a :href="`{{ route('product.show', '') }}/${product . id}`" class="text-inherit"
-                                            x-text="product.name"></a>
+                                        <a :href="`{{ route('product.show', '') }}/${product . id}`"
+                                            class="text-inherit" x-text="product.name"></a>
                                     </h5>
                                     <p class="card-text text-muted"
                                         x-text="product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description">
@@ -139,63 +140,62 @@
 @endsection
 
 @push('script')
-<script>
-    function productManager() {
-        return {
-            searchQuery: '',  // Recherche par mot-clé
-            selectedCategories: [],  // Catégories sélectionnées
-            selectedSizes: [],  // Tailles sélectionnées
-            selectedColors: [],  // Couleurs sélectionnées
-            categories: @json($categories),  // Catégories récupérées depuis Laravel
-            sizes: @json($sizes),  // Tailles récupérées depuis Laravel
-            colors: @json($colors),  // Couleurs récupérées depuis Laravel
-            products: @json($listeproduct),  // Produits récupérés depuis Laravel
-            filteredProducts: [],  // Liste des produits filtrés
-            isLoading: false,  // Indicateur de chargement
-            priceRange: [0, 1000],  // Plage de prix par défaut (modifiée par l'utilisateur)
-            maxPrice: 1000,  // Prix maximum disponible
+    <script>
+        function productManager() {
+            return {
+                searchQuery: '',  // Recherche par mot-clé
+                selectedCategories: [],  // Catégories sélectionnées
+                selectedSizes: [],  // Tailles sélectionnées
+                selectedColors: [],  // Couleurs sélectionnées
+                categories: @json($categories),  // Catégories récupérées depuis Laravel
+                sizes: @json($sizes),  // Tailles récupérées depuis Laravel
+                colors: @json($colors),  // Couleurs récupérées depuis Laravel
+                products: @json($listeproduct),  // Produits récupérés depuis Laravel
+                filteredProducts: [],  // Liste des produits filtrés
+                isLoading: false,  // Indicateur de chargement
+                priceRange: [0, 1000],  // Plage de prix par défaut (modifiée par l'utilisateur)
+                maxPrice: 1000,  // Prix maximum disponible
 
-            init() {
-                this.filteredProducts = this.products;  // Affiche tous les produits par défaut
-                this.isLoading = false;  // Le chargement est terminé
-            },
+                init() {
+                    this.filteredProducts = this.products;  // Affiche tous les produits par défaut
+                    this.isLoading = false;  // Le chargement est terminé
+                },
 
-            // Filtre les produits en fonction des catégories, tailles, couleurs et prix
-            filterProducts() {
-                console.log('Selected Categories:', this.selectedCategories);
-                console.log('Selected Sizes:', this.selectedSizes);
-                console.log('Selected Colors:', this.selectedColors);
-                console.log('Price Range:', this.priceRange);
+                // Filtre les produits en fonction des catégories, tailles, couleurs et prix
+                filterProducts() {
+                    console.log('Selected Categories:', this.selectedCategories);
+                    console.log('Selected Sizes:', this.selectedSizes);
+                    console.log('Selected Colors:', this.selectedColors);
+                    console.log('Price Range:', this.priceRange);
 
-                this.filteredProducts = this.products.filter(product => {
-                    // Filtrer par catégorie
-                    const categoryMatch = this.selectedCategories.length === 0 || this.selectedCategories.map(String).includes(String(product.category_id));
+                    this.filteredProducts = this.products.filter(product => {
+                        // Filtrer par catégorie
+                        const categoryMatch = this.selectedCategories.length === 0 || this.selectedCategories.map(String).includes(String(product.category_id));
 
-                    // Filtrer par taille
-                    const sizeMatch = this.selectedSizes.length === 0 || product.sizes.some(size => this.selectedSizes.map(String).includes(String(size.id)));
+                        // Filtrer par taille
+                        const sizeMatch = this.selectedSizes.length === 0 || product.sizes.some(size => this.selectedSizes.map(String).includes(String(size.id)));
 
-                    // Filtrer par couleur
-                    const colorMatch = this.selectedColors.length === 0 || product.colors.some(color => this.selectedColors.map(String).includes(String(color.id)));
+                        // Filtrer par couleur
+                        const colorMatch = this.selectedColors.length === 0 || product.colors.some(color => this.selectedColors.map(String).includes(String(color.id)));
 
-                    // Filtrer par prix
-                    const priceMatch = product.price_vente >= this.priceRange[0] && product.price_vente <= this.priceRange[1];
+                        // Filtrer par prix
+                        const priceMatch = product.price_vente >= this.priceRange[0] && product.price_vente <= this.priceRange[1];
 
-                    return categoryMatch && sizeMatch && colorMatch && priceMatch;  // Le produit doit correspondre à tous les filtres
-                });
+                        return categoryMatch && sizeMatch && colorMatch && priceMatch;  // Le produit doit correspondre à tous les filtres
+                    });
 
-                console.log('Filtered Products:', this.filteredProducts);  // Affiche les produits filtrés
-            },
+                    console.log('Filtered Products:', this.filteredProducts);  // Affiche les produits filtrés
+                },
 
-            // Réinitialiser les filtres (catégories, tailles, couleurs et prix)
-            resetFilter() {
-                this.selectedCategories = [];
-                this.selectedSizes = [];
-                this.selectedColors = [];
-                this.priceRange = [0, this.maxPrice];  // Réinitialiser les prix
-                this.filterProducts();  // Appliquer les filtres après réinitialisation
-            },
-        };
-    }
-</script>
+                // Réinitialiser les filtres (catégories, tailles, couleurs et prix)
+                resetFilter() {
+                    this.selectedCategories = [];
+                    this.selectedSizes = [];
+                    this.selectedColors = [];
+                    this.priceRange = [0, this.maxPrice];  // Réinitialiser les prix
+                    this.filterProducts();  // Appliquer les filtres après réinitialisation
+                },
+            };
+        }
+    </script>
 @endpush
-

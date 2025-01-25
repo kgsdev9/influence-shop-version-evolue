@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Taille;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -51,19 +52,20 @@ class ProductController extends Controller
         $product->name = $request->product_name;
         $product->price_achat = $request->product_price;
         $product->price_vente = $request->product_price;
-        $product->description = $request->product_description;
+        $product->minimale_description = $request->product_description;
         $product->shortdescription = $request->product_description;
         $product->qtedisponible = $request->qtedispo;
         $product->category_id = $request->product_category;
+        $product->user_id = Auth::user()->id;
         $product->save();
 
         // Enregistrer les couleurs si elles existent
         if ($request->has('colors')) {
 
-           
+
             foreach ($request->colors as $color) {
                 Couleur::create([
-                    'name' => $color,
+                    'name' => $color ?? '',
                     'product_id' => $product->id,
                 ]);
             }
@@ -82,8 +84,11 @@ class ProductController extends Controller
         // Si des fichiers sont envoyés, les traiter
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
+
+                $originalName = $file->getClientOriginalName();
+
                 // Déplacer chaque fichier dans le répertoire 'products'
-                $path = $file->store('products', 'public'); // Stockage dans 'storage/app/public/products'
+                $path = $file->storeAs('products',  $originalName); // Stockage dans 'storage/app/public/products'
 
                 // Enregistrer les informations du fichier dans la table ProductImage
                 ProductImage::create([

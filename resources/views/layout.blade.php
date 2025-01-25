@@ -15,22 +15,6 @@
     <!-- Inclure le CSS de Toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
-    <!-- Inclure le JavaScript de Toastr -->
-
-
-
-    <style>
-        /* Styles de zoom */
-        .image-container img.zoomed {
-            transform: scale(1.5);
-            /* Zoom à 150% */
-            cursor: zoom-out;
-        }
-
-        .image-container img {
-            cursor: zoom-in;
-        }
-    </style>
 </head>
 
 <body class="bg-white">
@@ -45,22 +29,26 @@
                 <div class="d-flex align-items-center">
                     <div class="dropdown">
                         <a href="{{route('dashboards')}}"
-                            class="btn btn-light btn-icon rounded-circle d-flex align-items-center" type="button">
+                            class="btn btn-light btn-icon rounded-circle d-flex align-items-center mx-2" type="button">
                             <i class="bi bi-person"></i>
 
                         </a>
 
                     </div>
 
+                    @guest
+                        <a href="{{ route('login.form') }}" class="btn btn-outline-dark btn-sm ms-2 d-none d-lg-block mx-2">
+                            <i class="bi bi-box-arrow-in-right"></i> Connexion
+                        </a>
+                    @else
+                        <a type="button" class="btn btn-outline-warning btn-sm" href="{{route('products.create')}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v3h3v2H9v3H7V9H4V7h3V4z"></path>
+                            </svg>
 
-                    {{-- <a href="{{route('cart.home')}}"
-                        class="btn btn-icon btn-light rounded-circle d-none d-md-inline-flex ms-2">
-                        <i class="fe fe-shopping-cart align-middle"></i>
-                    </a> --}}
-                    <a href="{{ route('login.form') }}" class="btn btn-outline-dark btn-sm ms-2 d-none d-lg-block">
-                        <i class="bi bi-box-arrow-in-right"></i> Connexion
-                    </a>
-
+                        </a>
+                    @endguest
 
                     <!-- Button -->
                     <button class="navbar-toggler collapsed ms-2 ms-lg-0" type="button" data-bs-toggle="collapse"
@@ -326,6 +314,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
     <script src="{{ asset('assets/alpine.js') }}" defer></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @stack('script')
 
 </body>
