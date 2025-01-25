@@ -76,8 +76,15 @@ Route::resource('/products', ProductController::class);
 Route::resource('/orders', OrdersController::class);
 Route::resource('/ventes', VenteController::class);
 Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'])->name('begin.payment');
-Route::get('/sucess', [PaymentController::class, 'succespayment'])->name('payment.success');
-Route::get('/failled-payment', [PaymentController::class, 'failledpayment'])->name('payment.failed');
+Route::get('/payementstatus', [PaymentController::class, 'PaymentStatutUpdate'])->name('payment.status');
+Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->name('payment.failed');
+Route::get('/payementsuccess', [PaymentController::class, 'payementSuccess'])->name('payment.success');
+
+
+
+
+
+
 Route::resource('/adresse', PaymentAdresseController::class);
 Route::resource('/category', CategoryController::class);
 Route::resource('/city', CityController::class);

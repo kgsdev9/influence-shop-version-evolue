@@ -10,9 +10,15 @@
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/libs/simplebar/dist/simplebar.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
+    <!-- Inclure le CSS de Toastr -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!-- Inclure le JavaScript de Toastr -->
+
+
+
     <style>
         /* Styles de zoom */
         .image-container img.zoomed {
@@ -41,7 +47,7 @@
                         <a href="{{route('dashboards')}}"
                             class="btn btn-light btn-icon rounded-circle d-flex align-items-center" type="button">
                             <i class="bi bi-person"></i>
-                            
+
                         </a>
 
                     </div>
@@ -318,8 +324,10 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
     <script src="{{ asset('assets/alpine.js') }}" defer></script>
     @stack('script')
+
 </body>
 
 </html>

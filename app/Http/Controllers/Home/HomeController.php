@@ -59,16 +59,24 @@ class HomeController extends Controller
     }
 
 
-
-
-
-
     public function homeProduct()
     {
-        $listeproduct = Product::with('images')->get();
+        $listeproduct = Product::with(['images', 'sizes', 'colors'])->get();
         $categories = Category::has('products')->get();
-        return view('home.product', compact('listeproduct', 'categories'));
+        $sizes = $listeproduct->flatMap(function ($product) {
+            return $product->sizes;
+        })->unique('id');
+        $colors = $listeproduct->flatMap(function ($product) {
+            return $product->colors;
+        })->unique('id');
+
+        // Calculer le prix maximal
+        $maxPrice = $listeproduct->max('price_vente');
+
+        return view('home.product', compact('listeproduct', 'categories', 'sizes', 'colors', 'maxPrice'));
     }
+
+
 
     public function homeBlog()
     {

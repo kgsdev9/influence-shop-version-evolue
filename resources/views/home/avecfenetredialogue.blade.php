@@ -1,5 +1,4 @@
 @extends('layout')
-@section('title')
 @section('content')
     <section class="my-5 mx-3" x-data="formSteps()">
 
@@ -565,10 +564,12 @@
                 // Traitement du paiement
                 async processPayment() {
 
-                    
+                    alert('sss');
                     if (!this.deliverycountryid) {
                         // this.errors.deliverycountryid = 'Le pays de livraison est requis.';
-                        alert('Pays de livraison est réquis');
+                        // alert('Pays de livraison est réquis');
+
+                        toastr.error('Ceci est une alerte simple avec Toastr!');
                         return;
                     }
 
@@ -615,7 +616,11 @@
                             const data = await response.json();
 
                             if (data.payment_url) {
-                                window.location.href = data.payment_url;
+                                window.open(
+                                    data.payment_url,
+                                    'Paiement',
+                                    'width=800,height=600,scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no'
+                                );
                             } else {
                                 alert('Erreur: ' + (data.error || 'URL de paiement introuvable.'));
                             }
