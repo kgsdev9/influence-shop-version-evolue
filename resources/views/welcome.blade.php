@@ -10,10 +10,11 @@
                 <div class="col-lg-6 col-12">
                     <div class="d-flex flex-column gap-4 px-lg-6 p-3">
                         <div class="d-flex flex-column gap-3">
-                            <h1 class="mb-0 display-4 fw-bold">Boostez votre visibilité avec Influence Shop</h1>
-                            <p class="mb-0 pe-xxl-8 me-xxl-5">Connectez-vous aux meilleurs influenceurs pour propulser
-                                vos produits et atteindre une audience ciblée.</p>
+                            <h1 class="mb-0 display-4 fw-bold">Boostez votre marque avec VTP MARKET</h1>
+                            <p class="mb-0 pe-xxl-8 me-xxl-5">Collaborez avec les meilleurs influenceurs pour toucher une audience qualifiée.</p>
                         </div>
+
+
 
                         <div class="input-group shadow">
                             <label for="productSearch" class="form-label visually-hidden">Rechercher un produit</label>
@@ -140,7 +141,7 @@
                 <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
                     <div class="text-center mb-6 d-flex flex-column gap-2">
 
-                        <h2 class="mb-0 mx-xl-12 h1">Découvrez nos campagnes de la semaine</h2>
+                        <h2 class="mb-0 mx-xl-12 h1">Les évenements à ne pas manquer </h2>
                         <!-- Description -->
                         <p class="mb-0">Rejoignez nos influenceurs et profitez des meilleures promotions sur vos
                             produits
@@ -150,127 +151,52 @@
             </div>
 
 
-            <div class="row gy-4">
 
-                @foreach ($compagnes as $compagne)
-                    <div class="col-xxl-3 col-xl-4 col-lg-6 col-12">
-                        <!-- card -->
-                        <div class="card h-100">
-                            <!-- card body -->
-                            <div class="card-body">
-                                <div class="d-flex flex-column gap-4">
-                                    <div class="d-flex flex-column gap-3">
-                                        <!-- heading-->
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <!-- text-->
-
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon-shape icon-lg rounded-3 border p-4">
-                                                    <i class="fe fe-shopping-cart fs-3"></i>
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h4 class="mb-0"><a href="{{ route('detailCompagne', $compagne->id) }}"
-                                                            class="text-inherit">{{ $compagne->name }}</a></h4>
-                                                    <span class="fs-6">{{ $compagne->product->name }}</span>
-                                                </div>
+            <section class="pb-8">
+                <div class="container">
+                    <div class="row">
+                        <template x-for="event in filteredEvents()" :key="event . id">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                                <!-- Card -->
+                                <div class="card mb-4 shadow-lg card-lift">
+                                    <a :href="`/blog/detail/${event . id}`">
+                                        <img src="../assets/images/blog/blogpost-3.jpg" class="card-img-top" alt="blogpost ">
+                                    </a>
+                                    <!-- Card body -->
+                                    <div class="card-body">
+                                        <a :href="`/blog/detail/${event . id}`"
+                                            class="fs-5 fw-semibold d-block mb-3 text-danger" x-text="event.category"></a>
+                                        <h3>
+                                            <a :href="`/blog/detail/${event . id}`" class="text-inherit"
+                                                x-text="event.title"></a>
+                                        </h3>
+                                        <p x-text="event.mini_description"></p>
+                                        <!-- Media content -->
+                                        <div class="row align-items-center g-0 mt-4">
+                                            <div class="col-auto">
+                                                <img src="../assets/images/avatar/avatar-7.jpg" alt="avatar"
+                                                    class="rounded-circle avatar-sm me-2">
                                             </div>
-                                            <!-- dropdown-->
-                                            <div class="d-flex">
-                                                <div class="dropdown dropstart">
-
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownProjectSix">
-                                                        <span class="dropdown-header">Action PUB</span>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fe fe-edit dropdown-item-icon"></i>
-                                                            Edit Details
-                                                        </a>
-
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fe fe-link dropdown-item-icon"></i>
-                                                            Copy project link
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fe fe-save dropdown-item-icon"></i>
-                                                            Save as Default
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <i class="fe fe-copy dropdown-item-icon"></i>
-                                                            Duplicate
-                                                        </a>
-
-
-
-
-                                                    </div>
-                                                </div>
+                                            <div class="col lh-1">
+                                                <h5 class="mb-1" x-text="event.organizer"></h5>
+                                                <p class="fs-6 mb-0" x-text="event.date"></p>
                                             </div>
-                                        </div>
-                                        <!-- para-->
-                                        <div>
-                                            <p class="mb-0">{{ $compagne->description }}</p>
-                                        </div>
-                                    </div>
-                                    <!-- progress -->
-                                    <div class="d-flex justify-content-between align-items-center mb-5">
-                                        <div class="d-flex align-items-center">
-                                            <!-- avatar group -->
-                                            <div class="avatar-group">
-                                                <span class="avatar avatar-md">
-                                                    <img alt="avatar" src="../../assets/images/avatar/avatar-15.jpg"
-                                                        class="rounded-circle imgtooltip" data-template="sixteen ">
-                                                    <span id="sixteen" class="d-none">
-                                                        <small class="fw-semibold">Gilbert Farr</small>
-                                                    </span>
-                                                </span>
-                                                <span class="avatar avatar-md avatar-danger imgtooltip"
-                                                    data-template="textFive">
-                                                    <span class="avatar-initials rounded-circle">GK</span>
-
-                                                    <span id="textFive" class="d-none">
-                                                        <small class="fw-semibold">Geeks Only</small>
-                                                    </span>
-                                                </span>
-                                                <span class="avatar avatar-md">
-                                                    <img alt="avatar" src="../../assets/images/avatar/avatar-17.jpg"
-                                                        class="rounded-circle imgtooltip" data-template="eighteen ">
-                                                    <span id="eighteen" class="d-none">
-                                                        <small class="fw-semibold">Jamie Lusar</small>
-                                                    </span>
-                                                </span>
-                                                <span class="avatar avatar-md">
-                                                    <span
-                                                        class="avatar-initials rounded-circle bg-light text-dark">5+</span>
-                                                </span>
+                                            <div class="col-auto">
+                                                <p class="fs-6 mb-0">20 Minutes</p>
                                             </div>
-                                        </div>
-                                        <!-- text -->
-                                        <div>
-                                            <span class="badge bg-success-soft">En cours</span>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </template>
 
-                            </div>
-                            <!-- card footer -->
-                            <div class="card-footer p-0">
-                                <div class="d-flex justify-content-between">
-                                    <div class="w-50 py-3 px-4">
-                                        <h6 class="mb-0">Date fin :</h6>
-                                        <p class="text-dark fs-6 fw-semibold mb-0">{{ $compagne->end_date }}</p>
-                                    </div>
-                                    <div class="border-start w-50 py-3 px-4">
-                                        <h6 class="mb-0">Budget:</h6>
-                                        <p class="text-dark fs-6 fw-semibold mb-0">{{ $compagne->total_budget }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Button pour charger plus -->
+                       
                     </div>
-                @endforeach
+                </div>
+            </section>
 
 
-
-            </div>
 
 
 
@@ -290,7 +216,7 @@
                 products: [], // Liste complète des produits
                 filteredProducts: [], // Liste des produits filtrés
                 isLoading: true, // Indique si les produits sont en cours de chargement
-
+                blog: @json($listepub),
                 init() {
                     // Simulation du chargement
                     setTimeout(() => {
@@ -309,6 +235,15 @@
                     });
                 },
 
+
+                filteredEvents() {
+
+                if (this.searchQuery === '') {
+                    return this.blog; // Si la recherche est vide, on retourne tous les événements
+                }
+                // Filtrage basé sur le titre de l'événement (case insensitive)
+                return this.blog.filter(event => event.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
+                },
 
 
 

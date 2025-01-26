@@ -32,8 +32,9 @@ class HomeController extends Controller
         // Récupère toutes les campagnes (compagnes)
         $compagnes = Compagne::all();
 
+        $listepub = PubBlog::all();
         // Retourne la vue avec les données nécessaires
-        return view('welcome', compact('listeproduct', 'compagnes', 'categories'));
+        return view('welcome', compact('listeproduct', 'compagnes', 'categories', 'listepub'));
     }
 
 
@@ -46,7 +47,7 @@ class HomeController extends Controller
 
     public function homeCompagne()
     {
-        $compagnes = Compagne::with('product')->get();
+        $compagnes = Compagne::with('product.images')->get();
         $categories  = Category::all();
         return view('home.compagne', compact('compagnes', 'categories'));
     }

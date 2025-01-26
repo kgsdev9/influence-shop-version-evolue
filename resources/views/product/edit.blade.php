@@ -1,21 +1,6 @@
 @extends('layout')
 @section('content')
-    <section class="my-5 mx-3" x-data="formSteps({
-        product_name: '{{ $product->name }}',
-        product_price: '{{ $product->price_vente }}',
-        product_description: '{{ $product->description }}',
-        qtedispo: '{{ $product->qtedisponible }}',
-        product_category: '{{ $product->category_id }}',
-        product_images: {{ json_encode(
-            $product->images->map(function ($image) {
-                return [
-                    'id' => $image->id,
-                    'imagename' => $image->imagename,
-                ];
-            }),
-        ) }}
-    })">
-
+    <section class="my-5 mx-3" x-data="productForm({{ json_encode($product) }}, {{ json_encode($allCategories) }})" x-init="init()">
         <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
             <div class="d-flex flex-column gap-3">
                 <h1 class="mb-0 display-4 fw-bold text-warning"> Modifier un produit </h1>
@@ -72,12 +57,12 @@
                                     <select class="form-select" id="product_category" x-model="form.product_category"
                                         required>
                                         <option value="" selected>Selectionner une catégorie</option>
-                                        @foreach ($allCategories as $category)
-                                            <option value="{{ $category->id }}"
-                                                {{ $product->category_id == $category->id ? 'selected' : '' }}>
-                                                {{ $category->name }}
+                                        <template x-for="category in allCategories" :key="category.id">
+                                            <option :value="category.id"
+                                                x-bind:selected="form.product_category == category.id">
+                                                <span x-text="category.name"></span>
                                             </option>
-                                        @endforeach
+                                        </template>
                                     </select>
                                     <label for="product_category">Catégorie du produit</label>
                                     <template x-if="errors.product_category">
@@ -95,7 +80,7 @@
                                         <div class="col-md-3 col-sm-3 text-center mt-2">
                                             <div class="border rounded shadow-sm p-2 bg-light position-relative">
                                                 <!-- Aperçu de l'image -->
-                                                <img :src="'/storage/' + image.imagename" class="img-fluid rounded"
+                                                <img :src="'/s3/' + image.imagename" class="img-fluid rounded"
                                                     style="max-height: 150px; width: 100%; object-fit: cover;"
                                                     :alt="'Image ' + (index + 1)">
                                             </div>
@@ -113,8 +98,7 @@
                                     <template x-for="(file, index) in files" :key="index">
                                         <div class="col-md-3 col-sm-3 text-center mt-2">
                                             <div class="border rounded shadow-sm p-2 bg-light position-relative"
-                                                style="cursor: pointer;"
-                                                @click="document.getElementById(`fileInput${index}`).click()">
+                                                style="cursor: pointer;" @click="document.getElementById(`fileInput${index}`).click()">
                                                 <template x-if="file.preview">
                                                     <img :src="file.preview" class="img-fluid rounded"
                                                         style="max-height: 150px; width: 100%; object-fit: cover;"
@@ -183,18 +167,24 @@
 
 @push('script')
     <script>
-        function formSteps(initialData) {
+        function productForm(initialData, categories) {
             return {
                 files: [],
-                product_images: initialData.product_images || [],
+                allCategories: categories,
+                product_images: initialData.images || [],
                 form: {
-                    product_name: initialData.product_name,
-                    product_price: initialData.product_price,
-                    product_description: initialData.product_description,
-                    qtedispo: initialData.qtedispo,
-                    product_category: initialData.product_category,
+                    product_name: initialData.name,
+                    product_id:initialData.id,
+                    produy: initialData.name,
+                    product_price: initialData.price_vente,
+                    product_description: initialData.description,
+                    qtedispo: initialData.qtedisponible,
+                    product_category: initialData.category_id,
                 },
                 errors: {},
+                init() {
+
+                },
                 validateStep() {
                     this.errors = {};
                     if (!this.form.product_name) this.errors.product_name = 'Le champ Nom du produit est requis.';
@@ -221,68 +211,68 @@
                     this.files.push({});
                 },
 
-                // Méthode pour supprimer une image
                 removeImage(imageId) {
-                    // Filtrer les images restantes après suppression
                     this.product_images = this.product_images.filter(image => image.id !== imageId);
-                    // Si vous devez aussi envoyer une requête pour supprimer l'image côté serveur, ajoutez cela ici.
                     console.log(`Image avec l'ID ${imageId} supprimée.`);
                 },
+
                 async updateProduct() {
-                    if (!this.validateStep()) {
-                        alert("Veuillez corriger les erreurs avant de soumettre.");
-                        return;
-                    }
+    if (!this.validateStep()) {
+        alert("Veuillez corriger les erreurs avant de soumettre.");
+        return;
+    }
 
-                    const formData = new FormData();
+    // Créer l'objet FormData
+    const formData = new FormData();
 
-                    // Ajouter les fichiers au FormData
-                    this.files.forEach((fileObj, index) => {
-                        if (fileObj.file) {
-                            formData.append(`files[${index}]`, fileObj.file);
-                        }
-                    });
+    // Ajouter les champs de données du formulaire à FormData
+    formData.append('product_name', this.form.product_name);
+    formData.append('product_id', this.form.product_id);
+    formData.append('product_price', this.form.product_price);
+    formData.append('product_description', this.form.product_description);
+    formData.append('qtedispo', this.form.qtedispo);
+    formData.append('product_category', this.form.product_category);
 
-                    // Ajouter les autres champs du formulaire
-                    for (const [key, value] of Object.entries(this.form)) {
-                        formData.append(key, value);
-                    }
+    // Ajouter les fichiers (images) au FormData
+    this.files.filter(fileObj => fileObj.file).forEach((fileObj, index) => {
+        formData.append(`images[${index}]`, fileObj.file);
+    });
 
-                    try {
-                        const response = await fetch('{{ route('products.update', $product->id) }}', {
-                            method: 'PATCH',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: formData
-                        });
+    try {
+        const response = await fetch('{{ route('products.store') }}', {
+            method: 'POST', // Utiliser POST pour créer un nouveau produit
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Token CSRF pour la sécurité
+            },
+            body: formData, // Envoie FormData (contenu avec les images et données texte)
+        });
 
-                        if (response.ok) {
-                            const data = await response.json();
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Produit mis à jour avec succès !',
-                                showConfirmButton: true
-                            });
+        if (response.ok) {
+            const data = await response.json();
+            Swal.fire({
+                icon: 'success',
+                title: 'Produit créé avec succès !',
+                showConfirmButton: true,
+            });
 
-                            window.location.href = '/products';
+            window.location.href = '/products'; // Redirection après succès
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erreur lors de la création.',
+                showConfirmButton: true,
+            });
+        }
+    } catch (error) {
+        console.error('Erreur réseau :', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Une erreur est survenue.',
+            showConfirmButton: true,
+        });
+    }
+}
 
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erreur lors de la mise à jour.',
-                                showConfirmButton: true
-                            });
-                        }
-                    } catch (error) {
-                        console.error('Erreur réseau :', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Une erreur est survenue.',
-                            showConfirmButton: true
-                        });
-                    }
-                }
             }
         }
     </script>

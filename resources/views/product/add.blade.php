@@ -261,6 +261,7 @@
                     product_price: '',
                     product_description: '',
                     qtedispo: '',
+                    product_id: null,
                     product_category: '',
                 },
 
@@ -352,6 +353,8 @@
 
                     const formData = new FormData();
 
+
+                    formData.append('product_id', null);
                     // Vérification que les objets file existent avant de les ajouter au FormData
                     this.files.forEach((fileObj, index) => {
                         console.log('Checking fileObj:', fileObj); // Vérification de chaque élément
