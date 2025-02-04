@@ -149,14 +149,14 @@
                     <li class="nav-item {{ request()->routeIs('dashboards') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('dashboards') }}">
                             <i class="fe fe-settings nav-icon"></i>
-                            Edition Profile
+                            Mon Profile
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <button class="nav-link btn disabled" type="button" disabled>
                             <i class="fe fe-trash nav-icon"></i>
-                            Supprimer mon compte
+                           Compte
                         </button>
                     </li>
                     <li class="nav-item">

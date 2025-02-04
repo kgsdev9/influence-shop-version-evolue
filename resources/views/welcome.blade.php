@@ -3,8 +3,8 @@
 @section('content')
 <main x-data="productManager()">
 
-    <section class="py-md-8 py-6"
-        style="background-image: url(../assets/images/mentor/mentor-glow.svg); background-repeat: no-repeat; background-size: contain">
+    <section class="py-md-8 py-2"
+        >
         <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
             <div class="row align-items-center gy-5 gy-xl-0">
                 <div class="col-lg-6 col-12">
@@ -13,8 +13,6 @@
                             <h1 class="mb-0 display-4 fw-bold">Boostez votre marque avec VTP MARKET</h1>
                             <p class="mb-0 pe-xxl-8 me-xxl-5">Collaborez avec les meilleurs influenceurs pour toucher une audience qualifiée.</p>
                         </div>
-
-
 
                         <div class="input-group shadow">
                             <label for="productSearch" class="form-label visually-hidden">Rechercher un produit</label>
@@ -191,7 +189,7 @@
                         </template>
 
                         <!-- Button pour charger plus -->
-                       
+
                     </div>
                 </div>
             </section>

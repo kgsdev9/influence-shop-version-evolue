@@ -63,8 +63,8 @@ class OrdersController extends Controller
 
     public function show($id)
     {
-        $order = Order::find($id);
-        return view('dashboard.orders.detail', compact('order'));
+        $commande = Order::find($id);
+        return view('dashboard.orders.detail', compact('commande'));
     }
 
     /**

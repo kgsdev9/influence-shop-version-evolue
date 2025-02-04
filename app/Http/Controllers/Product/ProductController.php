@@ -132,8 +132,6 @@ class ProductController extends Controller
             }
         }
 
-
-
         return response()->json(['message' => 'Produit mis à jour avec succès']);
     }
 

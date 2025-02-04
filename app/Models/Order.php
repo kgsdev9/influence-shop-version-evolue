@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -30,7 +31,23 @@ class Order extends Model
         'delivery_time',
     ];
 
-    public function user(){
-        
+    public function user()
+    {
+        return $this->BelongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->BelongsTo(Product::class);
+    }
+
+    public function adresse()
+    {
+        return $this->BelongsTo(PaymentAdresse::class, 'paymentaresse_id');
+    }
+
+    public function deliverycontry()
+    {
+        return $this->BelongsTo(PriceDeliveryByCountry::class, 'pricedeliverybycountry_id');
     }
 }

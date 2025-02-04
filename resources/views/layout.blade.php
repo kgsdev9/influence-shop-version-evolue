@@ -12,7 +12,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
-    <!-- Inclure le CSS de Toastr -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
 </head>
@@ -99,7 +98,7 @@
 
 
 
-    <footer class="pt-lg-8 pt-5 footer bg-white">
+    <footer class="pt-lg-8 pt-5 footer bg-dark">
         <div class="container mt-lg-2">
             <div class="row">
                 <div class="col-lg-4 col-md-6 col-12">
@@ -149,7 +148,7 @@
                 <div class="offset-lg-1 col-lg-2 col-md-3 col-6">
                     <div class="mb-4">
                         <!-- list -->
-                        <h3 class="fw-bold mb-3">Ressources</h3>
+                        <h3 class="fw-bold mb-3">RESSOURCES</h3>
                         <ul class="list-unstyled nav nav-footer flex-column nav-x-0">
                             <li><a href="#" class="nav-link">A Propos</a></li>
                             <li><a href="{{ route('product.home') }}" class="nav-link">Nos Produits</a></li>
@@ -200,11 +199,11 @@
                     <div class="d-lg-flex align-items-center">
                         <div class="me-4">
                             <span>
-                                ©
+                                ©  2024 - &nbsp;
                                 <span id="copyright5">
                                     <script>
                                         document.getElementById("copyright5").appendChild(document.createTextNode(new Date().getFullYear()));
-                                    </script>2024
+                                    </script>
                                 </span>
                                 VTP GROUP
                             </span>

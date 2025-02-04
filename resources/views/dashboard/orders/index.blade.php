@@ -54,13 +54,13 @@
                                                             <i class="fe fe-file-text nav-icon"></i>
 
                                                             <!-- Optionnel : texte ou autre contenu à côté -->
-                                                            <a href="#" class="text-inherit">
+                                                            <a :href="'/orders/' + product.id" class="text-inherit">
                                                                 <div>
                                                                     <h5 class="mb-0 text-primary-hover"
                                                                         x-text="product.reference"></h5>
                                                                 </div>
                                                             </a>
-                                                          </div>
+                                                        </div>
 
                                                     </td>
 
@@ -100,12 +100,13 @@
                                                         <template x-if="product.status === 'pending'">
                                                             <div class="d-flex gap-3">
                                                                 <!-- Bouton Finaliser l'achat -->
-                                                                <button class="btn btn-outline-success">
-                                                                    <i class="fe fe-shopping-cart nav-icon"></i>
+                                                                <button class="btn btn-outline-success"
+                                                                    @click="processPayment(product.id)">
+                                                                    <i class="fe fe-credit-card nav-icon"></i>
                                                                 </button>
-
                                                                 <!-- Bouton Supprimer -->
-                                                                <button class="btn btn-outline-danger">
+                                                                <button @click="deleteOrders(product.id)"
+                                                                    class="btn btn-outline-danger">
                                                                     <i class="fe fe-trash-2 nav-icon"></i>
                                                                 </button>
                                                             </div>
@@ -114,12 +115,11 @@
 
                                                         <template x-if="product.status === 'succes'">
                                                             <div class="d-flex gap-2">
-                                                                <button class="btn btn-dark"><i class="fe fe-printer nav-icon"></i>                                                                </button>
-                                                                <button class="btn btn-success"><i class="fe fe-truck nav-icon"></i>
+                                                                <button class="btn btn-dark"><i
+                                                                        class="fe fe-printer nav-icon"></i> </button>
+                                                                <button class="btn btn-success"><i
+                                                                        class="fe fe-truck nav-icon"></i>
                                                                 </button>
-
-
-
                                                             </div>
                                                         </template>
 
@@ -188,51 +188,6 @@
                     category_id: ''
                 },
                 currentProduct: null,
-
-                hideModal() {
-
-                    this.showModal = false;
-                    this.currentProduct = null;
-                    this.resetForm();
-                    this.isEdite = false;
-                },
-
-                openModal(product = null) {
-                    this.isEdite = product !== null;
-                    if (this.isEdite) {
-                        this.currentProduct = {
-                            ...product
-                        };
-                        this.formData = {
-                            name: this.currentProduct.libelleproduct,
-                            prixachat: this.currentProduct.prixachat,
-                            prixvente: this.currentProduct.prixvente,
-                            category_id: this.currentProduct.category.id,
-                            image: null,
-
-                        };
-                    } else {
-                        this.resetForm();
-
-                        this.isEdite = false;
-                    }
-                    this.showModal = true;
-                },
-
-                handleFileChange(event) {
-                    this.formData.image = event.target.files[0];
-                },
-
-                resetForm() {
-                    this.formData = {
-                        name: '',
-                        prixachat: '',
-                        prixvente: '',
-                        category_id: '',
-                        image: null,
-                    };
-                    document.getElementById('image').value = '';
-                },
 
 
                 async submitForm() {
@@ -319,6 +274,46 @@
                     }
                 },
 
+                async processPayment(productId) {
+
+                    const formData = new FormData();
+                    formData.append('product_id', productId);
+                    formData.append('argument', 2);
+
+                    try {
+                        const response = await fetch('{{ route('begin.payment') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+
+                            if (data.payment_url) {
+                                window.location.href = data.payment_url;
+                            } else {
+                                alert('Erreur: ' + (data.error || 'URL de paiement introuvable.'));
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur lors de l\'enregistrement.',
+                                showConfirmButton: true
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Erreur réseau :', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Une erreur est survenue.',
+                            showConfirmButton: true
+                        });
+                    }
+                },
+
 
                 get paginatedProducts() {
                     let start = (this.currentPage - 1) * this.productsPerPage;
@@ -338,74 +333,12 @@
                     this.currentPage = 1;
                 },
 
-
-                printProducts() {
-                    let printContent = '<h1>Liste des Produits</h1>';
-                    printContent +=
-                        '<table border="1"><thead><tr><th>ID</th><th>Nom</th><th>Catégorie</th></tr></thead><tbody>';
-
-                    this.filteredProducts.forEach(product => {
-                        printContent +=
-                            `<tr><td>${product.id}</td><td>${product.libelleproduct}</td><td>${product.category.libellecategorieproduct}</td></tr>`;
-                    });
-
-                    printContent += '</tbody></table>';
-
-                    const printWindow = window.open('', '', 'height=500,width=800');
-                    printWindow.document.write('<html><head><title>Impression des produits</title></head><body>');
-                    printWindow.document.write(printContent);
-                    printWindow.document.write('</body></html>');
-                    printWindow.document.close();
-                    printWindow.print();
-                },
-
-                exportProducts() {
-                    let csvContent = "ID,Nom,Catégorie\n";
-
-                    this.filteredProducts.forEach(product => {
-                        csvContent +=
-                            `${product.id},${product.libelleproduct},${product.category.libellecategorieproduct}\n`;
-                    });
-
-                    // Créer un fichier CSV et le télécharger
-                    const blob = new Blob([csvContent], {
-                        type: 'text/csv;charset=utf-8;'
-                    });
-                    const link = document.createElement("a");
-                    const url = URL.createObjectURL(blob);
-                    link.setAttribute("href", url);
-                    link.setAttribute("download", "produits_filtrés.csv");
-                    link.click();
-                },
-
-
-                filterByCategory() {
-                    // Réinitialiser filteredProducts à la liste complète des produits
-                    this.filteredProducts = this.products;
-
-                    if (this.selectedCategory) {
-                        // Appliquer le filtre sur les produits par catégorie
-                        this.filteredProducts = this.filteredProducts.filter(product => product.category.id === parseInt(
-                            this.selectedCategory));
-                    }
-
-                    // Optionnel : Appliquer également un filtrage par recherche textuelle (si nécessaire)
-                    if (this.searchTerm) {
-                        this.filteredProducts = this.filteredProducts.filter(product => {
-                            return product.libelleproduct.toLowerCase().includes(this.searchTerm.toLowerCase());
-                        });
-                    }
-
-                    // Calculer le nombre de pages en fonction du nombre de produits filtrés
-                    this.totalPages = Math.ceil(this.filteredProducts.length / this.productsPerPage);
-                },
-
-                async deleteProduct(productId) {
+                async deleteOrders(paymentId) {
                     try {
                         const url =
-                            `{{ route('products.destroy', ['product' => '__ID__']) }}`.replace(
+                            `{{ route('destroy.payment', ['paymentId' => '__ID__']) }}`.replace(
                                 "__ID__",
-                                productId
+                                paymentId
                             );
 
                         const response = await fetch(url, {
@@ -426,7 +359,7 @@
                                 });
 
                                 // Retirer le produit de la liste `this.products`
-                                this.products = this.products.filter(product => product.id !== productId);
+                                this.products = this.products.filter(product => product.id !== paymentId);
 
                                 // Après suppression, appliquer le filtre pour mettre à jour la liste affichée
                                 this.filterProducts();

@@ -84,10 +84,7 @@ Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'
 Route::get('/payementstatus', [PaymentController::class, 'PaymentStatutUpdate'])->name('payment.status');
 Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->name('payment.failed');
 Route::get('/payementsuccess', [PaymentController::class, 'payementSuccess'])->name('payment.success');
-
-
-
-
+Route::delete('delete/payment/{paymentId}', [PaymentController::class, 'destroy'])->name('destroy.payment');
 
 
 Route::resource('/adresse', PaymentAdresseController::class);

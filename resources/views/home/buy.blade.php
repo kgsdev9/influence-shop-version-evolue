@@ -364,14 +364,14 @@
                 listedeveliryPriceByCountries: @json($listedeveliryPriceByCountries),
                 files: [],
                 pricedelivery: 0,
-                deliverycountryid:'',
+                deliverycountryid: '',
                 showModal: false,
                 selectedAdresse: null,
-                adressepaymentid:null,
-                telephone:'',
-                city:'',
-                adresse:'',
-                netapyer:0,
+                adressepaymentid: null,
+                telephone: '',
+                city: '',
+                adresse: '',
+                netapyer: 0,
                 quantite: 1,
                 form: {
                     country_origine: '',
@@ -471,7 +471,7 @@
 
                 selectCountry(deliveryprice) {
 
-                    this.deliverycountryid  = deliveryprice.id;
+                    this.deliverycountryid = deliveryprice.id;
                     this.form.country_origine = deliveryprice.country_start + ' - ' + deliveryprice.country_destination;
                     this.pricedelivery = deliveryprice.prix;
 
@@ -564,8 +564,6 @@
 
                 // Traitement du paiement
                 async processPayment() {
-
-
                     if (!this.deliverycountryid) {
                         // this.errors.deliverycountryid = 'Le pays de livraison est requis.';
                         alert('Pays de livraison est réquis');
@@ -573,15 +571,13 @@
                     }
 
 
-                    if (!this.selectedAdresse)
-                    {
+                    if (!this.selectedAdresse) {
                         alert('adresse paiemnts');
                         return;
                         this.errors.selectedAdresse = 'Vous devez sélectionner une adresse de paiement.';
                     }
 
-                    if (!this.adressepyament)
-                    {
+                    if (!this.adressepyament) {
                         alert('adresse paiemnts');
                         return;
                         this.errors.selectedAdresse = 'Vous devez sélectionner une adresse de paiement.';
@@ -600,7 +596,7 @@
                     formData.append('city', this.city);
                     formData.append('adresse', this.adresse);
                     formData.append('qtecmde', this.quantite);
-
+                    formData.append('arg', 1);
 
                     try {
                         const response = await fetch('{{ route('begin.payment') }}', {

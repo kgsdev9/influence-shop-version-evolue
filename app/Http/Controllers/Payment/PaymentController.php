@@ -71,83 +71,142 @@ class PaymentController extends Controller
     public function initialisePayment(Request $request)
     {
 
-        $userId = auth()->user()->id;
+        if ($request->arg == 1) {
+            $userId = auth()->user()->id;
 
-        $referenceTransaction = $this->generateTransactionReference(date('y'));
+            $referenceTransaction = $this->generateTransactionReference(date('y'));
 
-        $order = new Order();
-        $order->reference = $referenceTransaction;
-        $order->user_id = $userId;
-        $order->codeinfluenceur = $request->codeinfluenceur;
-        $order->entreprise_id = $request->entreprise_id ?? 1;
-        $order->cost_delivery = $request->pricedelivery;
-        $order->compagne_id = $request->compagneid ?? 1;
-        $order->qtecmde = $request->qtecmde;
-        $order->paymentaresse_id = $request->adressepaymentid;
-        $order->influenceur_id = $request->idinfulenceur;
-        $order->product_id = $request->product_id;
-        $order->montantht = $request->netapyer;
-        $order->montanttva = 0;
-        $order->montanttc = $request->netapyer;
-        $order->status = 'pending';
-        $order->shipping_address = $request->adresse;
-        $order->pricedeliverybycountry_id = $request->deliverycountryid;
-        $order->save();
+            $order = new Order();
+            $order->reference = $referenceTransaction;
+            $order->user_id = $userId;
+            $order->codeinfluenceur = $request->codeinfluenceur;
+            $order->entreprise_id = $request->entreprise_id ?? 1;
+            $order->cost_delivery = $request->pricedelivery;
+            $order->compagne_id = $request->compagneid ?? 2;
+            $order->qtecmde = $request->qtecmde;
+            $order->paymentaresse_id = $request->adressepaymentid;
+            $order->influenceur_id = $request->idinfulenceur;
+            $order->product_id = $request->product_id;
+            $order->montantht = $request->netapyer;
+            $order->montanttva = 0;
+            $order->montanttc = $request->netapyer;
+            $order->status = 'pending';
+            $order->shipping_address = $request->adresse;
+            $order->pricedeliverybycountry_id = $request->deliverycountryid;
+            $order->save();
 
-        $returnContext = json_encode([
-            'user_id' => $userId,
-            'transaction_id' => $order->id,
-            'reference' => $order->reference,
-            'data' => true
-        ]);
+            $returnContext = json_encode([
+                'user_id' => $userId,
+                'transaction_id' => $order->id,
+                'reference' => $order->reference,
+                'data' => true
+            ]);
 
-        $data = [
-            'merchantId' => "PP-F2197",
-            'amount' => '1',
-            'description' => $request->productname,
-            'channel' => 'ORANGE CI',
-            'countryCurrencyCode' => "FCFA",
-            'referenceNumber' => $referenceTransaction,
-            'customerEmail' => Auth::user()->email,
-            'customerFirstName' => Auth::user()->name,
-            'customerLastname' => Auth::user()->name,
-            'customerPhoneNumber' => $request->telephone,
-            'notificationURL' => route('payment.status'),
-            'returnURL'  => route('payment.status'),
-            'returnContext' => $returnContext,
-        ];
+            $data = [
+                'merchantId' => "PP-F2197",
+                'amount' => '1',
+                'description' => $request->productname,
+                'channel' => 'ORANGE CI',
+                'countryCurrencyCode' => "FCFA",
+                'referenceNumber' => $referenceTransaction,
+                'customerEmail' => Auth::user()->email,
+                'customerFirstName' => Auth::user()->name,
+                'customerLastname' => Auth::user()->name,
+                'customerPhoneNumber' => $request->telephone,
+                'notificationURL' => route('payment.status'),
+                'returnURL'  => route('payment.status'),
+                'returnContext' => $returnContext,
+            ];
 
-        // Configuration cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://www.paiementpro.net/webservice/onlinepayment/init/curl-init.php");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json; charset=utf-8']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // Configuration cURL
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://www.paiementpro.net/webservice/onlinepayment/init/curl-init.php");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json; charset=utf-8']);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        // Exécution de la requête
-        $response = curl_exec($ch);
+            // Exécution de la requête
+            $response = curl_exec($ch);
 
-        // Gestion des erreurs cURL
-        if (curl_errno($ch)) {
-            return response()->json(['error' => 'Erreur de communication avec le service de paiement.'], 500);
+            // Gestion des erreurs cURL
+            if (curl_errno($ch)) {
+                return response()->json(['error' => 'Erreur de communication avec le service de paiement.'], 500);
+            }
+
+            curl_close($ch);
+
+            // Décodage de la réponse
+            $obj = json_decode($response);
+            if (!isset($obj->url)) {
+                return response()->json(['error' => 'URL de paiement non reçue.'], 500);
+            }
+
+            // URL de paiement
+            $urlPayement = $obj->url;
+
+            // Retourner la réponse en JSON
+            return response()->json(['payment_url' => $urlPayement], 200);
+        } else {
+
+            $order  = Order::find($request->product_id);
+            $returnContext = json_encode([
+                'user_id' => $order->user_id,
+                'transaction_id' => $order->id,
+                'reference' => $order->reference,
+                'data' => true
+            ]);
+
+            $data = [
+                'merchantId' => "PP-F2197",
+                'amount' => '1',
+                'description' => $order->product->name,
+                'channel' => 'ORANGE CI',
+                'countryCurrencyCode' => "FCFA",
+                'referenceNumber' => $order->reference,
+                'customerEmail' => Auth::user()->email,
+                'customerFirstName' => Auth::user()->name,
+                'customerLastname' => Auth::user()->name,
+                'customerPhoneNumber' => "+225088776777",
+                'notificationURL' => route('payment.status'),
+                'returnURL'  => route('payment.status'),
+                'returnContext' => $returnContext,
+            ];
+
+            // Configuration cURL
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://www.paiementpro.net/webservice/onlinepayment/init/curl-init.php");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json; charset=utf-8']);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            // Exécution de la requête
+            $response = curl_exec($ch);
+
+            // Gestion des erreurs cURL
+            if (curl_errno($ch)) {
+                return response()->json(['error' => 'Erreur de communication avec le service de paiement.'], 500);
+            }
+
+            curl_close($ch);
+
+            // Décodage de la réponse
+            $obj = json_decode($response);
+            if (!isset($obj->url)) {
+                return response()->json(['error' => 'URL de paiement non reçue.'], 500);
+            }
+
+            // URL de paiement
+            $urlPayement = $obj->url;
+
+            // Retourner la réponse en JSON
+            return response()->json(['payment_url' => $urlPayement], 200);
         }
-
-        curl_close($ch);
-
-        // Décodage de la réponse
-        $obj = json_decode($response);
-        if (!isset($obj->url)) {
-            return response()->json(['error' => 'URL de paiement non reçue.'], 500);
-        }
-
-        // URL de paiement
-        $urlPayement = $obj->url;
-
-        // Retourner la réponse en JSON
-        return response()->json(['payment_url' => $urlPayement], 200);
     }
 
 
@@ -185,7 +244,7 @@ class PaymentController extends Controller
             if ($order)  // commande exite
             {
                 $order->update([
-                    'status' => 'paye',
+                    'status' => 'succes',
                 ]);
 
                 return redirect()->route('payment.success')->with('sucess', 'Commande validée avec succés.');
@@ -207,5 +266,32 @@ class PaymentController extends Controller
     public function payementSuccess()
     {
         return view('home.sucesspayment');
+    }
+
+
+    public function destroy($id)
+    {
+        try {
+            // Rechercher le produit par ID
+            $orders = Order::findOrFail($id);
+
+            // Supprimer le paiement
+            $orders->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'paiement supprimé avec succès.',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'paiement introuvable.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la suppression du paiement.',
+            ], 500);
+        }
     }
 }

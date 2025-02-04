@@ -22,54 +22,20 @@
 
                                     <div class="col-md-4 col-12">
                                         <span class="fs-6">Client </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->telephone }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-2 col-12">
-                                        <span class="fs-6">Télephone </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->telephone }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-3 col-12">
-                                        <span class="fs-6">Email </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->email }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-3 col-12">
-                                        <span class="fs-6">Ville </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->city }}</h5>
+                                        <h5 class="mb-3">{{ $commande->fullname }}</h5>
 
                                     </div>
                                 </div>
                                 <!-- Row -->
                                 <div class="row mb-5">
-                                    <div class="col-4">
+                                    <div class="col-8">
                                         <span class="fs-6">Code commande</span>
-                                        <h6 class="mb-0">{{ $commande->reference }}</h6>
+                                        <h6 class="mb-0">{{ $commande->codeCommande }}</h6>
                                     </div>
                                     <div class="col-4">
                                         <span class="fs-6">Date </span>
                                         <h6 class="mb-0">{{ $commande->created_at }}</h6>
                                     </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Adresse </span>
-                                        <h6 class="mb-0">{{ $commande->adresse->adresse }}</h6>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Pays de destination </span>
-                                        <h6 class="mb-0">{{ $commande->deliverycontry->country_start }}</h6>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Pays d'arrivée </span>
-                                        <h6 class="mb-0">{{ $commande->deliverycontry->country_destination }}</h6>
-                                    </div>
-
                                 </div>
                                 <!-- Table -->
                                 <div class="table-responsive mb-8">
@@ -79,26 +45,22 @@
                                                 <th>Désignation</th>
                                                 <th>Quantite</th>
                                                 <th>Prix</th>
-                                                <th>Prix Livraison</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr class="text-dark">
                                                 <td>
-                                                    {{ $commande->product->name }}
+                                                    {{-- {{$commande->course->title}} --}}
+
                                                 </td>
-                                                <td> {{ $commande->qtecmde }}</td>
-                                                <td> {{ $commande->product->price_vente }} € </td>
-                                                <td> {{ $commande->cost_delivery }} € </td>
-                                                <td>{{ $commande->montanttc }} € </td>
+                                                <td>1</td>
+                                                <td> {{ $commande->amount }} € soit {{ $commande->amount * 650 }} FCFA </td>
+                                                <td>{{ $commande->amount }} € </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
