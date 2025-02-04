@@ -16,14 +16,15 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Nom du produit
-            $table->text('minimale_description');
+            $table->text('description');
+            $table->string('codeproduct')->unique();
             $table->decimal('price_achat', 15, 2); // Prix d'achat
             $table->decimal('price_vente', 15, 2); // Prix de vente
             $table->unsignedBigInteger('user_id')->nullable(); // Référence de l'entreprise
-            $table->string('shortdescription')->nullable(); // Courte description
+            $table->text('shortdescription')->nullable(); // Courte description
             $table->unsignedBigInteger('category_id'); // Catégorie du produit
             $table->integer('qtedisponible')->default(0); // Quantité disponible
-            $table->string('status')->default('active'); // Statut du produit (ex. : "active", "inactive")
+            $table->string('status  ')->default('active'); // Statut du produit (ex. : "active", "inactive")
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
