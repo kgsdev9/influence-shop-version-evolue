@@ -9,9 +9,8 @@
                     <div class="col-lg-6 col-12">
                         <div class="d-flex flex-column gap-4 px-lg-6 p-3">
                             <div class="d-flex flex-column gap-3">
-                                <h1 class="mb-0 display-4 fw-bold">Boostez votre marque avec VTP MARKET</h1>
-                                <p class="mb-0 pe-xxl-8 me-xxl-5">Collaborez avec les meilleurs influenceurs pour toucher une
-                                    audience qualifiée.</p>
+                                <h1 class="mb-0 display-4 fw-bold">Donnez un coup de boost à votre marque</h1>
+                                <p class="mb-0 pe-xxl-8 me-xxl-5">Partenairez avec les influenceurs les plus impactants pour atteindre une audience ciblée et engagée.</p>
                             </div>
 
                             <div class="input-group shadow">
