@@ -1,3 +1,36 @@
+ajoute ces champs dans mon modal pour ouvrir et le modal doit etre plus large row col-md-6 pour chaque et n'oublie l'image doit etre personnlisé pour qu'on voit ce qu'on ajoute  et modife l'input immage je veux dire  'price','image   'date_event_debut',   'date_event_fin',
+
+inspire toi de ca
+
+<div class="col-md-3 col-sm-3 text-center mt-2">
+                                            <div class="border rounded shadow-sm p-2 bg-light position-relative"
+                                                style="cursor: pointer; border: 1px solid #ddd;"
+                                                @click="document.getElementById(fileInput${index}).click()">
+                                                <!-- Aperçu de l'image -->
+                                                <template x-if="file.preview">
+                                                    <img :src="file . preview" class="img-fluid rounded"
+                                                        style="max-height: 150px; width: 100%; object-fit: cover;"
+                                                        alt="Aperçu">
+                                                </template>
+                                                <template x-if="!file.preview">
+                                                    <div class="d-flex align-items-center justify-content-center"
+                                                        style="height: 150px;">
+                                                        <i class="bi bi-camera"
+                                                            style="font-size: 2rem; color: #6c757d;"></i>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-sm mt-2"
+                                                @click="files.splice(index, 1)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                                                    <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z" />
+                                                </svg>
+                                            </button>
+                                            <input type="file" :id="'fileInput' + index" class="d-none" accept="image/*"
+                                                @change="handleFileChange($event, index)">
+                                        </div>
+
 @extends('layout')
 @section('title', 'Gestion des publicités')
 @section('content')
@@ -101,7 +134,7 @@
         <!-- Modal de création/édition -->
         <template x-if="showModal">
             <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
@@ -109,97 +142,41 @@
                         </div>
                         <div class="modal-body">
                             <form @submit.prevent="submitForm">
-                                <!-- Champ Titre et Description courte -->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="title" class="form-label">Titre</label>
-                                        <input type="text" id="title" class="form-control" x-model="formData.title"
-                                            required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Titre</label>
+                                    <input type="text" id="title" class="form-control" x-model="formData.title"
+                                        required>
+                                </div>
 
+                                <div class="mb-3">
+                                    <label for="mini_description" class="form-label">Description courte</label>
+                                    <input type="text" id="mini_description" class="form-control"
+                                        x-model="formData.mini_description" required>
+                                </div>
 
-                                    <div class="col-md-6">
-                                        <label for="price" class="form-label">Prix</label>
-                                        <input type="number" id="price" class="form-control" x-model="formData.price"
-                                            required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description complète</label>
+
+                                    <trix-editor input="description" x-ref="description" @trix-change="updateDescription"></trix-editor>
 
                                 </div>
 
-                                <!-- Champ courte descritpion-->
-                                <div class="row">
-
-                                    <div class="col-md-12">
-                                        <label for="mini_description" class="form-label">Description courte</label>
-                                        <input type="text" id="mini_description" class="form-control"
-                                            x-model="formData.mini_description" required>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="temps_lecture" class="form-label">Temps de lecture</label>
+                                    <input type="text" id="temps_lecture" class="form-control"
+                                        x-model="formData.temps_lecture" required>
                                 </div>
 
 
-                                <!-- Champ Description complète -->
-                                <div class="mb-3 row">
-                                    <div class="col-md-12">
-                                        <label for="description" class="form-label">Description complète</label>
-                                        <trix-editor input="description" x-ref="description"
-                                            @trix-change="updateDescription"></trix-editor>
-                                    </div>
-                                </div>
 
-
-                                <!-- Champ Date début et Date fin -->
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="date_event_debut" class="form-label">Date de début de
-                                            l'événement</label>
-                                        <input type="date" id="date_event_debut" class="form-control"
-                                            x-model="formData.date_event_debut" required>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label for="date_event_fin" class="form-label">Date de fin de l'événement</label>
-                                        <input type="date" id="date_event_fin" class="form-control"
-                                            x-model="formData.date_event_fin" required>
-                                    </div>
-                                </div>
-
-                                <!-- Champ Image -->
-                                <div class="mb-3 row">
-                                    <div class="col-md-12">
-                                        <label for="image" class="form-label">Image</label>
-                                        <div class="border rounded shadow-sm p-2 bg-light position-relative"
-                                            style="cursor: pointer; border: 1px solid #ddd;"
-                                            @click="document.getElementById('imageInput').click()">
-                                            <template x-if="formData.image_preview">
-                                                <img :src="formData.image_preview" class="img-fluid rounded"
-                                                    style="max-height: 150px; width: 100%; object-fit: cover;"
-                                                    alt="Aperçu">
-                                            </template>
-                                            <template x-if="!formData.image_preview">
-                                                <div class="d-flex align-items-center justify-content-center"
-                                                    style="height: 150px;">
-                                                    <i class="bi bi-camera" style="font-size: 2rem; color: #6c757d;"></i>
-                                                </div>
-                                            </template>
-                                        </div>
-                                        <input type="file" id="imageInput" class="d-none" accept="image/*"
-                                            @change="handleImageChange">
-                                    </div>
-                                </div>
-
-                                <!-- Bouton de soumission -->
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-primary"
-                                        x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
-                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                    x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </template>
-
-
     </main>
 
 @endsection
@@ -221,11 +198,8 @@
                     mini_description: '',
                     description: '',
                     temps_lecture: '',
-                    price: '',
-                    date_event_debut: '',
-                    date_event_fin: '',
-                    image_preview: null, // Pour l'aperçu de l'image
-                    image: null, // Pour stocker l'image choisie
+                    publish_at: '',
+                    blog_id: null
                 },
                 currentBlog: null,
 
@@ -236,49 +210,40 @@
                 },
 
                 openModal(blog = null) {
-                    this.isEdite = blog !== null;
+    this.isEdite = blog !== null;
 
-                    if (this.isEdite) {
-                        this.currentBlog = {
-                            ...blog
-                        };
-                        this.formData = {
-                            title: this.currentBlog.title,
-                            mini_description: this.currentBlog.mini_description,
-                            description: this.currentBlog.description,
-                            temps_lecture: this.currentBlog.temps_lecture,
-                            price: this.currentBlog.price,
-                            date_event_debut: this.currentBlog.date_event_debut,
-                            date_event_fin: this.currentBlog.date_event_fin,
-                            image_preview: this.currentBlog.image, // pour l'aperçu
-                        };
+    if (this.isEdite) {
+        this.currentBlog = {
+            ...blog
+        };
+        this.formData = {
+            title: this.currentBlog.title,
+            mini_description: this.currentBlog.mini_description,
+            description: this.currentBlog.description,
+            temps_lecture: this.currentBlog.temps_lecture,
+            publish_at: this.currentBlog.publish_at,
+            blog_id: this.currentBlog.id
+        };
 
-                        // Mettez à jour l'éditeur Trix manuellement
-                        this.$nextTick(() => {
-                            this.$refs.description.editor.loadHTML(this.formData.description);
-                        });
-                    } else {
-                        this.resetForm();
-                    }
+        // Mettez à jour l'éditeur Trix manuellement
+        this.$nextTick(() => {
+            this.$refs.description.editor.loadHTML(this.formData.description);
+        });
+    } else {
+        this.resetForm();
+    }
 
-                    this.showModal = true;
-                },
+    this.showModal = true;
+},
+
 
                 updateDescription(event) {
-                    this.formData.description = event.target.value;
+
+                    this.formData.description = this.$refs.description.editor.getDocument().toString();
+                    console.log(this.formData.description);  // Afficher la valeur pour débogage
+
                 },
 
-                handleImageChange(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            this.formData.image_preview = reader.result;
-                        };
-                        reader.readAsDataURL(file);
-                        this.formData.image = file; // Stocker l'image dans le formData
-                    }
-                },
 
                 resetForm() {
                     this.formData = {
@@ -286,110 +251,104 @@
                         mini_description: '',
                         description: '',
                         temps_lecture: '',
-                        price: '',
-                        date_event_debut: '',
-                        date_event_fin: '',
-                        image_preview: null,
-                        image: null,
+                        publish_at: '',
+                        blog_id: null
                     };
                 },
 
                 async submitForm() {
+                    this.isLoading = true;
+
+                    // Validation des champs
+                    // if (!this.formData.title || !this.formData.mini_description || !this.formData.description || !this
+                    //     .formData.temps_lecture ) {
+                    //     Swal.fire({
+                    //         icon: 'error',
+                    //         title: 'Tous les champs sont requis.',
+                    //         showConfirmButton: true
+                    //     });
+                    //     this.isLoading = false;
+                    //     return;
+                    // }
+
+                    const formData = new FormData();
+                    formData.append('title', this.formData.title);
+                    formData.append('mini_description', this.formData.mini_description);
+                    formData.append('description', this.formData.description);
+                    formData.append('temps_lecture', this.formData.temps_lecture);
+                    formData.append('publish_at', this.formData.publish_at);
+                    formData.append('pub_blog_id', this.currentBlog ? this.currentBlog.id : null);
+
                     try {
-                        // Début de l'état de chargement
-                        this.isLoading = true;
-
-                        // Création du FormData
-                        const formData = new FormData();
-                        formData.append('title', this.formData.title);
-                        formData.append('mini_description', this.formData.mini_description);
-                        formData.append('description', this.formData.description);
-                        formData.append('temps_lecture', this.formData.temps_lecture);
-                        formData.append('price', this.formData.price);
-                        formData.append('date_event_debut', this.formData.date_event_debut);
-                        formData.append('date_event_fin', this.formData.date_event_fin);
-
-                        // Ajouter l'image si elle existe
-                        if (this.formData.image) {
-                            formData.append('image', this.formData.image);
-                        }
-
-                        // Envoi des données au serveur via fetch
                         const response = await fetch('{{ route('blogs.store') }}', {
                             method: 'POST',
                             headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}', // CSRF token pour la sécurité
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
                             },
-                            body: formData, // FormData contient toutes les données à envoyer
+                            body: formData
                         });
 
-                        // Vérification si la réponse est correcte
                         if (response.ok) {
                             const data = await response.json();
                             const blog = data.blog;
 
-                            // Si le blog est retourné
                             if (blog) {
-                                // Affichage d'une notification de succès
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Publicité enregistrée avec succès !',
                                     showConfirmButton: false,
-                                    timer: 1500,
+                                    timer: 1500
                                 });
 
-                                // Mise à jour des blogs dans la liste
                                 if (this.isEdite) {
                                     const index = this.blogs.findIndex(b => b.id === blog.id);
                                     if (index !== -1) {
-                                        this.blogs[index] = blog; // Mise à jour d'un blog existant
+                                        this.blogs[index] = blog;
                                     }
                                 } else {
-                                    this.blogs.push(blog); // Ajout d'un nouveau blog
+                                    this.blogs.push(blog);
                                 }
 
-                                // Filtrage et réinitialisation du formulaire
                                 this.filterBlogs();
                                 this.resetForm();
-                                this.hideModal(); // Fermeture du modal
+                                this.hideModal();
                             }
                         } else {
-                            // Si la réponse est incorrecte, afficher un message d'erreur
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Erreur lors de l\'enregistrement.',
-                                showConfirmButton: true,
+                                showConfirmButton: true
                             });
                         }
                     } catch (error) {
-                        // Si une erreur réseau survient
                         console.error('Erreur réseau :', error);
                         Swal.fire({
                             icon: 'error',
                             title: 'Une erreur est survenue.',
-                            showConfirmButton: true,
+                            showConfirmButton: true
                         });
                     } finally {
-                        // Fin de l'état de chargement
                         this.isLoading = false;
                     }
                 },
 
-                init() {
-                    this.filterBlogs();
+                get paginatedBlogs() {
+                    let start = (this.currentPage - 1) * this.blogsPerPage;
+                    let end = start + this.blogsPerPage;
+                    return this.filteredBlogs.slice(start, end);
                 },
 
-
-                // Méthodes pour pagination et filtrage
                 filterBlogs() {
-                    this.filteredBlogs = this.blogs.filter(blog =>
-                        blog.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-                    );
-                    this.updatePagination();
+                    const term = this.searchTerm.toLowerCase();
+                    this.filteredBlogs = this.blogs.filter(blog => {
+                        return blog.title.toLowerCase().includes(term) || blog.mini_description.toLowerCase()
+                            .includes(term);
+                    });
+                    this.totalPages = Math.ceil(this.filteredBlogs.length / this.blogsPerPage);
                 },
 
-                updatePagination() {
-                    this.totalPages = Math.ceil(this.filteredBlogs.length / this.blogsPerPage);
+                deleteBlog(id) {
+                    // Logique pour supprimer une publicité
                 },
 
                 goToPage(page) {
@@ -397,12 +356,16 @@
                     this.currentPage = page;
                 },
 
-                get paginatedBlogs() {
-                    const start = (this.currentPage - 1) * this.blogsPerPage;
-                    const end = start + this.blogsPerPage;
-                    return this.filteredBlogs.slice(start, end);
+                init() {
+                    this.filterBlogs();
                 }
             };
         }
+
+
+
     </script>
+
+
+
 @endpush

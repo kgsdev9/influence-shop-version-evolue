@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Abonnement;
 use App\Models\Category;
 use App\Models\Compagne;
 use App\Models\Country;
@@ -36,6 +37,24 @@ class HomeController extends Controller
         // Retourne la vue avec les données nécessaires
         return view('welcome', compact('listeproduct', 'compagnes', 'categories', 'listepub'));
     }
+
+
+
+    public function programmeAffiliation()
+    {
+        $listeabonnement = Abonnement::all();
+        return view('dashboard.affiliation.listeabonnementaffiliation', compact('listeabonnement'));
+    }
+
+    public function deliveryStatus()
+    {
+
+        return view('home.statusorders');
+    }
+
+
+
+
 
 
     public function cart()
@@ -89,9 +108,9 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function buyProduct($id)
+    public function buyProduct($codeproduct)
     {
-        $product = Product::with('images')->findOrFail($id);
+        $product = Product::with('images')->where('codeproduct', $codeproduct)->first();;
         $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
         $allCountries  = Country::all();
         $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
@@ -103,14 +122,16 @@ class HomeController extends Controller
 
 
 
-    public function detailBlog($id)
+    public function detailBlog($codeproduct)
     {
-        $detailblog = PubBlog::where('id', $id)->first();
+        $detailblog = PubBlog::where('codeblog', $codeproduct)->first();
+
+
         return view('home.detailblog', compact('detailblog'));
     }
-    public function showProduct($id)
+    public function showProduct($codeproduct)
     {
-        $product = Product::with(['images', 'sizes', 'colors'])->findOrFail($id);
+        $product = Product::with(['images', 'sizes', 'colors'])->where('codeproduct', $codeproduct)->first();
         $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
         $allCountries  = Country::all();
         $allAdressePayment = [];

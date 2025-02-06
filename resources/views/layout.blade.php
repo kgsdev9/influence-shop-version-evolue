@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 
 <body class="bg-white">
@@ -64,27 +64,36 @@
             <div class="collapse navbar-collapse" id="navbar-default">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('product.home') }}">
+                        <a class="nav-link {{ request()->routeIs('product.home') ? 'active' : '' }}"
+                            href="{{ route('product.home') }}">
                             <i class="bi bi-box"></i>
                             Nos Produits
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home.compagnes') }}">
+                        <a class="nav-link {{ request()->routeIs('home.compagnes') ? 'active' : '' }}"
+                            href="{{ route('home.compagnes') }}">
                             <i class="bi bi-hand-thumbs-up"></i> <!-- Icône pour "Nos Compagnes" -->
                             Nos Compagnes
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('homeBlog') }}">
+                        <a class="nav-link {{ request()->routeIs('homeBlog') ? 'active' : '' }}"
+                            href="{{ route('homeBlog') }}">
                             <i class="bi bi-megaphone"></i> <!-- Icône pour "Nos Publicités" -->
                             Nos Publicités
                         </a>
                     </li>
 
-
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('delivery.status') ? 'active' : '' }}"
+                            href="{{ route('delivery.status') }}">
+                            <i class="bi bi-truck-front"></i>
+                            Suivre mon Colis
+                        </a>
+                    </li>
 
                 </ul>
             </div>
@@ -149,8 +158,12 @@
                     <div class="mb-4">
                         <h3 class="fw-bold mb-3">RESSOURCES</h3>
                         <ul class="list-unstyled nav nav-footer flex-column nav-x-0">
-                            <li><a href="{{ route('product.home') }}" class="nav-link">Nos Produits</a></li>
-                            <li><a href="{{ route('homeCompagne') }}" class="nav-link">Nos Compagnes</a></li>
+                            <li><a href="{{ route('product.home') }}"
+                                    class="nav-link {{ request()->routeIs('product.home') ? 'active' : '' }}">Nos
+                                    Produits</a></li>
+                            <li><a href="{{ route('homeCompagne') }}"
+                                    class="nav-link {{ request()->routeIs('homeCompagne') ? 'active' : '' }}">Nos
+                                    Compagnes</a></li>
                             <li><a href="#" class="nav-link">Nos Partenaires</a></li>
                         </ul>
                     </div>
@@ -174,13 +187,13 @@
                     <div class="d-lg-flex align-items-center">
                         <div class="me-4">
                             <span>
-                                © 2022 - &nbsp;
+                                © 2022 -
                                 <span id="copyright5">
                                     <script>
                                         document.getElementById("copyright5").appendChild(document.createTextNode(new Date().getFullYear()));
                                     </script>
                                 </span>
-                                VTP GROUP
+                                VTP SAS
                             </span>
                         </div>
                         <div>
@@ -205,7 +218,7 @@
     <script src="{{ asset('assets/alpine.js') }}" defer></script>
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     @stack('script')
 
 </body>

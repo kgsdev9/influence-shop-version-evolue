@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Models\Abonnement;
 use App\Models\Order;
+use App\Models\Souscription;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +73,6 @@ class PaymentController extends Controller
 
     public function initialisePayment(Request $request)
     {
-
         if ($request->arg == 1) {
             $userId = auth()->user()->id;
 
@@ -99,6 +101,7 @@ class PaymentController extends Controller
                 'user_id' => $userId,
                 'transaction_id' => $order->id,
                 'reference' => $order->reference,
+                'arg' => $request->arg,
                 'data' => true
             ]);
 
@@ -149,6 +152,73 @@ class PaymentController extends Controller
 
             // Retourner la réponse en JSON
             return response()->json(['payment_url' => $urlPayement], 200);
+        } elseif ($request->arg == 3) {
+            $abonnement_id = $request->input('abonnement_id');
+            $abonnement = Abonnement::find($abonnement_id);
+            $reference = rand(1000, 4000);
+            $returnContext = json_encode([
+                'user_id' => Auth::user()->id,
+                'reference' => $reference,
+                'arg' => $request->arg,
+                'data' => true
+            ]);
+
+            $data = [
+                'merchantId' => "PP-F2197",
+                'amount' => '1',
+                'description' => $request->productname,
+                'channel' => 'ORANGE CI',
+                'countryCurrencyCode' => "FCFA",
+                'referenceNumber' => $reference,
+                'customerEmail' => Auth::user()->email,
+                'customerFirstName' => Auth::user()->name,
+                'customerLastname' => Auth::user()->name,
+                'customerPhoneNumber' => "+22344584",
+                'notificationURL' => route('save.souscrive.status'),
+                'returnURL'  => route('save.souscrive.status'),
+                'returnContext' => $returnContext,
+            ];
+
+
+            // Configuration cURL
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://www.paiementpro.net/webservice/onlinepayment/init/curl-init.php");
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json; charset=utf-8']);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+            // Exécution de la requête
+            $response = curl_exec($ch);
+
+            // Gestion des erreurs cURL
+            if (curl_errno($ch)) {
+                return response()->json(['error' => 'Erreur de communication avec le service de paiement.'], 500);
+            }
+
+            curl_close($ch);
+
+            // Décodage de la réponse
+            $obj = json_decode($response);
+            if (!isset($obj->url)) {
+                return response()->json(['error' => 'URL de paiement non reçue.'], 500);
+            }
+
+            // URL de paiement
+            $urlPayement = $obj->url;
+
+            // Retourner la réponse en JSON
+            return response()->json(['payment_url' => $urlPayement], 200);
+
+
+            if (!$abonnement) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Probleme de communication avec le serveur reessayer plus tard.'
+                ], 404);
+            }
         } else {
 
             $order  = Order::find($request->product_id);
@@ -156,6 +226,7 @@ class PaymentController extends Controller
                 'user_id' => $order->user_id,
                 'transaction_id' => $order->id,
                 'reference' => $order->reference,
+                'arg' => $request->arg,
                 'data' => true
             ]);
 
@@ -216,9 +287,11 @@ class PaymentController extends Controller
         $responsecode = $request->query('responsecode');
         $contextData = json_decode($returnContext, true);
         $userId = $contextData['user_id'] ?? null;
-
         $transactionId = $contextData['transaction_id'] ?? null;
         $reference = $contextData['reference'] ?? null;
+
+
+
 
 
         if ($responsecode == -1) {
@@ -257,6 +330,36 @@ class PaymentController extends Controller
         return redirect()->route('payment.failed')->with('error', 'Le paiement a échoué avec un code inattendu.');
     }
 
+
+    public function saveSouscrive(Request $request)
+    {
+        $returnContext = $request->query('returnContext');
+        $responsecode = $request->query('responsecode');
+        $contextData = json_decode($returnContext, true);
+
+        if ($responsecode == -1) {
+            $date_debut = Carbon::now();
+            $date_fin = $date_debut->copy()->addMonth();
+
+            $souscription = new Souscription();
+            $souscription->entreprise_id = Auth::user()->id;
+            $souscription->abonnement_id = $request->id;
+            $souscription->date_debut = $date_debut;
+            $souscription->date_fin = $date_fin;
+            $souscription->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Souscription enregistrée avec succès.',
+                'souscription' => $souscription
+            ]);
+        } else {
+            return redirect()->route('payment.failed')->with('error', 'Erreur de communication.');
+        }
+    }
+
+
+    public function cancelSouscrive() {}
 
     public function paymentFailled()
     {

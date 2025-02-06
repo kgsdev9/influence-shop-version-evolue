@@ -30,6 +30,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('cost_delivery', 15, 2); // Prix de la livraison
             $table->string('status')->default('pending');
             $table->string('payment_method')->nullable();
+            $table->enum('statusdelivery', ['encours', 'livree', 'echec'])->default('encours');
             $table->text('shipping_address')->nullable();
             $table->unsignedBigInteger('paymentaresse_id')->nullable();
             $table->timestamp('delivery_time')->nullable();

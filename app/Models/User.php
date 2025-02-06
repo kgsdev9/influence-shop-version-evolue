@@ -22,9 +22,12 @@ class User extends Authenticatable
         'prenom',
         'confirmed_at',
         'email',
-        'role_id',
+        'country_id',
+        'city_id',
+        'role_id', 
         'password',
     ];
+
 
 
     public function role()

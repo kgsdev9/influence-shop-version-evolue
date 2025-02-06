@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->boolean('confirmed_at')->default(false);
             $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('cascade');
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade');
+            $table->foreignId('role_id')->nullable()->constrained('roles')->onDelete('cascade');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

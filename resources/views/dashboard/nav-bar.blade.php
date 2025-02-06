@@ -26,6 +26,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item {{ request()->routeIs('programme.affiliation') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('programme.affiliation') }}">
+                            <i class="fe fe-file-text nav-icon"></i>
+                            Sponsoring
+                        </a>
+                    </li>
+
                     <!-- Nav item -->
                     <li class="nav-item {{ request()->routeIs('products.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('products.index') }}">
@@ -43,8 +50,17 @@
                     </li>
 
 
-                    @can('access-admin')
 
+
+                    <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('orders.index') }}">
+                            <i class="fe fe-file-text nav-icon"></i>
+                            Factures
+                        </a>
+                    </li>
+
+
+                    @can('access-admin')
                         <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('compagne.index') }}">
                                 <i class="fe fe-volume nav-icon"></i>
@@ -91,56 +107,55 @@
                             </a>
                         </li>
 
-                    <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('abonnement.index') }}">
-                            <i class="fe fe-rss nav-icon"></i>
+                        <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('abonnement.index') }}">
+                                <i class="fe fe-rss nav-icon"></i>
 
-                            Plan Abonnement
-                        </a>
-                    </li>
+                                Plan Abonnement
+                            </a>
+                        </li>
 
-                    <li class="nav-item {{ request()->routeIs('souscribers.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('souscribers.index') }}">
-                            <i class="fe fe-user-plus nav-icon"></i>
-                            Souscriveurs
-                        </a>
-                    </li>
-
-
-                    <li class="nav-item {{ request()->routeIs('deliveryprice.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('deliveryprice.index') }}">
-                            <i class="fe fe-truck nav-icon"></i>
+                        <li class="nav-item {{ request()->routeIs('souscribers.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('souscribers.index') }}">
+                                <i class="fe fe-user-plus nav-icon"></i>
+                                Souscriveurs
+                            </a>
+                        </li>
 
 
-                            Livraison Systeme
-                        </a>
-                    </li>
+                        <li class="nav-item {{ request()->routeIs('deliveryprice.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('deliveryprice.index') }}">
+                                <i class="fe fe-truck nav-icon"></i>
 
-                    <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('category.index') }}">
-                            <i class="fe fe-grid nav-icon"></i>
 
-                            Catégories
-                        </a>
-                    </li>
+                                Livraison Systeme
+                            </a>
+                        </li>
 
-                    <li class="nav-item {{ request()->routeIs('countries.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('countries.index') }}">
-                            <i class="fe fe-globe nav-icon"></i>
+                        <li class="nav-item {{ request()->routeIs('category.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('category.index') }}">
+                                <i class="fe fe-grid nav-icon"></i>
 
-                            Pays
-                        </a>
-                    </li>
+                                Catégories
+                            </a>
+                        </li>
 
-                    <li class="nav-item {{ request()->routeIs('city.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('city.index') }}">
-                            <i class="fe fe-map-pin nav-icon"></i>
+                        <li class="nav-item {{ request()->routeIs('countries.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('countries.index') }}">
+                                <i class="fe fe-globe nav-icon"></i>
 
-                            Ville
-                        </a>
-                    </li>
-                </ul>
+                                Pays
+                            </a>
+                        </li>
 
+                        <li class="nav-item {{ request()->routeIs('city.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('city.index') }}">
+                                <i class="fe fe-map-pin nav-icon"></i>
+
+                                Ville
+                            </a>
+                        </li>
+                    </ul>
                 @endcan
                 <!-- Navbar header -->
                 <span class="navbar-header">Parametre de compte</span>
@@ -156,7 +171,7 @@
                     <li class="nav-item">
                         <button class="nav-link btn disabled" type="button" disabled>
                             <i class="fe fe-trash nav-icon"></i>
-                           Compte
+                            Compte
                         </button>
                     </li>
                     <li class="nav-item">

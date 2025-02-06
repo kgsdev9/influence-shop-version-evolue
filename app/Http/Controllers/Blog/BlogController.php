@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\PubBlog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -23,7 +24,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-       
+
         // Vérifier si pub_blog_id existe dans la requête
         $pubBlogId = $request->input('pub_blog_id');
 
@@ -43,13 +44,48 @@ class BlogController extends Controller
     }
 
     // Méthode pour créer une nouvelle publicité
+    // private function createPubBlog(Request $request)
+    // {
+    //     dd($request->all());
+    //     $pubBlog = PubBlog::create([
+    //         'title' => $request->title,
+    //         'mini_description' => $request->mini_description,
+    //         'description' => $request->description,
+    //         'temps_lecture' => $request->temps_lecture,
+    //     ]);
+
+    //     return response()->json([
+    //         'message' => 'Publicité créée avec succès.',
+    //         'blog' => $pubBlog
+    //     ], 201);
+    // }
+
+
     private function createPubBlog(Request $request)
     {
+
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            // Récupère le nom original du fichier
+            $originalName = $image->getClientOriginalName();
+
+            // Stocke l'image dans le dossier 'blogs' et utilise le nom original
+            $imagePath = $image->storeAs('blogs', $originalName);
+        }
+        // Créer la publicité avec les données sans validation
         $pubBlog = PubBlog::create([
             'title' => $request->title,
             'mini_description' => $request->mini_description,
             'description' => $request->description,
-            'temps_lecture' => $request->temps_lecture,
+            'temps_lecture' => $request->temps_lecture ?? 10,
+            'price' => $request->price,
+            'date_event_debut' => $request->date_event_debut,
+            'date_event_fin' => $request->date_event_fin,
+            'image' => $imagePath,
+            'codeblog' => $this->generateUniqueCodeBlog(),
         ]);
 
         return response()->json([
@@ -57,6 +93,22 @@ class BlogController extends Controller
             'blog' => $pubBlog
         ], 201);
     }
+
+
+    private function generateUniqueCodeBlog()
+    {
+        // Boucle pour garantir l'unicité du codeproduct
+        do {
+            // Générer un codeproduct unique
+            $codeproduct = 'pub-' . Str::uuid()->toString();
+
+            // Vérifier si ce codeproduct existe déjà
+            $existingProduct = PubBlog::where('codeblog', $codeproduct)->first();
+        } while ($existingProduct); // Si ce code existe, refaire la boucle
+
+        return $codeproduct;
+    }
+
 
     // Méthode pour mettre à jour une publicité existante
     private function updatePubBlog(PubBlog $pubBlog, Request $request)

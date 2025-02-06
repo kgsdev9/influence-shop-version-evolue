@@ -11,6 +11,7 @@ use App\Models\Taille;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -85,8 +86,8 @@ class ProductController extends Controller
             'name' => $request->product_name,
             'price_achat' => $request->product_price,
             'price_vente' => $request->product_price,
-            'minimale_description' => $request->product_description,
             'shortdescription' => $request->product_description,
+            'description' => $request->product_description,
             'qtedisponible' => $request->qtedispo,
             'category_id' => $request->product_category,
             'user_id' => Auth::user()->id,
@@ -135,14 +136,32 @@ class ProductController extends Controller
         return response()->json(['message' => 'Produit mis à jour avec succès']);
     }
 
+
+    private function generateUniqueCodeProduct()
+    {
+        // Boucle pour garantir l'unicité du codeproduct
+        do {
+            // Générer un codeproduct unique
+            $codeproduct = 'c-' . Str::uuid()->toString();
+
+            // Vérifier si ce codeproduct existe déjà
+            $existingProduct = Product::where('codeproduct', $codeproduct)->first();
+        } while ($existingProduct); // Si ce code existe, refaire la boucle
+
+        return $codeproduct;
+    }
+
+
+
     private function createProduct(Request $request)
     {
         // Créer un nouveau produit
         $product = Product::create([
             'name' => $request->product_name,
             'price_achat' => $request->product_price,
+            'codeproduct' => $this->generateUniqueCodeProduct(),
             'price_vente' => $request->product_price,
-            'minimale_description' => $request->product_description,
+            'description' => $request->product_description,
             'shortdescription' => $request->product_description,
             'qtedisponible' => $request->qtedispo,
             'category_id' => $request->product_category,

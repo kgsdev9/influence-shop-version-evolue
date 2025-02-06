@@ -47,6 +47,12 @@ Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
 Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('detail.blog');
 
 
+Route::get('/programme-affiliation', [HomeController::class, 'programmeAffiliation'])->name('programme.affiliation');
+Route::get('/statusdelivery', [HomeController::class, 'deliveryStatus'])->name('delivery.status');
+
+
+
+
 Route::get('/compaign', [HomeController::class, 'homeCompagne'])->name('homeCompagne');
 Route::get('/products/home', [HomeController::class, 'homeProduct'])->name('product.home');
 Route::get('/cart', [HomeController::class, 'cart'])->name('cart.home');
@@ -86,6 +92,8 @@ Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->na
 Route::get('/payementsuccess', [PaymentController::class, 'payementSuccess'])->name('payment.success');
 Route::delete('delete/payment/{paymentId}', [PaymentController::class, 'destroy'])->name('destroy.payment');
 
+
+Route::get('/payementsuccess', [PaymentController::class, 'saveSouscrive'])->name('save.souscrive.status');
 
 Route::resource('/adresse', PaymentAdresseController::class);
 Route::resource('/category', CategoryController::class);

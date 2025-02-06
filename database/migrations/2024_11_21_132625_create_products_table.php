@@ -24,7 +24,7 @@ class CreateProductsTable extends Migration
             $table->text('shortdescription')->nullable(); // Courte description
             $table->unsignedBigInteger('category_id'); // Catégorie du produit
             $table->integer('qtedisponible')->default(0); // Quantité disponible
-            $table->string('status  ')->default('active'); // Statut du produit (ex. : "active", "inactive")
+            $table->string('status')->default('active'); // Statut du produit (ex. : "active", "inactive")
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
