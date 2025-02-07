@@ -92,9 +92,13 @@ Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->na
 Route::get('/payementsuccess', [PaymentController::class, 'payementSuccess'])->name('payment.success');
 Route::delete('delete/payment/{paymentId}', [PaymentController::class, 'destroy'])->name('destroy.payment');
 
-
+// pour le souscription
 Route::get('/payementsuccess', [PaymentController::class, 'saveSouscrive'])->name('save.souscrive.status');
+Route::get('/suscesssuscribe', [PaymentController::class, 'souscriveIsSuccess'])->name('souscrive.success');
+Route::get('/failledsouscribe', [PaymentController::class, 'souscriptionFailled'])->name('souscrive.failled');
 
+
+// pour la souscrption
 Route::resource('/adresse', PaymentAdresseController::class);
 Route::resource('/category', CategoryController::class);
 Route::resource('/city', CityController::class);
@@ -127,3 +131,22 @@ Route::prefix('password')->group(function () {
     // Route pour réinitialiser le mot de passe
     Route::post('reset-password', [ResetPasswordController::class, 'resetPassword']);
 });
+
+
+Route::get('/faq', function () {
+    return view('home.faq');
+})->name('faq');
+
+
+Route::get('/conditiongenerale', function () {
+    return view('home.conditiongenerale');
+})->name('cgu');
+
+
+Route::get('/politique-confidentialite', function () {
+    return view('home.poltiquedeconfidentialite');
+})->name('politiqueconfidentialite');
+
+Route::get('/politique-retoyr', function () {
+    return view('home.politiqueretour');
+})->name('politiqueretour');

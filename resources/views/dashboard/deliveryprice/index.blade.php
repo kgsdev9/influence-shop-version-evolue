@@ -221,7 +221,6 @@
                         country_destination: '',
                         prix: '',
                         delivery_id: '',
-
                     };
                 },
 

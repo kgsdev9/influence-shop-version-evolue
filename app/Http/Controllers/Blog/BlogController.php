@@ -64,6 +64,7 @@ class BlogController extends Controller
     private function createPubBlog(Request $request)
     {
 
+        
 
         $imagePath = null;
         if ($request->hasFile('image')) {

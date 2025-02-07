@@ -1,36 +1,3 @@
-ajoute ces champs dans mon modal pour ouvrir et le modal doit etre plus large row col-md-6 pour chaque et n'oublie l'image doit etre personnlisé pour qu'on voit ce qu'on ajoute  et modife l'input immage je veux dire  'price','image   'date_event_debut',   'date_event_fin',
-
-inspire toi de ca
-
-<div class="col-md-3 col-sm-3 text-center mt-2">
-                                            <div class="border rounded shadow-sm p-2 bg-light position-relative"
-                                                style="cursor: pointer; border: 1px solid #ddd;"
-                                                @click="document.getElementById(fileInput${index}).click()">
-                                                <!-- Aperçu de l'image -->
-                                                <template x-if="file.preview">
-                                                    <img :src="file . preview" class="img-fluid rounded"
-                                                        style="max-height: 150px; width: 100%; object-fit: cover;"
-                                                        alt="Aperçu">
-                                                </template>
-                                                <template x-if="!file.preview">
-                                                    <div class="d-flex align-items-center justify-content-center"
-                                                        style="height: 150px;">
-                                                        <i class="bi bi-camera"
-                                                            style="font-size: 2rem; color: #6c757d;"></i>
-                                                    </div>
-                                                </template>
-                                            </div>
-                                            <button type="button" class="btn btn-danger btn-sm mt-2"
-                                                @click="files.splice(index, 1)">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
-                                                    <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z" />
-                                                </svg>
-                                            </button>
-                                            <input type="file" :id="'fileInput' + index" class="d-none" accept="image/*"
-                                                @change="handleFileChange($event, index)">
-                                        </div>
-
 @extends('layout')
 @section('title', 'Gestion des publicités')
 @section('content')
@@ -157,7 +124,8 @@ inspire toi de ca
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description complète</label>
 
-                                    <trix-editor input="description" x-ref="description" @trix-change="updateDescription"></trix-editor>
+                                    <trix-editor input="description" x-ref="description"
+                                        @trix-change="updateDescription"></trix-editor>
 
                                 </div>
 
@@ -210,37 +178,37 @@ inspire toi de ca
                 },
 
                 openModal(blog = null) {
-    this.isEdite = blog !== null;
+                    this.isEdite = blog !== null;
 
-    if (this.isEdite) {
-        this.currentBlog = {
-            ...blog
-        };
-        this.formData = {
-            title: this.currentBlog.title,
-            mini_description: this.currentBlog.mini_description,
-            description: this.currentBlog.description,
-            temps_lecture: this.currentBlog.temps_lecture,
-            publish_at: this.currentBlog.publish_at,
-            blog_id: this.currentBlog.id
-        };
+                    if (this.isEdite) {
+                        this.currentBlog = {
+                            ...blog
+                        };
+                        this.formData = {
+                            title: this.currentBlog.title,
+                            mini_description: this.currentBlog.mini_description,
+                            description: this.currentBlog.description,
+                            temps_lecture: this.currentBlog.temps_lecture,
+                            publish_at: this.currentBlog.publish_at,
+                            blog_id: this.currentBlog.id
+                        };
 
-        // Mettez à jour l'éditeur Trix manuellement
-        this.$nextTick(() => {
-            this.$refs.description.editor.loadHTML(this.formData.description);
-        });
-    } else {
-        this.resetForm();
-    }
+                        // Mettez à jour l'éditeur Trix manuellement
+                        this.$nextTick(() => {
+                            this.$refs.description.editor.loadHTML(this.formData.description);
+                        });
+                    } else {
+                        this.resetForm();
+                    }
 
-    this.showModal = true;
-},
+                    this.showModal = true;
+                },
 
 
                 updateDescription(event) {
 
                     this.formData.description = this.$refs.description.editor.getDocument().toString();
-                    console.log(this.formData.description);  // Afficher la valeur pour débogage
+                    console.log(this.formData.description); // Afficher la valeur pour débogage
 
                 },
 
@@ -361,11 +329,5 @@ inspire toi de ca
                 }
             };
         }
-
-
-
     </script>
-
-
-
 @endpush

@@ -142,7 +142,8 @@
                                     <div class="col-md-12">
                                         <label for="description" class="form-label">Description complète</label>
                                         <trix-editor input="description" x-ref="description"
-                                            @trix-change="updateDescription"></trix-editor>
+                                        @trix-change="updateDescription"></trix-editor>
+
                                     </div>
                                 </div>
 
@@ -232,6 +233,7 @@
                 hideModal() {
                     this.showModal = false;
                     this.currentBlog = null;
+                    this.isEdite = false;
                     this.resetForm();
                 },
 
@@ -258,6 +260,7 @@
                             this.$refs.description.editor.loadHTML(this.formData.description);
                         });
                     } else {
+                        this.isEdite = false;
                         this.resetForm();
                     }
 
@@ -265,7 +268,10 @@
                 },
 
                 updateDescription(event) {
-                    this.formData.description = event.target.value;
+
+                    this.formData.description = this.$refs.description.editor.getDocument().toString();
+
+
                 },
 
                 handleImageChange(event) {
@@ -291,7 +297,12 @@
                         date_event_fin: '',
                         image_preview: null,
                         image: null,
+
+
+
                     };
+
+
                 },
 
                 async submitForm() {

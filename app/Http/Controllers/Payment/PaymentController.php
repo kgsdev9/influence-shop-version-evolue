@@ -159,6 +159,7 @@ class PaymentController extends Controller
             $returnContext = json_encode([
                 'user_id' => Auth::user()->id,
                 'reference' => $reference,
+                'abonnement_id' => $abonnement_id,
                 'arg' => $request->arg,
                 'data' => true
             ]);
@@ -290,10 +291,6 @@ class PaymentController extends Controller
         $transactionId = $contextData['transaction_id'] ?? null;
         $reference = $contextData['reference'] ?? null;
 
-
-
-
-
         if ($responsecode == -1) {
 
             $order = Order::where('id', $transactionId)
@@ -336,25 +333,21 @@ class PaymentController extends Controller
         $returnContext = $request->query('returnContext');
         $responsecode = $request->query('responsecode');
         $contextData = json_decode($returnContext, true);
+        $abonnementId = $contextData['abonnement_id'] ?? null;
 
         if ($responsecode == -1) {
+            return redirect()->route('souscrive.failled')->with('error', 'Erreur de communication.');
+        } else {
+
             $date_debut = Carbon::now();
             $date_fin = $date_debut->copy()->addMonth();
-
             $souscription = new Souscription();
             $souscription->entreprise_id = Auth::user()->id;
-            $souscription->abonnement_id = $request->id;
+            $souscription->abonnement_id = $abonnementId;
             $souscription->date_debut = $date_debut;
             $souscription->date_fin = $date_fin;
             $souscription->save();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Souscription enregistrée avec succès.',
-                'souscription' => $souscription
-            ]);
-        } else {
-            return redirect()->route('payment.failed')->with('error', 'Erreur de communication.');
+            return redirect()->route('souscrive.success');
         }
     }
 
@@ -396,5 +389,16 @@ class PaymentController extends Controller
                 'message' => 'Erreur lors de la suppression du paiement.',
             ], 500);
         }
+    }
+
+
+    public function souscriptionFailled()
+    {
+        return view('home.souscriptionfailled');
+    }
+
+    public function souscriveIsSuccess()
+    {
+        return view('home.sucesspayementsosuscrive');
     }
 }

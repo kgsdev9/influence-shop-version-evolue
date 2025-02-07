@@ -174,8 +174,8 @@
                         <h3 class="fw-bold mb-3">ESPACE PRO</h3>
                         <ul class="list-unstyled nav nav-footer flex-column nav-x-0">
                             <li><a href="#" class="nav-link">Nous Contacter</a></li>
-                            <li><a href="#" class="nav-link">FAQ’s</a></li>
-                            <li><a href="#" class="nav-link">Condition d'utilisation </a></li>
+                            <li><a href="{{ route('faq') }}" class="nav-link">FAQ’s</a></li>
+                            <li><a href="{{ route('cgu') }}" class="nav-link">Condition d'utilisation </a></li>
                         </ul>
                     </div>
                 </div>
@@ -198,11 +198,12 @@
                         </div>
                         <div>
                             <nav class="nav nav-footer">
-                                <a class="nav-link ps-0" href="#">Politique de confidentialité</a>
-                                <a class="nav-link px-2 px-md-3" href="#">Politique de coockie</a>
-                                <a class="nav-link" href="#">Termes et condition</a>
-                                <a class="nav-link d-none d-lg-block" href="#">Propulsé par KGS informatique
-                                </a>
+                                <a class="nav-link ps-0" href="{{ route('politiqueconfidentialite') }}">Politique de
+                                    confidentialité</a>
+                                <a class="nav-link px-2 px-md-3" href="{{ route('politiqueretour') }}">Politique de
+                                    retour</a>
+                                <a class="nav-link" href="#">Propulsé par KGS informatique</a>
+                                
                             </nav>
                         </div>
                     </div>
