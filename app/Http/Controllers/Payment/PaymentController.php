@@ -342,7 +342,8 @@ class PaymentController extends Controller
             $date_debut = Carbon::now();
             $date_fin = $date_debut->copy()->addMonth();
             $souscription = new Souscription();
-            $souscription->entreprise_id = Auth::user()->id;
+            $souscription->reference = rand(1000, 450099);
+            $souscription->user_id = Auth::user()->id;
             $souscription->abonnement_id = $abonnementId;
             $souscription->date_debut = $date_debut;
             $souscription->date_fin = $date_fin;

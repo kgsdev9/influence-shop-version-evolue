@@ -117,9 +117,6 @@
             </div>
         </section>
 
-
-
-
         <section class="py-6 py-lg-2 bg-white mt-2" style="background-color: #F5F5F5;">
             <div class="container py-lg-6">
                 <!--row-->
@@ -135,17 +132,11 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <section class="pb-8">
                     <div class="container">
                         <div class="row">
-
-
-                            <template x-for="event in filteredEvents().length > 0 ? filteredEvents() : filteredProducts"
+                            <template x-for="event in filteredEvents"
                                 :key="event.id">
-
                                 <div class="col-xl-4 col-md-6 col-12">
                                     <div class="card card-lift d-flex flex-column" style="height: 100%; min-height:300px;">
                                         <a :href="`/blog/detail/${event.codeblog}`">
@@ -206,26 +197,10 @@
                                     </div>
                                 </div>
 
-
-
-
-
-
                             </template>
-
-
-
-
-
-
                         </div>
                     </div>
                 </section>
-
-
-
-
-
             </div>
         </section>
     </main>
@@ -263,10 +238,8 @@
 
 
                 filteredEvents() {
-                    return this.blog; // Retourne directement la liste des événements sans filtrage
+                    return this.blog;
                 },
-
-
 
 
                 resetFilter() {

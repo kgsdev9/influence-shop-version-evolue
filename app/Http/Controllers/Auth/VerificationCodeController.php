@@ -44,6 +44,7 @@ class VerificationCodeController extends Controller
 
     public function sendVerificationCode(Request $request)
     {
+      
         // Chercher l'utilisateur par email
         $user = User::where('email', $request->email)->first();
 

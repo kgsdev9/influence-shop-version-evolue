@@ -17,6 +17,8 @@ class CreatePubBlogsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('image')->nullable();
+            $table->string('organisateur')->nullable();
+            $table->string('lieu')->nullable();
             $table->string('codeblog')->unique();
             $table->text('mini_description');
             $table->text('description');

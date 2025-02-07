@@ -12,6 +12,8 @@ use App\Http\Controllers\Country\CountryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DeliveryPrice\DeliveryPriceController;
 use App\Http\Controllers\Demarrage\CompagneProductController;
+use App\Http\Controllers\Edition\EditionProfileController;
+use App\Http\Controllers\Facture\FactureController;
 use App\Http\Controllers\Gestion\GestionCompagneController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\NotificationConfirmationController;
@@ -49,6 +51,12 @@ Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('de
 
 Route::get('/programme-affiliation', [HomeController::class, 'programmeAffiliation'])->name('programme.affiliation');
 Route::get('/statusdelivery', [HomeController::class, 'deliveryStatus'])->name('delivery.status');
+
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+
+
 
 
 
@@ -111,7 +119,8 @@ Route::resource('/blogs', BlogController::class);
 Route::resource('/linkspayment', PaymentLinkController::class);
 Route::resource('/abonnement', AbonnementController::class);
 Route::resource('/souscribers', SouscriptionController::class);
-
+Route::get('/factures', [FactureController::class, 'index'])->name('facture.index');;
+Route::get('/editionprofile', [EditionProfileController::class, 'profile'])->name('profile.index');;
 
 // verification code
 
@@ -147,6 +156,6 @@ Route::get('/politique-confidentialite', function () {
     return view('home.poltiquedeconfidentialite');
 })->name('politiqueconfidentialite');
 
-Route::get('/politique-retoyr', function () {
+Route::get('/politique-retour', function () {
     return view('home.politiqueretour');
 })->name('politiqueretour');

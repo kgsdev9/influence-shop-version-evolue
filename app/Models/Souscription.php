@@ -10,16 +10,17 @@ class Souscription extends Model
     use HasFactory;
 
     protected $fillable = [
-        'entreprise_id',
+        'reference',
+        'user_id',
+        'price',
         'abonnement_id',
         'date_fin',
         'date_debut'
     ];
 
-
-    public function entreprise()
+    public function user()
     {
-        return $this->belongsTo(Entreprise::class, 'entreprise_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function abonnement()

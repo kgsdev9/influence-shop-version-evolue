@@ -1,114 +1,118 @@
 @extends('layout')
 @section('title', 'Inscription')
 @section('content')
-<section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()">
-    <div class="container my-lg-8">
-        <!-- Hero Section -->
-        <div class="row justify-content-center">
+    <section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()">
+        <div class="container my-lg-8">
+            <!-- Hero Section -->
+            <div class="row justify-content-center">
 
-            <div class="offset-xxl-1 col-xxl-6 col-lg-8 col-md-12">
-                <!-- Card -->
-                <div class="card smooth-shadow-md" style="z-index: 1">
-                    <!-- Card body -->
-                    <div class="card-body p-xl-6 d-flex flex-column justify-content-center" style="height: 100%;">
-                        <div class="mb-4">
-                            <h1 class="mb-4 lh-1 fw-bold h2">Inscrivez-vous</h1>
-                            <p>En quelques étapes simples, vous pourrez accéder à notre plateforme.</p>
+                <div class="offset-xxl-1 col-xxl-6 col-lg-8 col-md-12">
+                    <!-- Card -->
+                    <div class="card smooth-shadow-md" style="z-index: 1">
+                        <!-- Card body -->
+                        <div class="card-body p-xl-6 d-flex flex-column justify-content-center" style="height: 100%;">
+                            <div class="mb-4">
+                                <h1 class="mb-4 lh-1 fw-bold h2">Inscrivez-vous</h1>
+                                <p>En quelques étapes simples, vous pourrez accéder à notre plateforme.</p>
 
-                            <!-- Form -->
-                            <div>
-                                <!-- Etape 1 : Nom, Prénom, Mot de passe -->
-                                <div x-show="step === 1">
-                                    <form @submit.prevent="nextStep">
-                                        <!-- Nom -->
-                                        <div class="mb-3">
-                                            <label for="last_name" class="form-label">Nom</label>
-                                            <input type="text" id="last_name" class="form-control" x-model="lastName"
-                                                placeholder="Entrez votre nom" required>
-                                        </div>
+                                <!-- Form -->
+                                <div>
+                                    <!-- Etape 1 : Nom, Prénom, Mot de passe -->
+                                    <div x-show="step === 1">
+                                        <form @submit.prevent="nextStep">
+                                            <!-- Nom -->
+                                            <div class="mb-3">
+                                                <label for="last_name" class="form-label">Nom</label>
+                                                <input type="text" id="last_name" class="form-control" x-model="lastName"
+                                                    placeholder="Entrez votre nom" required>
+                                            </div>
 
-                                        <!-- Prénom -->
-                                        <div class="mb-3">
-                                            <label for="first_name" class="form-label">Prénom</label>
-                                            <input type="text" id="first_name" class="form-control" x-model="firstName"
-                                                placeholder="Entrez votre prénom" required>
-                                        </div>
+                                            <!-- Prénom -->
+                                            <div class="mb-3">
+                                                <label for="first_name" class="form-label">Prénom</label>
+                                                <input type="text" id="first_name" class="form-control"
+                                                    x-model="firstName" placeholder="Entrez votre prénom" required>
+                                            </div>
 
-                                        <!-- Mot de passe -->
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">Mot de passe</label>
-                                            <input type="password" id="password" class="form-control" x-model="password"
-                                                placeholder="Entrez votre mot de passe" required>
-                                        </div>
+                                            <!-- Mot de passe -->
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Mot de passe</label>
+                                                <input type="password" id="password" class="form-control"
+                                                    x-model="password" placeholder="Entrez votre mot de passe" required>
+                                            </div>
 
-                                        <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary">Suivant</button>
-                                        </div>
-                                    </form>
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary">Suivant</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Etape 2 : Email -->
+                                    <div x-show="step === 2">
+                                        <form @submit.prevent="sendVerificationCode">
+                                            <!-- Email -->
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Adresse Email</label>
+                                                <input type="email" id="email" class="form-control" x-model="email"
+                                                    placeholder="Entrez votre email" required>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-secondary"
+                                                    @click="previousStep">Précédent</button>
+                                                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                    <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    Envoyer le code
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                    <!-- Etape 3 : Vérification du code -->
+                                    <div x-show="step === 3">
+                                        <form @submit.prevent="verifyCode">
+                                            <!-- Code de vérification -->
+                                            <div class="mb-3">
+                                                <label for="verification_code" class="form-label">Code de
+                                                    vérification</label>
+                                                <input type="text" id="verification_code" class="form-control"
+                                                    x-model="verificationCode" placeholder="Entrez le code reçu" required>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-secondary"
+                                                    @click="previousStep">Précédent</button>
+                                                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                    <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    Vérifier
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                    <!-- Erreur -->
+                                    <div x-show="errorMessage" class="mt-2">
+                                        <span x-text="errorMessage" class="text-danger"></span>
+                                    </div>
                                 </div>
 
-                                <!-- Etape 2 : Email -->
-                                <div x-show="step === 2">
-                                    <form @submit.prevent="sendVerificationCode">
-                                        <!-- Email -->
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Adresse Email</label>
-                                            <input type="email" id="email" class="form-control" x-model="email"
-                                                placeholder="Entrez votre email" required>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary"
-                                                @click="previousStep">Précédent</button>
-                                            <button type="submit" class="btn btn-primary" :disabled="isLoading">
-                                                <span x-show="isLoading" class="spinner-border spinner-border-sm"
-                                                    role="status" aria-hidden="true"></span>
-                                                Envoyer le code
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                </div>
-
-                                <!-- Etape 3 : Vérification du code -->
-                                <div x-show="step === 3">
-                                    <form @submit.prevent="verifyCode">
-                                        <!-- Code de vérification -->
-                                        <div class="mb-3">
-                                            <label for="verification_code" class="form-label">Code de vérification</label>
-                                            <input type="text" id="verification_code" class="form-control" x-model="verificationCode" placeholder="Entrez le code reçu" required>
-                                        </div>
-
-                                        <div class="d-flex justify-content-between">
-                                            <button type="button" class="btn btn-secondary" @click="previousStep">Précédent</button>
-                                            <button type="submit" class="btn btn-primary" :disabled="isLoading">
-                                                <span x-show="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                Vérifier
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                </div>
-
-                                <!-- Erreur -->
-                                <div x-show="errorMessage" class="mt-2">
-                                    <span x-text="errorMessage" class="text-danger"></span>
-                                </div>
                             </div>
-
                         </div>
-                    </div>
-                    <!-- Card Footer -->
-                    <div class="card-footer px-6 py-4">
-                        <p class="mb-0">
-                            Vous avez déjà un compte ? <a href="/login">Connectez-vous ici</a>
-                        </p>
+                        <!-- Card Footer -->
+                        <div class="card-footer px-6 py-4">
+                            <p class="mb-0">
+                                Vous avez déjà un compte ? <a href="/login">Connectez-vous ici</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 @endsection
 
 @push('script')
@@ -150,10 +154,14 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
                             body: JSON.stringify({
                                 email: this.email,
+                                nom: this.firstName,
+                                prenom: this.lastName,
+                                password: this.password,
                             }),
                         });
 
@@ -187,7 +195,8 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
                             body: JSON.stringify({
                                 email: this.email,
@@ -202,7 +211,7 @@
 
                         if (response.ok) {
                             // Connecter l'utilisateur et rediriger
-                            window.location.href = '/dashboard';  // Redirection après une vérification réussie
+                            window.location.href = '/dashboard'; // Redirection après une vérification réussie
                         } else {
                             this.errorMessage = data.message || 'Code incorrect ou expiré.';
                         }

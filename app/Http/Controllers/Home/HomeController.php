@@ -39,6 +39,16 @@ class HomeController extends Controller
     }
 
 
+    public function contact()
+    {
+        return view('home.contact');
+    }
+
+
+    public function about()
+    {
+        return view('home.about');
+    }
 
     public function programmeAffiliation()
     {

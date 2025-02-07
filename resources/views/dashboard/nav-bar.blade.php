@@ -52,8 +52,8 @@
 
 
 
-                    <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('orders.index') }}">
+                    <li class="nav-item {{ request()->routeIs('facture.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('facture.index') }}">
                             <i class="fe fe-file-text nav-icon"></i>
                             Factures
                         </a>
@@ -161,8 +161,8 @@
                 <span class="navbar-header">Parametre de compte</span>
                 <ul class="list-unstyled ms-n2 mb-0">
                     <!-- Nav item -->
-                    <li class="nav-item {{ request()->routeIs('dashboards') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('dashboards') }}">
+                    <li class="nav-item {{ request()->routeIs('profile.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('profile.index') }}">
                             <i class="fe fe-settings nav-icon"></i>
                             Mon Profile
                         </a>
