@@ -49,29 +49,21 @@ class HomeController extends Controller
 
     public function sommaireCmde()
     {
-        $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
-        $allCountries  = Country::all();
         $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
-
         $cart = session()->get('cart', []);
-
-        // Calculer le poids total et la valeur du poids en euros
         $totalWeight = 0;
         $totalValue = 0;
 
         foreach ($cart as $product) {
-            $totalWeight += $product['total_weight']; // Somme des poids
-            $totalValue += $product['total_value'];   // Somme des valeurs en euros pour le poids
+            $totalWeight += $product['total_weight'];
+            $totalValue += $product['total_value'];
         }
-
-
-        // Retourner la vue 'home.cart' avec les produits du panier et les calculs
         return view('home.orders', [
             'cart' => $cart,
             'totalWeight' => $totalWeight,
             'totalValue' => $totalValue,
             'allAdressePayment' => $allAdressePayment,
-            'listedeveliryPriceByCountries' => $listedeveliryPriceByCountries
+
         ]);
     }
 
@@ -162,10 +154,10 @@ class HomeController extends Controller
     public function showProduct($codeproduct)
     {
         $product = Product::with(['images', 'taille', 'color'])->where('codeproduct', $codeproduct)->first();
-        $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
+
         $allCountries  = Country::all();
         $allAdressePayment = [];
 
-        return view('home.productdetail', compact('product', 'allCountries', 'listedeveliryPriceByCountries', 'allAdressePayment'));
+        return view('home.productdetail', compact('product', 'allCountries', 'allAdressePayment'));
     }
 }

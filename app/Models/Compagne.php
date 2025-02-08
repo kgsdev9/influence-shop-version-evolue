@@ -17,22 +17,12 @@ class Compagne extends Model
         'end_date',
         'total_budget',
         'status',
-        'entreprise_id',
         'product_id'
     ];
-
-    public function entreprise()
-    {
-        return $this->belongsTo(Entreprise::class, 'entreprise_id');
-    }
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
 
-    public function influencers()
-    {
-        return $this->belongsToMany(Influenceur::class, 'campaign_influencer');
-    }
 }

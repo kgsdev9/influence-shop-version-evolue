@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Http\Controllers\Controller;
 use App\Models\Abonnement;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Souscription;
 use App\Models\User;
 use Carbon\Carbon;
@@ -73,6 +74,7 @@ class PaymentController extends Controller
 
     public function initialisePayment(Request $request)
     {
+        // dd(json_decode($request->cart, true));
         if ($request->arg == 1) {
             $userId = auth()->user()->id;
 
@@ -81,26 +83,45 @@ class PaymentController extends Controller
             $order = new Order();
             $order->reference = $referenceTransaction;
             $order->user_id = $userId;
-            $order->codeinfluenceur = $request->codeinfluenceur;
-            $order->entreprise_id = $request->entreprise_id ?? 1;
-            $order->cost_delivery = $request->pricedelivery;
-            $order->compagne_id = $request->compagneid ?? 2;
-            $order->qtecmde = $request->qtecmde;
+            $order->codeparainage = $request->codeinfluenceur;
+            $order->qtecmde = $request->qtecmde ?? 4;
             $order->paymentaresse_id = $request->adressepaymentid;
-            $order->influenceur_id = $request->idinfulenceur;
-            $order->product_id = $request->product_id;
-            $order->montantht = $request->netapyer;
+            $order->montantht = $request->montantht;
             $order->montanttva = 0;
-            $order->montanttc = $request->netapyer;
+            $order->montanttc = $request->montantttc;
+            $order->poidscmde = $request->poidtotalscmde ?? 0;
+            $order->montantpoidscmde = $request->poidstotalmontant ?? 0;
+            $order->montantlivraison = $request->poidstotalmontant ?? 0;
             $order->status = 'pending';
-            $order->shipping_address = $request->adresse;
-            $order->pricedeliverybycountry_id = $request->deliverycountryid;
+            $order->payment_method = $request->payment_method;
             $order->save();
+
+
+            $cartItems = json_decode($request->cart, true);
+
+
+            foreach ($cartItems as $cartItem) {
+                OrderDetail::create([
+                    'order_id' => $order->id,
+                    'product' => $cartItem['name'],
+                    'seller_id' => $cartItem['seller_id'] ?? null,
+                    'taile' => $cartItem['taille'] ?? null,
+                    'couleur' => $cartItem['color'] ?? null,
+                    'prixunitaire' => $cartItem['price'],
+                    'qunatite' => $cartItem['quantity'],
+                    'poidsarticle' => $cartItem['weight'] * $cartItem['quantity'],
+                    'montantpoidsarticle' => $cartItem['weight'] * $cartItem['quantity'],
+                    'montantht' => $cartItem['quantity'] * $cartItem['price'],
+                    'montanttva' => 0,
+                    'montanttc' => $cartItem['quantity'] * $cartItem['price'],
+                ]);
+            }
+
 
             $returnContext = json_encode([
                 'user_id' => $userId,
                 'transaction_id' => $order->id,
-                'reference' => $order->reference,
+                'reference' => $referenceTransaction,
                 'arg' => $request->arg,
                 'data' => true
             ]);
@@ -108,13 +129,13 @@ class PaymentController extends Controller
             $data = [
                 'merchantId' => "PP-F2197",
                 'amount' => '1',
-                'description' => $request->productname,
+                'description' => $request->reference,
                 'channel' => 'ORANGE CI',
                 'countryCurrencyCode' => "FCFA",
                 'referenceNumber' => $referenceTransaction,
                 'customerEmail' => Auth::user()->email,
-                'customerFirstName' => Auth::user()->name,
-                'customerLastname' => Auth::user()->name,
+                'customerFirstName' => Auth::user()->nom,
+                'customerLastname' => Auth::user()->prenom,
                 'customerPhoneNumber' => $request->telephone,
                 'notificationURL' => route('payment.status'),
                 'returnURL'  => route('payment.status'),

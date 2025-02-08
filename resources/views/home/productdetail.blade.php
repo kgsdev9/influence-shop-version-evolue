@@ -239,14 +239,8 @@
     <script>
         function formSteps() {
             return {
-                listedeveliryPriceByCountries: @json($listedeveliryPriceByCountries),
                 product: @json($product),
-                sizes: '',
-                init() {
-                    this.sizes = Array.isArray(this.product.sizes) ? this.product.sizes : [];
-                    console.log(this.sizes.length); // Affiche la longueur d'un tableau propre
-                }
-
+              
             };
         }
     </script>

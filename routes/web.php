@@ -48,7 +48,7 @@ use App\Http\Controllers\Vente\VenteController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
 Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('detail.blog');
-Route::get('/sommaire-cmde', [HomeController::class, 'sommaireCmde'])->name('somaire.cmde');
+Route::get('/sommaire-cmde', [HomeController::class, 'sommaireCmde'])->name('somaire.cmde')->middleware('auth');
 
 
 Route::get('/programme-affiliation', [HomeController::class, 'programmeAffiliation'])->name('programme.affiliation');

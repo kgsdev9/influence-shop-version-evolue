@@ -135,6 +135,13 @@
                                                                         <h5 class="mb-0" x-text="`${product.price} €`">
                                                                         </h5>
                                                                     </div>
+                                                                    <div>
+                                                                        <span class="text-dark fw-medium"
+                                                                            x-text="'Couleur: ' + (product.color || 'N/A')"></span>
+
+                                                                        <span class="text-dark fw-medium"
+                                                                            x-text="'Taille: ' + (product.taille|| 'N/A')"></span>
+                                                                    </div>
                                                                     <span
                                                                         x-text="`Quantité: ${product.quantity || 1}`"></span>
                                                                 </div>
@@ -189,7 +196,7 @@
                                     </div>
 
                                     <div class="d-grid mt-4">
-                                        <button class="btn btn-outline-warning">
+                                        <button class="btn btn-outline-warning" @click="processPayment()">
                                             <i class="bi bi-credit-card"></i> Procéder au paiement
                                         </button>
                                     </div>
@@ -223,6 +230,52 @@
                     </div>
                 </div>
             </div>
+
+            <template x-if="showModal">
+                <div class="modal fade show d-block" tabindex="-1" aria-modal="true"
+                    style="background-color: rgba(0,0,0,0.5)">
+                    <div class="modal-dialog ">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" x-text="isEdite ? 'Modification' : 'Création'"></h5>
+                                <button type="button" class="btn-close" @click="hideModal()"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form @submit.prevent="storeAdresse">
+                                    <div class="row">
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telephone" class="form-label">Téléphone</label>
+                                            <input type="text" id="telephone" class="form-control"
+                                                x-model="form.telephone">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="telephone" class="form-label">Ville</label>
+                                            <input type="text" id="city" class="form-control"
+                                                x-model="form.city">
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <label for="adresse" class="form-label">Adresse</label>
+                                            <textarea id="adresse" class="form-control" x-model="form.adresse" rows="4" cols="50" required></textarea>
+                                        </div>
+
+
+                                        <div class="col-md-6 mb-3 mt-2">
+                                            <label for="action" class="form-label"></label>
+                                            <button type="submit" class="btn btn-primary"
+                                                x-text="isEdite ? 'Mettre à jour' : 'Enregistrer'"></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+
         </section>
     </main>
 
@@ -237,6 +290,7 @@
                 showModal: false,
                 selectedAdresse: null,
                 adressepaymentid: null,
+                telephone: null,
                 form: {
                     country_origine: '',
                     telephone: '',
@@ -264,9 +318,11 @@
 
                 selectAdresse(file) {
                     this.selectedAdresse = file;
+                    this.adressepaymentid = this.selectedAdresse.id;
+                    this.telephone = this.selectedAdresse.telephone;
+
 
                 },
-
 
                 get total() {
                     return this.products.reduce((total, product) => total + (parseFloat(product.price) * product
@@ -280,26 +336,9 @@
                     return this.totalWeight; // 1 kg = 1€
                 },
                 get finalTotal() {
-                    return this.total + this.totalWeightInEuros; // Montant HT + Montant Poids
+                    return this.total + this.totalWeightInEuros;
                 },
-                updateQuantity(index, quantity) {
-                    if (quantity < 1) return; // Empêcher la quantité d'être inférieure à 1
-                    this.products[index].quantity = quantity;
 
-                    // Mettre à jour la quantité côté serveur
-                    fetch('/update-quantity', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                        },
-                        body: JSON.stringify({
-                            index,
-                            quantity
-                        })
-                    });
-                },
-                // Validation des champs obligatoires
 
                 addAdresse() {
                     if (this.files.length >= 2) {
@@ -456,6 +495,59 @@
                         });
                     }
                 },
+
+                async processPayment() {
+                    const formData = new FormData();
+                    formData.append('arg', 1);
+                    formData.append('telephone', this.telephone);
+                    formData.append('adressepaymentid', this.adressepaymentid);
+                    formData.append('cart', JSON.stringify(this.products)); // Assurez-vous que cart est en format JSON
+                    formData.append('montantht', this.total.toFixed(2)); // Ajout du total
+                    formData.append('poidtotalscmde', this.totalWeight.toFixed(2)); // Ajout du poids total
+                    formData.append('poidstotalmontant', this.totalWeightInEuros.toFixed(
+                        2)); // Ajout du poids converti en euros
+                    formData.append('montantttc', this.finalTotal.toFixed(2)); // Ajout du montant final
+
+                    if (!this.adressepaymentid)
+                    {
+                        alert('veuillez selectionner une adresse de paiement')
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('{{ route('begin.payment') }}', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: formData
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+
+                            if (data.payment_url) {
+                                window.location.href = data.payment_url;
+                            } else {
+                                alert('Erreur: ' + (data.error || 'URL de paiement introuvable.'));
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur lors de l\'enregistrement.',
+                                showConfirmButton: true
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Erreur réseau :', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Une erreur est survenue.',
+                            showConfirmButton: true
+                        });
+                    }
+                },
+
             };
         }
     </script>

@@ -21,13 +21,4 @@ class PerfomanceCompagne extends Model
         'measured_at',
     ];
 
-    //ID de la campagne : campaign_id (clé étrangère vers la table campaigns)
-    // Nombre d'impressions : impressions
-    // Nombre de clics : clicks
-    // Nombre de conversions : conversions
-    // Taux de clics (CTR) : click_through_rate
-    // Coût par clic (CPC) : cost_per_click
-    // Coût par conversion (CPA) : cost_per_acquisition
-    // Revenu généré : revenue_generated
-
 }
