@@ -42,9 +42,24 @@ class VerificationCodeController extends Controller
         return $username;
     }
 
+
+    private function generateUniqueCodeProfileUsers()
+    {
+        // Boucle pour garantir l'unicité du codeproduct
+        do {
+            // Générer un codeproduct unique
+            $codeproduct = 'vtp-' . Str::uuid()->toString();
+
+            // Vérifier si ce codeproduct existe déjà
+            $existingProduct = User::where('codeprofile', $codeproduct)->first();
+        } while ($existingProduct); // Si ce code existe, refaire la boucle
+
+        return $codeproduct;
+    }
+
+
     public function sendVerificationCode(Request $request)
     {
-      
         // Chercher l'utilisateur par email
         $user = User::where('email', $request->email)->first();
 
@@ -53,6 +68,7 @@ class VerificationCodeController extends Controller
             $user = User::create([
                 'name' => $this->generateUsername(),
                 'email' => $request->email,
+                'codeprofile' => $this->generateUniqueCodeProfileUsers(),
                 'nom' => $request->nom,
                 'prenom' => $request->prenom,
                 'password' => Hash::make($request->password) ?? 12345,

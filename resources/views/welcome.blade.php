@@ -102,11 +102,27 @@
                                     <p class="card-text text-muted"
                                         x-text="product.shortdescription.length > 50 ? product.shortdescription.substring(0, 50) + '...' : product.description">
                                     </p>
+
+                                    <!-- Taille et Couleur -->
+                                    <div class="d-flex justify-content-between mt-3"
+                                        x-show="product.taille || product.color">
+                                        <template x-if="product.taille">
+                                            <span class="text-muted" x-text="`Taille: ${product.taille.name}`"></span>
+                                        </template>
+                                        <template x-if="product.color">
+                                            <span class="text-muted" x-text="`Couleur: ${product.color.name}`"></span>
+                                        </template>
+                                    </div>
+
+
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
                                         <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                        <a :href="`/buyProduct/${product.codeproduct}`" class="btn btn-danger btn-sm">
-                                            <i class="fe fe-shopping-cart fs-3"></i> Acheter
-                                        </a>
+                                        <!-- Nouveau bouton "Ajouter au Panier" -->
+                                        <!-- Exemple de bouton "Ajouter au Panier" dans une page -->
+                                        <button @click="$store.cart.addToCart(product)" class="btn btn-danger btn-sm">
+                                            <i class="fe fe-shopping-cart fs-3"></i> Ajouter au Panier
+                                        </button>
+
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +130,11 @@
                     </template>
                 </div>
 
+
+
             </div>
         </section>
+
 
         <section class="py-6 py-lg-2 bg-white mt-2" style="background-color: #F5F5F5;">
             <div class="container py-lg-6">
@@ -135,10 +154,10 @@
                 <section class="pb-8">
                     <div class="container">
                         <div class="row">
-                            <template x-for="event in filteredEvents"
-                                :key="event.id">
+                            <template x-for="event in filteredEvents" :key="event.id">
                                 <div class="col-xl-4 col-md-6 col-12">
-                                    <div class="card card-lift d-flex flex-column" style="height: 100%; min-height:300px;">
+                                    <div class="card card-lift d-flex flex-column"
+                                        style="height: 100%; min-height:300px;">
                                         <a :href="`/blog/detail/${event.codeblog}`">
                                             <img :src="event.image ? `/s3/${event.image}` : (event.images && event.images.length ?
                                                 `/s3/${event.product[0].imagename}` :
@@ -218,6 +237,7 @@
                 filteredProducts: [], // Liste des produits filtrés
                 isLoading: true, // Indique si les produits sont en cours de chargement
                 blog: @json($listepub),
+                cart: [],
                 init() {
                     // Simulation du chargement
                     setTimeout(() => {
@@ -228,13 +248,52 @@
                 },
 
                 filterProducts() {
-                    // Vérifier si une catégorie est sélectionnée
                     this.filteredProducts = this.products.filter(product => {
-                        // Si aucune catégorie n'est sélectionnée, tous les produits sont retournés
-                        // Sinon, seuls les produits appartenant à la catégorie sélectionnée sont retournés
+
                         return this.selectedCategory === null || product.category_id === this.selectedCategory;
                     });
                 },
+
+                // addToCart(product) {
+
+                //     let productToAdd = {
+                //         id: product.id,
+                //         name: product.name,
+                //         name: product.name,
+                //         price: product.price_vente,
+                //         quantity: 1,
+                //         weight: product.poids,
+                //         taille: product.taille.name ? product.taille.name : '',
+                //         color: product.color.name ? product.color.name : '',
+                //         image: product.images.length ? `/s3/${product.images[0].imagename}` :
+                //             '../../assets/images/default-product.jpg'
+                //     };
+
+
+
+                //     // Ajoute au panier local (pour affichage immédiat dans la vue)
+                //     this.cart.push(productToAdd);
+
+                //     // Envoie les données au backend pour sauvegarde dans la session
+                //     fetch('/add-to-cart', {
+                //             method: 'POST',
+                //             headers: {
+                //                 'Content-Type': 'application/json',
+                //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                //             },
+                //             body: JSON.stringify({
+                //                 product: productToAdd
+                //             })
+                //         })
+                //         .then(response => response.json())
+                //         .then(data => {
+                //             if (data.success) {
+                //                 alert("Produit ajouté au panier !");
+                //             } else {
+                //                 alert("Une erreur est survenue.");
+                //             }
+                //         });
+                // },
 
 
                 filteredEvents() {

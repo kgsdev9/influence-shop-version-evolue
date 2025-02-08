@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Blog\BlogController;
+use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\City\CityController;
 use App\Http\Controllers\Country\CountryController;
@@ -47,6 +48,7 @@ use App\Http\Controllers\Vente\VenteController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
 Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('detail.blog');
+Route::get('/sommaire-cmde', [HomeController::class, 'sommaireCmde'])->name('somaire.cmde');
 
 
 Route::get('/programme-affiliation', [HomeController::class, 'programmeAffiliation'])->name('programme.affiliation');
@@ -57,13 +59,14 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 
 
 
-
-
+Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+Route::get('/cart', [CartController::class, 'getCart'])->name('cart.home');
+Route::post('/remove-product', [CartController::class, 'removeProduct'])->name('remove.product.cart');
+Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update.product.cart');
 
 
 Route::get('/compaign', [HomeController::class, 'homeCompagne'])->name('homeCompagne');
 Route::get('/products/home', [HomeController::class, 'homeProduct'])->name('product.home');
-Route::get('/cart', [HomeController::class, 'cart'])->name('cart.home');
 
 Route::get('/buyProduct/{id}', [HomeController::class, 'buyProduct'])->name('buy.product')->middleware('auth');
 Route::get('/product/detail/{id}', [HomeController::class, 'showProduct'])->name('product.show');

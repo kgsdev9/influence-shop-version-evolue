@@ -26,12 +26,19 @@
             </div>
             <div class="order-lg-3">
                 <div class="d-flex align-items-center">
+
+                    <a href="{{ route('cart.home') }}"
+                        class="btn btn-icon btn-light rounded-circle d-none d-md-inline-flex ms-2"><i
+                            class="fe fe-shopping-cart align-middle"></i></a>
+
                     <div class="dropdown">
                         <a href="{{ route('dashboards') }}"
                             class="btn btn-light btn-icon rounded-circle d-flex align-items-center mx-2" type="button">
                             <i class="bi bi-person"></i>
 
                         </a>
+
+
 
                     </div>
 
@@ -164,7 +171,7 @@
                             <li><a href="{{ route('homeCompagne') }}"
                                     class="nav-link {{ request()->routeIs('homeCompagne') ? 'active' : '' }}">Nos
                                     Compagnes</a></li>
-                            <li><a href="{{route('about')}}" class="nav-link">A propos</a></li>
+                            <li><a href="{{ route('about') }}" class="nav-link">A propos</a></li>
                         </ul>
                     </div>
                 </div>
@@ -221,6 +228,53 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     @stack('script')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            // Déclaration du store global "cart"
+            Alpine.store('cart', {
+                items: [], // Contiendra les produits du panier
+                // Fonction pour ajouter un produit au panier
+                addToCart(product) {
+                    let productToAdd = {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price_vente,
+                        quantity: 1,
+                        weight: product.poids,
+                        taille: product.taille ? product.taille.name : '',
+                        color: product.color ? product.color.name : '',
+                        image: product.images.length ? `/s3/${product.images[0].imagename}` :
+                            '../../assets/images/default-product.jpg'
+                    };
+
+                    // Ajout du produit dans le tableau "items"
+                    this.items.push(productToAdd);
+
+                    // Envoi au backend pour sauvegarder dans la session
+                    fetch('/add-to-cart', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            },
+                            body: JSON.stringify({
+                                product: productToAdd
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("Produit ajouté au panier !");
+                            } else {
+                                alert("Une erreur est survenue.");
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+
 
 </body>
 

@@ -15,8 +15,16 @@ class CreatePaymentLinksTable extends Migration
     {
         Schema::create('payment_links', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->timestamps();
+            $table->string('title'); // Titre du lien de paiement
+            $table->decimal('amount', 10, 2); // Montant du paiement
+            $table->string('currency', 3); // Devise, par exemple 'USD', 'EUR'
+            $table->enum('status', ['active', 'paid', 'expired']); // Statut du lien
+            $table->timestamp('expiration_date')->nullable(); // Date d'expiration du lien
+            $table->unsignedBigInteger('user_id'); // ID de l'utilisateur créateur du lien
+            $table->string('payment_method')->nullable(); // Méthode de paiement (facultatif)
+            $table->text('description')->nullable(); // Description (facultatif)
+            $table->string('link'); // Le lien de paiement généré
+            $table->timestamps(); // Horodatage
         });
     }
 

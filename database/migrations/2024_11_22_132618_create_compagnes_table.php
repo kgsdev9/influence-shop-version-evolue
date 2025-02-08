@@ -22,9 +22,9 @@ class CreateCompagnesTable extends Migration
             $table->date('end_date')->nullable();
             $table->decimal('total_budget', 15, 2)->nullable();
             $table->string('status')->default('pending');
-            $table->unsignedBigInteger('entreprise_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('product_id')->nullable();
-            $table->foreign('entreprise_id')->references('id')->on('entreprises')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
             $table->timestamps();
         });

@@ -16,20 +16,23 @@ class Product extends Model
         'price_vente',
         'user_id',
         'shortdescription',
+        'poids',
+        'couleur_id',
+        'taille_id',
         'description',
         'category_id',
         'qtedisponible',
         'status',
     ];
 
-    public function sizes()
+    public function taille()
     {
-        return $this->hasMany(Taille::class);
+        return $this->belongsTo(Taille::class, 'taille_id');
     }
 
-    public function colors()
+    public function color()
     {
-        return $this->hasMany(Couleur::class);
+        return $this->belongsTo(Couleur::class, 'couleur_id');
     }
 
 

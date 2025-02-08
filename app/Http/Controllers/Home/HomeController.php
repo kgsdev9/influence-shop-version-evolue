@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Abonnement;
 use App\Models\Category;
 use App\Models\Compagne;
+use App\Models\Couleur;
 use App\Models\Country;
 use App\Models\Order;
 use App\Models\PaymentAdresse;
 use App\Models\PriceDeliveryByCountry;
 use App\Models\Product;
 use App\Models\PubBlog;
+use App\Models\Taille;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -25,7 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         // Récupère tous les produits avec leurs images
-        $listeproduct = Product::with('images')->get();
+        $listeproduct = Product::with(['images', 'taille', 'color'])->get();
+
 
         // Récupère toutes les catégories qui ont des produits associés
         $categories = Category::has('products')->get();
@@ -43,6 +46,39 @@ class HomeController extends Controller
     {
         return view('home.contact');
     }
+
+    public function sommaireCmde()
+    {
+        $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
+        $allCountries  = Country::all();
+        $allAdressePayment = PaymentAdresse::where('user_id', Auth::user()->id)->get();
+
+        $cart = session()->get('cart', []);
+
+        // Calculer le poids total et la valeur du poids en euros
+        $totalWeight = 0;
+        $totalValue = 0;
+
+        foreach ($cart as $product) {
+            $totalWeight += $product['total_weight']; // Somme des poids
+            $totalValue += $product['total_value'];   // Somme des valeurs en euros pour le poids
+        }
+
+
+        // Retourner la vue 'home.cart' avec les produits du panier et les calculs
+        return view('home.orders', [
+            'cart' => $cart,
+            'totalWeight' => $totalWeight,
+            'totalValue' => $totalValue,
+            'allAdressePayment' => $allAdressePayment,
+            'listedeveliryPriceByCountries' => $listedeveliryPriceByCountries
+        ]);
+    }
+
+
+
+
+
 
 
     public function about()
@@ -64,16 +100,6 @@ class HomeController extends Controller
 
 
 
-
-
-
-    public function cart()
-    {
-        return view('home.cart');
-    }
-
-
-
     public function homeCompagne()
     {
         $compagnes = Compagne::with('product.images')->get();
@@ -91,19 +117,13 @@ class HomeController extends Controller
 
     public function homeProduct()
     {
-        $listeproduct = Product::with(['images', 'sizes', 'colors'])->get();
+        $listeproduct = Product::with(['images', 'taille', 'color'])->get();
+
         $categories = Category::has('products')->get();
-        $sizes = $listeproduct->flatMap(function ($product) {
-            return $product->sizes;
-        })->unique('id');
-        $colors = $listeproduct->flatMap(function ($product) {
-            return $product->colors;
-        })->unique('id');
+        $colors = Couleur::has('products')->get();
+        $tailles = Taille::has('products')->get();
 
-        // Calculer le prix maximal
-        $maxPrice = $listeproduct->max('price_vente');
-
-        return view('home.product', compact('listeproduct', 'categories', 'sizes', 'colors', 'maxPrice'));
+        return view('home.product', compact('listeproduct', 'categories', 'colors', 'tailles'));
     }
 
 
@@ -141,7 +161,7 @@ class HomeController extends Controller
     }
     public function showProduct($codeproduct)
     {
-        $product = Product::with(['images', 'sizes', 'colors'])->where('codeproduct', $codeproduct)->first();
+        $product = Product::with(['images', 'taille', 'color'])->where('codeproduct', $codeproduct)->first();
         $listedeveliryPriceByCountries = PriceDeliveryByCountry::all();
         $allCountries  = Country::all();
         $allAdressePayment = [];

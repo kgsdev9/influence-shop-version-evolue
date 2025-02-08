@@ -18,8 +18,8 @@ class CreateInfluenceurSocialProfilesTable extends Migration
             $table->string('namesocialprofile');
             $table->string('link');
             $table->unsignedBigInteger('followers')->default(0);
-            $table->unsignedBigInteger('influenceur_id');
-            $table->foreign('influenceur_id')->references('id')->on('influenceurs')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

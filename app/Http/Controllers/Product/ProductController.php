@@ -45,14 +45,15 @@ class ProductController extends Controller
     public function create()
     {
         $allCategories = Category::all();
-        return view('product.add', compact('allCategories'));
+        $listetailles = Taille::all();
+        $listecouleurs = Couleur::all();
+        return view('product.add', compact('allCategories', 'listetailles', 'listecouleurs'));
     }
-
-
 
 
     public function store(Request $request)
     {
+
         // Vérifier si un product_id existe dans la requête
         $productId = $request->input('product_id');
 
@@ -93,29 +94,7 @@ class ProductController extends Controller
             'user_id' => Auth::user()->id,
         ]);
 
-        // Supprimer les anciennes couleurs et tailles
-        $product->colors()->delete();  // Suppression des couleurs existantes
-        $product->sizes()->delete();  // Suppression des tailles existantes
 
-        // Ajouter les nouvelles couleurs
-        if ($request->has('colors')) {
-            foreach ($request->colors as $color) {
-                Couleur::create([
-                    'name' => $color,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
-
-        // Ajouter les nouvelles tailles
-        if ($request->has('sizes')) {
-            foreach ($request->sizes as $size) {
-                Taille::create([
-                    'name' => $size,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
 
         // Supprimer les anciennes images et les recréer
         $product->images()->delete();  // Suppression des anciennes images
@@ -165,28 +144,11 @@ class ProductController extends Controller
             'shortdescription' => $request->product_description,
             'qtedisponible' => $request->qtedispo,
             'category_id' => $request->product_category,
+            'couleur_id' => $request->product_color,
+            'taille_id' => $request->product_size,
+            'poids' => $request->product_weight,
             'user_id' => Auth::user()->id,
         ]);
-
-        // Enregistrer les couleurs si elles existent
-        if ($request->has('colors')) {
-            foreach ($request->colors as $color) {
-                Couleur::create([
-                    'name' => $color ?? '',
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
-
-        // Enregistrer les tailles si elles existent
-        if ($request->has('sizes')) {
-            foreach ($request->sizes as $size) {
-                Taille::create([
-                    'name' => $size,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
 
         // Si des fichiers sont envoyés, les traiter
         if ($request->hasFile('files')) {
@@ -195,7 +157,7 @@ class ProductController extends Controller
                 $path = $file->storeAs('products', $originalName);  // Stockage dans 'storage/app/public/products'
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'imagename' => $path,  // Le chemin du fichier
+                    'imagename' => $path,
                 ]);
             }
         }

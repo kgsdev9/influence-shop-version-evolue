@@ -18,17 +18,27 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'namestore',
+        'codevente',
+        'whatsapp',
         'nom',
+        'nom_entreprise',
+        'type_entreprise',
+        'capital',
+        'siteweb',
+        'adresse',
+        'description',
         'prenom',
-        'confirmed_at',
+        'telephone',
+        'codeprofile',
         'email',
+        'email_verified_at',
+        'confirmed_at',
         'country_id',
         'city_id',
-        'role_id', 
+        'role_id',
         'password',
     ];
-
-
 
     public function role()
     {

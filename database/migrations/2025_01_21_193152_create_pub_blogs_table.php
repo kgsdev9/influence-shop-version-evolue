@@ -27,6 +27,8 @@ class CreatePubBlogsTable extends Migration
             $table->integer('price')->nullable();
             $table->string('temps_lecture')->nullable();
             $table->boolean('publish_at')->default(0);
+            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('cascade');
+            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('cascade');
             $table->timestamps();
         });
     }

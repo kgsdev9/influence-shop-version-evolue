@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->string('reference')->unique();
             $table->unsignedBigInteger('user_id');
             $table->string('codeinfluenceur')->nullable();
-            $table->unsignedBigInteger('entreprise_id');
+            $table->unsignedBigInteger('seller_id');
             $table->integer('qtecmde')->default(1);
             $table->unsignedBigInteger('influenceur_id')->nullable();
             $table->unsignedBigInteger('product_id');
@@ -35,9 +35,9 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('paymentaresse_id')->nullable();
             $table->timestamp('delivery_time')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('entreprise_id')->references('id')->on('entreprises')->onDelete('cascade');
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('compagne_id')->references('id')->on('compagnes')->onDelete('cascade');
-            $table->foreign('influenceur_id')->references('id')->on('influenceurs')->onDelete('set null');
+            $table->foreign('influenceur_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('paymentaresse_id')->references('id')->on('payment_adresses')->onDelete('set null');
             $table->foreign('pricedeliverybycountry_id')->references('id')->on('price_delivery_by_countries')->onDelete('cascade');

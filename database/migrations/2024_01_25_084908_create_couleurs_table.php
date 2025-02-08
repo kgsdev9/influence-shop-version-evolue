@@ -15,9 +15,7 @@ class CreateCouleursTable extends Migration
     {
         Schema::create('couleurs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
             $table->string('name');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
     }
