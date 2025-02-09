@@ -19,12 +19,15 @@ class CreatePaymentAdressesTable extends Migration
             $table->string('email');
             $table->text('adresse');
             $table->string('city')->nullable();
+            $table->string('pays')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->boolean('is_default')->default(false);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
+
+   
 
     /**
      * Reverse the migrations.

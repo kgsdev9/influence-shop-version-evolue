@@ -21,7 +21,9 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <div class="d-flex">
-                <a class="navbar-brand text-dark" href="/"> VTP-SAS </a>
+                <a class="navbar-brand text-dark" href="/">
+                    <img src="{{ asset('logo.png') }}" alt="" height="25px;">
+                </a>
 
             </div>
             <div class="order-lg-3">
@@ -72,31 +74,31 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('product.home') ? 'active' : '' }}"
                             href="{{ route('product.home') }}">
-                            <i class="bi bi-box"></i>
-                           NOS PRODUITS
+
+                            NOS PRODUITS
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home.compagnes') ? 'active' : '' }}"
                             href="{{ route('home.compagnes') }}">
-                            <i class="bi bi-hand-thumbs-up"></i> <!-- Icône pour "Nos Compagnes" -->
-                            COMPAGNES DE PROMOTION
+
+                            COMPAGNES DE PROMOTION PRODUITS
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('homeBlog') ? 'active' : '' }}"
                             href="{{ route('homeBlog') }}">
-                            <i class="bi bi-megaphone"></i> <!-- Icône pour "Nos Publicités" -->
-                            COMPAGNES PUBLICITAIRES
+
+                            COMPAGNES EVENEMENTIEL
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('delivery.status') ? 'active' : '' }}"
                             href="{{ route('delivery.status') }}">
-                            <i class="bi bi-truck-front"></i>
+
                             SUIVRE UN COLIS
                         </a>
                     </li>
@@ -119,7 +121,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- about company -->
                     <div class="mb-4">
-                       VTP-SAS
+                        <img src="{{ asset('logo.png') }}" style="height:30px;" alt="">
 
 
                         <div class="mt-4">
@@ -183,9 +185,10 @@
                             <li><a href="{{ route('faq') }}" class="nav-link">FAQ’s</a></li>
                             <li><a href="{{ route('cgu') }}" class="nav-link">Condition d'utilisation </a></li>
                             @guest
-                            <li><a href="{{ route('register.form.entreprise') }}" class="nav-link">Devenir Vendeur</a></li>
-                        </ul>
-                            @endguest
+                                <li><a href="{{ route('register.form.entreprise') }}" class="nav-link">Devenir
+                                        Vendeur</a></li>
+                            </ul>
+                        @endguest
 
                     </div>
                 </div>

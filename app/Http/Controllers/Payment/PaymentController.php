@@ -105,7 +105,11 @@ class PaymentController extends Controller
             $cartItems = json_decode($request->cart, true);
 
 
+            $qteCmde = 0;
+
             foreach ($cartItems as $cartItem) {
+
+
                 OrderDetail::create([
                     'order_id' => $order->id,
                     'product' => $cartItem['name'],
@@ -120,9 +124,14 @@ class PaymentController extends Controller
                     'montanttva' => 0,
                     'montanttc' => $cartItem['quantity'] * $cartItem['price'],
                 ]);
+
+                $qteCmde += $cartItem['quantity'];
             }
 
-
+            $order->update([
+                'qtecmde' => $qteCmde
+            ]);
+         
             $returnContext = json_encode([
                 'user_id' => $userId,
                 'transaction_id' => $order->id,

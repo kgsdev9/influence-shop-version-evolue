@@ -15,6 +15,7 @@ class PaymentAdresse extends Model
         'adresse',
         'user_id',
         'city',
+        'pays',
         'is_default',
     ];
 

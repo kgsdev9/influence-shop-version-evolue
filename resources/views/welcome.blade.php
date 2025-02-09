@@ -95,7 +95,7 @@
                                 <!-- Informations produit -->
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title">
-                                        <a :href="`/product/${product.codeproduct}`" class="text-inherit"
+                                        <a :href="`/product/detail/${product.codeproduct}`" class="text-inherit"
                                             x-text="product.name"></a>
                                     </h5>
                                     <p class="card-text text-muted"
@@ -118,7 +118,7 @@
                                         <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
 
                                         <button @click="$store.cart.addToCart(product)" class="btn btn-danger btn-sm">
-                                            <i class="fe fe-shopping-cart fs-3"></i> Ajouter au Panier
+                                            <i class="fe fe-shopping-cart fs-3"></i> Panier
                                         </button>
 
                                     </div>

@@ -16,11 +16,9 @@
                                         <h3 class="mb-0">Liste des commandes </h3>
                                         <span>Gestion des commandes .</span>
                                     </div>
-
                                 </div>
 
                                 <div class="p-4 row">
-                                    <!-- Form -->
                                     <form class="d-flex align-items-center col-12 col-md-8 col-lg-3">
                                         <span class="position-absolute ps-3 search-icon">
                                             <i class="fe fe-search"></i>
@@ -38,7 +36,6 @@
                                                 <th scope="col">Qte Cmde</th>
                                                 <th scope="col">Montant TTC </th>
                                                 <th scope="col">Status</th>
-
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -46,8 +43,6 @@
 
                                             <template x-for="product in paginatedProducts" :key="product.id">
                                                 <tr>
-
-
                                                     <td>
                                                         <div class="d-flex align-items-center">
                                                             <!-- SVG pour la commande -->
@@ -91,7 +86,7 @@
                                                         </a>
                                                     </td>
 
-                                                   
+
 
                                                     <td>
                                                         <!-- Affichage des boutons selon le statut -->
