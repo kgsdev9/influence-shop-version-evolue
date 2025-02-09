@@ -27,19 +27,16 @@
             <div class="order-lg-3">
                 <div class="d-flex align-items-center">
 
-                    <a href="{{ route('cart.home') }}"
-                        class="btn btn-icon btn-light rounded-circle d-none d-md-inline-flex ms-2"><i
-                            class="fe fe-shopping-cart align-middle"></i></a>
 
+                    <a href="{{ route('cart.home') }}"
+                    class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
+                        class="fe fe-shopping-cart align-middle"></i></a>
                     <div class="dropdown">
                         <a href="{{ route('dashboards') }}"
                             class="btn btn-light btn-icon rounded-circle d-flex align-items-center mx-2" type="button">
                             <i class="bi bi-person"></i>
 
                         </a>
-
-
-
                     </div>
 
                     @guest
@@ -47,6 +44,7 @@
                             <i class="bi bi-box-arrow-in-right"></i> Connexion
                         </a>
                     @else
+                    @can('access-entreprise')
                         <a type="button" class="btn btn-outline-warning btn-sm" href="{{ route('products.create') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -54,6 +52,7 @@
                             </svg>
 
                         </a>
+                    @endcan
                     @endguest
 
                     <!-- Button -->

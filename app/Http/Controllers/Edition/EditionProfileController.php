@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Edition;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EditionProfileController extends Controller
 {
@@ -14,72 +16,35 @@ class EditionProfileController extends Controller
      */
     public function profile()
     {
-        return view('dashboard.profile.profile');
+        $user = User::where('codeprofile', Auth::user()->codeprofile)->first();
+        return view('dashboard.profile.profile', compact('user'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function updateProfile(Request $request)
     {
-        //
+        $user = User::where('codeprofile', Auth::user()->codeprofile)->first();
+
+        $user->nom = $request->input('first_name');
+        $user->prenom = $request->input('last_name');
+        $user->telephone = $request->input('phone');
+
+        $user->save();
+
+        return response()->json(['success' => true]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function deleteAccount()
     {
-        //
-    }
+        $user = User::where('codeprofile', Auth::user()->codeprofile)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        // Supprimer le compte de l'utilisateur
+        $user->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        // Déconnecter l'utilisateur
+        Auth::logout();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json(['success' => true]);
+
     }
 }

@@ -38,7 +38,7 @@
                                                 <th scope="col">Qte Cmde</th>
                                                 <th scope="col">Montant TTC </th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Livraison</th>
+
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -91,9 +91,7 @@
                                                         </a>
                                                     </td>
 
-                                                    <td>
-                                                        <span>En Cours</span>
-                                                    </td>
+                                                   
 
                                                     <td>
                                                         <!-- Affichage des boutons selon le statut -->

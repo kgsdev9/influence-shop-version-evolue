@@ -14,95 +14,97 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-6">
                                     <div>
-                                        <h4 class="mb-0">Recu de paiement </h4>
-                                    </div>
+                                        <h4 class="mb-0">
+                                            @if ($commande->status === 'pending')
+                                                Commande en cours
+                                            @elseif ($commande->status === 'validée')
+                                                Reçu de paiement
+
+                                                <a href="{{ route('print.orders', $commande->id) }}"
+                                                    class="btn btn-primary">Imprimer</a>
+                                            @else
+                                                Échec
+                                            @endif
+                                        </h4>
                                 </div>
-                                <!-- Row -->
-                                <div class="row">
+                            </div>
+                            <!-- Row -->
+                            <div class="row">
 
-                                    <div class="col-md-4 col-12">
-                                        <span class="fs-6">Client </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->telephone }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-2 col-12">
-                                        <span class="fs-6">Télephone </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->telephone }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-3 col-12">
-                                        <span class="fs-6">Email </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->email }}</h5>
-
-                                    </div>
-
-                                    <div class="col-md-3 col-12">
-                                        <span class="fs-6">Ville </span>
-                                        <h5 class="mb-3">{{ $commande->adresse->city }}</h5>
-
-                                    </div>
-                                </div>
-                                <!-- Row -->
-                                <div class="row mb-5">
-                                    <div class="col-4">
-                                        <span class="fs-6">Code commande</span>
-                                        <h6 class="mb-0">{{ $commande->reference }}</h6>
-                                    </div>
-                                    <div class="col-4">
-                                        <span class="fs-6">Date </span>
-                                        <h6 class="mb-0">{{ $commande->created_at }}</h6>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Adresse </span>
-                                        <h6 class="mb-0">{{ $commande->adresse->adresse }}</h6>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Pays de destination </span>
-                                        <h6 class="mb-0">{{ $commande->deliverycontry->country_start }}</h6>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <span class="fs-6">Pays d'arrivée </span>
-                                        <h6 class="mb-0">{{ $commande->deliverycontry->country_destination }}</h6>
-                                    </div>
+                                <div class="col-md-4 col-12">
+                                    <span class="fs-6">Client </span>
+                                    <h5 class="mb-3">{{ Auth::user()->nom }} {{ Auth::user()->prenom }}</h5>
 
                                 </div>
-                                <!-- Table -->
-                                <div class="table-responsive mb-8">
-                                    <table class="table mb-0 text-nowrap table-borderless">
-                                        <thead class="table-light">
-                                            <tr>
-                                                <th>Désignation</th>
-                                                <th>Quantite</th>
-                                                <th>Prix</th>
-                                                <th>Prix Livraison</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+
+                                <div class="col-md-2 col-12">
+                                    <span class="fs-6">Télephone </span>
+                                    <h5 class="mb-3">{{ $commande->paymentAddress->telephone }}</h5>
+
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <span class="fs-6">Email </span>
+                                    <h5 class="mb-3">{{ $commande->paymentAddress->email }}</h5>
+
+                                </div>
+
+                                <div class="col-md-3 col-12">
+                                    <span class="fs-6">Ville </span>
+                                    <h5 class="mb-3">{{ $commande->paymentAddress->city }}</h5>
+
+                                </div>
+                            </div>
+                            <!-- Row -->
+                            <div class="row mb-5">
+                                <div class="col-4">
+                                    <span class="fs-6">Code commande</span>
+                                    <h6 class="mb-0">{{ $commande->reference }}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fs-6">Date </span>
+                                    <h6 class="mb-0">{{ $commande->created_at }}</h6>
+                                </div>
+
+                                <div class="col-4">
+                                    <span class="fs-6">Adresse </span>
+                                    <h6 class="mb-0">{{ $commande->paymentAddress->adresse }}</h6>
+                                </div>
+                            </div>
+                            <!-- Table -->
+                            <div class="table-responsive mb-8">
+                                <table class="table mb-0 text-nowrap table-borderless">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Désignation</th>
+                                            <th>Quantite</th>
+                                            <th>Prix</th>
+                                            <th>Poids Commandé</th>
+                                            <th>Monant TTC</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($commande->items as $item)
                                             <tr class="text-dark">
                                                 <td>
-                                                    {{ $commande->product->name }}
+                                                    {{ $item->product }}
                                                 </td>
-                                                <td> {{ $commande->qtecmde }}</td>
-                                                <td> {{ $commande->product->price_vente }} € </td>
-                                                <td> {{ $commande->cost_delivery }} € </td>
-                                                <td>{{ $commande->montanttc }} € </td>
+                                                <td>
+                                                    {{ $item->qunatite }}
+                                                </td>
+                                                <td> {{ $item->prixunitaire }} KG </td>
+                                                <td> {{ $item->montantpoidsarticle }} € </td>
+                                                <td>{{ $item->montanttc }} € </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        @endforeach
 
-
-
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
     </main>
 

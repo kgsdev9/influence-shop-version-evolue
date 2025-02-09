@@ -4,12 +4,6 @@
     <main class="bg-light">
         <div x-data="cartComponent" class="container py-5 ">
             <div class="row gy-4">
-                <!-- Alert -->
-                <div class="col-12">
-                    <div class="alert alert-warning alert-dismissible fade show mb-0" role="alert">
-                        Utilisez le code coupon <strong>(GKDIS15%)</strong> et obtenez 10% de réduction !
-                    </div>
-                </div>
 
                 <!-- Panier à gauche -->
                 <div class="col-lg-9">
@@ -124,21 +118,7 @@
                 <!-- Panier à droite -->
                 <div class="col-lg-3">
                     <div class="d-flex flex-column gap-4">
-                        <!-- Promo Code -->
-                        <div class="card">
-                            <div class="card-body d-flex flex-column gap-3">
-                                <h4 class="mb-0">Vous avez un code promo ?</h4>
-                                <div class="row g-3">
-                                    <div class="col">
-                                        <input type="text" class="form-control" placeholder="GKDIS15%">
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="#" class="btn btn-dark">Appliquer</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <!-- Sommaire de commande -->
                         <div class="card">
                             <div class="card-body d-flex flex-column gap-3">

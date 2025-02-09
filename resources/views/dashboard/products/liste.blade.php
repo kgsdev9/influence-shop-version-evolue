@@ -44,7 +44,7 @@
                                                 <th scope="col">Prix</th>
                                                 <th scope="col">Catégories</th>
                                                 <th scope="col">Qte dispo</th>
-                                                <th scope="col">STATUS</th>
+                                                <th scope="col">Poids</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -56,12 +56,9 @@
                                                             <div class="d-flex align-items-center flex-row gap-3">
                                                                 <div>
                                                                     <img :src="product.images.length ?
-                                                                    `/s3/${product.images[0].imagename}` :
-                                                                    '../../assets/images/default-product.jpg'"
-                                                             alt="Product Image" class="img-4by3-md rounded">
-
-
-
+                                                                        `/s3/${product.images[0].imagename}` :
+                                                                        '../../assets/images/default-product.jpg'"
+                                                                        alt="Product Image" class="img-4by3-md rounded">
                                                                 </div>
                                                                 <div class="">
                                                                     <h5 class="mb-0 text-primary-hover"
@@ -86,12 +83,21 @@
                                                     </td>
 
                                                     <td>
+                                                        <h5 class="mb-0 text-primary-hover" x-text="product.poids"> </h5>
+                                                        </h5>
+                                                    </td>
+
+                                                    <td>
                                                         <a :href="`/products/${product.id}/edit`">
                                                             <button class="btn btn-outline-primary btn-sm">Editer</button>
                                                         </a>
                                                         <button class="btn btn-outline-danger btn-sm"
-                                                            @click="deleteProduct(product.id)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
-                                                                <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z"></path>
+                                                            @click="deleteProduct(product.id)"><svg
+                                                                xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor" class="bi bi-dash-circle"
+                                                                viewBox="0 0 16 16">
+                                                                <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z">
+                                                                </path>
                                                             </svg></button>
 
                                                     </td>

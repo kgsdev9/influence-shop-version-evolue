@@ -18,6 +18,7 @@ class OrdersController extends Controller
     {
         // Vérifie si l'utilisateur est connecté et son rôle
         if (Auth::check() && Auth::user()->role->name == "utilisateur") {
+
             // Si l'utilisateur est de rôle 'utilisateur', on filtre par user_id
             $listeOrders = Order::where('user_id', Auth::user()->id)->get();
         } else {
@@ -64,6 +65,9 @@ class OrdersController extends Controller
     public function show($id)
     {
         $commande = Order::find($id);
+
+       
+
         return view('dashboard.orders.detail', compact('commande'));
     }
 

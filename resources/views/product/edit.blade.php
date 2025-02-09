@@ -1,6 +1,7 @@
 @extends('layout')
+@section('title', $product->name)
 @section('content')
-    <section class="my-5 mx-3" x-data="productForm({{ json_encode($product) }}, {{ json_encode($allCategories) }})" x-init="init()">
+    <section class="my-5 mx-3" x-data="productForm({{ json_encode($product) }}, {{ json_encode($allCategories) }}, {{ json_encode($listetailles) }}, {{ json_encode($listecouleurs) }})" x-init="init()">
         <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
             <div class="d-flex flex-column gap-3">
                 <h1 class="mb-0 display-4 fw-bold text-warning"> Modifier un produit </h1>
@@ -51,6 +52,16 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-2 mb-3">
+                                <div class="form-floating">
+                                    <input type="number" class="form-control" id="poids" placeholder="poids"
+                                        x-model="form.poids" required>
+                                    <label for="poids">Poids</label>
+                                    <template x-if="errors.poids">
+                                        <span class="text-danger" x-text="errors.poids"></span>
+                                    </template>
+                                </div>
+                            </div>
                             <!-- Catégorie du produit -->
                             <div class="col-md-3 mb-3">
                                 <div class="form-floating">
@@ -70,6 +81,44 @@
                                     </template>
                                 </div>
                             </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="taille_id" x-model="form.taille_id" required>
+                                        <option value="" selected>Selectionner une taille </option>
+                                        <template x-for="taille in allSizes" :key="taille.id">
+                                            <option :value="taille.id" x-bind:selected="form.taille_id == taille.id">
+                                                <span x-text="taille.name"></span>
+                                            </option>
+                                        </template>
+                                    </select>
+                                    <label for="taille">Taille de l'article </label>
+                                    <template x-if="errors.form">
+                                        <span class="text-danger" x-text="errors.form"></span>
+                                    </template>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-3 mb-3">
+                                <div class="form-floating">
+                                    <select class="form-select" id="couleur_id" x-model="form.couleur_id" required>
+                                        <option value="" selected>Selectionner une couleure </option>
+                                        <template x-for="couleur in allColors" :key="couleur.id">
+                                            <option :value="couleur.id" x-bind:selected="form.couleur_id == couleur.id">
+                                                <span x-text="couleur.name"></span>
+                                            </option>
+                                        </template>
+                                    </select>
+                                    <label for="taille">Couleur de l'article </label>
+                                    <template x-if="errors.form">
+                                        <span class="text-danger" x-text="errors.form"></span>
+                                    </template>
+                                </div>
+                            </div>
+
+
 
                             <h6 class="mb-3">Ajoutez ou modifiez des photos :</h6>
 
@@ -98,7 +147,8 @@
                                     <template x-for="(file, index) in files" :key="index">
                                         <div class="col-md-3 col-sm-3 text-center mt-2">
                                             <div class="border rounded shadow-sm p-2 bg-light position-relative"
-                                                style="cursor: pointer;" @click="document.getElementById(`fileInput${index}`).click()">
+                                                style="cursor: pointer;"
+                                                @click="document.getElementById(`fileInput${index}`).click()">
                                                 <template x-if="file.preview">
                                                     <img :src="file.preview" class="img-fluid rounded"
                                                         style="max-height: 150px; width: 100%; object-fit: cover;"
@@ -119,8 +169,8 @@
                                                     <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v8H7V4z" />
                                                 </svg>
                                             </button>
-                                            <input type="file" :id="'fileInput' + index" class="d-none" accept="image/*"
-                                                @change="handleFileChange($event, index)">
+                                            <input type="file" :id="'fileInput' + index" class="d-none"
+                                                accept="image/*" @change="handleFileChange($event, index)">
                                         </div>
                                     </template>
 
@@ -159,6 +209,16 @@
                         </svg>
                         Mettre à jour
                     </button>
+
+                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary mt-4"
+                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path
+                                d="M11.354 8l-4.646 4.646a.5.5 0 0 1-.708-.708L9.793 9H1.5a.5.5 0 0 1 0-1h8.293L6.707 3.708a.5.5 0 1 1 .708-.708L11.354 8z" />
+                        </svg>
+                        Retourner
+                    </a>
                 </div>
             </div>
         </div>
@@ -167,19 +227,24 @@
 
 @push('script')
     <script>
-        function productForm(initialData, categories) {
+        function productForm(initialData, categories, listetailles, colors) {
             return {
                 files: [],
                 allCategories: categories,
+                allSizes: listetailles,
+                allColors: colors,
                 product_images: initialData.images || [],
                 form: {
                     product_name: initialData.name,
-                    product_id:initialData.id,
+                    product_id: initialData.id,
                     produy: initialData.name,
                     product_price: initialData.price_vente,
                     product_description: initialData.description,
                     qtedispo: initialData.qtedisponible,
+                    poids: initialData.poids,
                     product_category: initialData.category_id,
+                    taille_id: initialData.taille_id,
+                    couleur_id: initialData.couleur_id,
                 },
                 errors: {},
                 init() {
@@ -217,61 +282,64 @@
                 },
 
                 async updateProduct() {
-    if (!this.validateStep()) {
-        alert("Veuillez corriger les erreurs avant de soumettre.");
-        return;
-    }
+                    if (!this.validateStep()) {
+                        alert("Veuillez corriger les erreurs avant de soumettre.");
+                        return;
+                    }
 
-    // Créer l'objet FormData
-    const formData = new FormData();
+                    // Créer l'objet FormData
+                    const formData = new FormData();
 
-    // Ajouter les champs de données du formulaire à FormData
-    formData.append('product_name', this.form.product_name);
-    formData.append('product_id', this.form.product_id);
-    formData.append('product_price', this.form.product_price);
-    formData.append('product_description', this.form.product_description);
-    formData.append('qtedispo', this.form.qtedispo);
-    formData.append('product_category', this.form.product_category);
+                    // Ajouter les champs de données du formulaire à FormData
+                    formData.append('product_name', this.form.product_name);
+                    formData.append('product_id', this.form.product_id);
+                    formData.append('product_price', this.form.product_price);
+                    formData.append('product_description', this.form.product_description);
+                    formData.append('qtedispo', this.form.qtedispo);
+                    formData.append('product_category', this.form.product_category);
+                    formData.append('poids', this.form.poids);
+                    formData.append('taille_id', this.form.taille_id);
+                    formData.append('couleur_id', this.form.couleur_id);
 
-    // Ajouter les fichiers (images) au FormData
-    this.files.filter(fileObj => fileObj.file).forEach((fileObj, index) => {
-        formData.append(`images[${index}]`, fileObj.file);
-    });
+                    // Ajouter les fichiers (images) au FormData
+                    this.files.filter(fileObj => fileObj.file).forEach((fileObj, index) => {
+                        formData.append(`images[${index}]`, fileObj.file);
+                    });
 
-    try {
-        const response = await fetch('{{ route('products.store') }}', {
-            method: 'POST', // Utiliser POST pour créer un nouveau produit
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Token CSRF pour la sécurité
-            },
-            body: formData, // Envoie FormData (contenu avec les images et données texte)
-        });
+                    try {
+                        const response = await fetch('{{ route('products.store') }}', {
+                            method: 'POST', // Utiliser POST pour créer un nouveau produit
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Token CSRF pour la sécurité
+                            },
+                            body: formData, // Envoie FormData (contenu avec les images et données texte)
+                        });
 
-        if (response.ok) {
-            const data = await response.json();
-            Swal.fire({
-                icon: 'success',
-                title: 'Produit créé avec succès !',
-                showConfirmButton: true,
-            });
+                        if (response.ok) {
+                            const data = await response.json();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Produit créé avec succès !',
+                                showConfirmButton: true,
+                            });
 
-            window.location.href = '/products'; // Redirection après succès
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Erreur lors de la création.',
-                showConfirmButton: true,
-            });
-        }
-    } catch (error) {
-        console.error('Erreur réseau :', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Une erreur est survenue.',
-            showConfirmButton: true,
-        });
-    }
-}
+                            window.location.href = '/products'; // Redirection après succès
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur lors de la création.',
+                                showConfirmButton: true,
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Erreur réseau :', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Une erreur est survenue.',
+                            showConfirmButton: true,
+                        });
+                    }
+                }
 
             }
         }

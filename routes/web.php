@@ -49,6 +49,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [HomeController::class, 'homeBlog'])->name('homeBlog');
 Route::get('/blog/detail/{id}', [HomeController::class, 'detailBlog'])->name('detail.blog');
 Route::get('/sommaire-cmde', [HomeController::class, 'sommaireCmde'])->name('somaire.cmde')->middleware('auth');
+Route::get('/impression/id', [OrdersController::class, 'printOrders'])->name('print.orders')->middleware('auth');
+
+
 
 
 Route::get('/programme-affiliation', [HomeController::class, 'programmeAffiliation'])->name('programme.affiliation');
@@ -84,6 +87,9 @@ Route::get('/registerform-entreprise', [RegisterController::class, 'registerForm
 Route::post('/submit/entreprise', [RegisterController::class, 'storeEntreprise'])->name('entreprise.submit');
 Route::get('/confirmationregister', [NotificationConfirmationController::class, 'confirmatedRegisterInfluenceurs'])->name('confirmated.register.influenceurs');
 Route::post('/confirmatedcodeinfluenceurs', [RegisterController::class, 'confirmatedAcompteInfluenceur'])->name('confirmated.code.influenceurs');
+Route::post('/profile/update', [EditionProfileController::class, 'updateProfile'])->name('profile.update');
+Route::delete('/profile/delete', [EditionProfileController::class, 'deleteAccount'])->name('profile.delete');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboards');
@@ -97,6 +103,7 @@ Route::get('/publicites', [DashboardController::class, 'homePublicites'])->name(
 Route::resource('/products', ProductController::class);
 Route::resource('/orders', OrdersController::class);
 Route::resource('/ventes', VenteController::class);
+
 Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'])->name('begin.payment');
 Route::get('/payementstatus', [PaymentController::class, 'PaymentStatutUpdate'])->name('payment.status');
 Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->name('payment.failed');

@@ -54,6 +54,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
+
         // Vérifier si un product_id existe dans la requête
         $productId = $request->input('product_id');
 
@@ -81,7 +82,6 @@ class ProductController extends Controller
 
     private function updateProduct($product, Request $request)
     {
-
         // Mettre à jour les informations du produit
         $product->update([
             'name' => $request->product_name,
@@ -90,10 +90,12 @@ class ProductController extends Controller
             'shortdescription' => $request->product_description,
             'description' => $request->product_description,
             'qtedisponible' => $request->qtedispo,
+            'taille_id' => $request->taille_id,
+            'couleur_id' => $request->couleur_id,
+            'poids' => $request->poids,
             'category_id' => $request->product_category,
             'user_id' => Auth::user()->id,
         ]);
-
 
 
         // Supprimer les anciennes images et les recréer
@@ -107,7 +109,7 @@ class ProductController extends Controller
                 $path = $file->storeAs('products', $originalName);  // Stockage dans 'storage/app/public/products'
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'imagename' => $path,  // Le chemin du fichier
+                    'imagename' => $path,  
                 ]);
             }
         }
@@ -165,80 +167,6 @@ class ProductController extends Controller
         return response()->json(['message' => 'Produit ajouté avec succès']);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    // public function store(Request $request)
-    // {
-
-
-
-
-
-    //     "product_id" => "null"
-
-
-    //     $product = new Product();
-    //     $product->name = $request->product_name;
-    //     $product->price_achat = $request->product_price;
-    //     $product->price_vente = $request->product_price;
-    //     $product->minimale_description = $request->product_description;
-    //     $product->shortdescription = $request->product_description;
-    //     $product->qtedisponible = $request->qtedispo;
-    //     $product->category_id = $request->product_category;
-    //     $product->user_id = Auth::user()->id;
-    //     $product->save();
-
-    //     // Enregistrer les couleurs si elles existent
-    //     if ($request->has('colors')) {
-
-
-    //         foreach ($request->colors as $color) {
-    //             Couleur::create([
-    //                 'name' => $color ?? '',
-    //                 'product_id' => $product->id,
-    //             ]);
-    //         }
-    //     }
-
-    //     // Enregistrer les tailles si elles existent
-    //     if ($request->has('sizes')) {
-    //         foreach ($request->sizes as $size) {
-    //             Taille::create([
-    //                 'name' => $size,
-    //                 'product_id' => $product->id,
-    //             ]);
-    //         }
-    //     }
-
-    //     // Si des fichiers sont envoyés, les traiter
-    //     if ($request->hasFile('files')) {
-    //         foreach ($request->file('files') as $file) {
-
-    //             $originalName = $file->getClientOriginalName();
-
-    //             // Déplacer chaque fichier dans le répertoire 'products'
-    //             $path = $file->storeAs('products',  $originalName); // Stockage dans 'storage/app/public/products'
-
-    //             // Enregistrer les informations du fichier dans la table ProductImage
-    //             ProductImage::create([
-    //                 'product_id' => $product->id,
-    //                 'imagename' => $path, // Le chemin du fichier
-    //             ]);
-    //         }
-    //     }
-
-    //     return response()->json(['message' => 'Produit ajouté avec succès']);
-    // }
-
-
-
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -249,78 +177,12 @@ class ProductController extends Controller
     {
 
         $product = Product::with('images')->findOrFail($id);
-        $allCategories = Category::all();   // Récupère toutes les catégories
-        return view('product.edit', compact('product', 'allCategories'));
+        $allCategories = Category::all();
+
+        $listetailles = Taille::all();
+        $listecouleurs = Couleur::all();
+        return view('product.edit', compact('product', 'allCategories', 'listetailles',  'listecouleurs'));
     }
-
-
-
-    public function update(Request $request, $id)
-    {
-        dd($request->all());
-        // Trouver le produit
-        $product = Product::findOrFail($id);
-
-        // Mettre à jour les informations du produit
-        $product->name = $request->product_name;
-        $product->price_achat = $request->product_price;
-        $product->price_vente = $request->product_price;
-        $product->minimale_description = $request->product_description;
-        $product->shortdescription = $request->product_description;
-        $product->qtedisponible = $request->qtedispo;
-        $product->category_id = $request->product_category;
-        $product->user_id = Auth::user()->id;
-        $product->save();
-
-        // Supprimer les anciennes couleurs
-        $product->couleurs()->delete(); // Assumons que la relation est définie dans le modèle Product
-
-        // Supprimer les anciennes tailles
-        $product->tailles()->delete(); // Idem pour la relation tailles
-
-        // Supprimer les anciennes images
-        $product->images()->delete(); // Idem pour la relation images
-
-        // Enregistrer les nouvelles couleurs si elles existent
-        if ($request->has('colors')) {
-            foreach ($request->colors as $color) {
-                Couleur::create([
-                    'name' => $color ?? '',
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
-
-        // Enregistrer les nouvelles tailles si elles existent
-        if ($request->has('sizes')) {
-            foreach ($request->sizes as $size) {
-                Taille::create([
-                    'name' => $size,
-                    'product_id' => $product->id,
-                ]);
-            }
-        }
-
-        // Si de nouveaux fichiers sont envoyés, les traiter
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-
-                $originalName = $file->getClientOriginalName();
-
-                // Déplacer chaque fichier dans le répertoire 'products'
-                $path = $file->storeAs('products',  $originalName); // Stockage dans 'storage/app/public/products'
-
-                // Enregistrer les informations du fichier dans la table ProductImage
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'imagename' => $path, // Le chemin du fichier
-                ]);
-            }
-        }
-
-        return response()->json(['message' => 'Produit mis à jour avec succès']);
-    }
-
 
     /**
      * Remove the specified resource from storage.

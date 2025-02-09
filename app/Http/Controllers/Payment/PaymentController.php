@@ -244,6 +244,8 @@ class PaymentController extends Controller
         } else {
 
             $order  = Order::find($request->product_id);
+
+
             $returnContext = json_encode([
                 'user_id' => $order->user_id,
                 'transaction_id' => $order->id,
@@ -252,16 +254,17 @@ class PaymentController extends Controller
                 'data' => true
             ]);
 
+        
             $data = [
                 'merchantId' => "PP-F2197",
                 'amount' => '1',
-                'description' => $order->product->name,
+                'description' => $order->reference,
                 'channel' => 'ORANGE CI',
                 'countryCurrencyCode' => "FCFA",
                 'referenceNumber' => $order->reference,
                 'customerEmail' => Auth::user()->email,
-                'customerFirstName' => Auth::user()->name,
-                'customerLastname' => Auth::user()->name,
+                'customerFirstName' => Auth::user()->nom,
+                'customerLastname' => $order->paymentAddress->telephone,
                 'customerPhoneNumber' => "+225088776777",
                 'notificationURL' => route('payment.status'),
                 'returnURL'  => route('payment.status'),

@@ -1,7 +1,8 @@
 @extends('layout')
 @section('title', 'Inscription')
 @section('content')
-    <section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()">
+    <section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()"
+        style="background-image: url({{ asset('baground-colors.jpg') }}); background-size: cover; background-position: center;">
         <div class="container my-lg-8">
             <!-- Hero Section -->
             <div class="row justify-content-center">
@@ -12,8 +13,9 @@
                         <!-- Card body -->
                         <div class="card-body p-xl-6 d-flex flex-column justify-content-center" style="height: 100%;">
                             <div class="mb-4">
-                                <h1 class="mb-4 lh-1 fw-bold h2">Inscrivez-vous</h1>
-                                <p>En quelques étapes simples, vous pourrez accéder à notre plateforme.</p>
+                                <h1 class="mb-4 lh-1 fw-bold h2 text-center">Inscrivez-vous</h1>
+                                <p class="text-center">En quelques étapes simples, vous pourrez accéder à notre plateforme.
+                                </p>
 
                                 <!-- Form -->
                                 <div>
@@ -21,52 +23,54 @@
                                     <div x-show="step === 1">
                                         <form @submit.prevent="nextStep">
                                             <!-- Nom -->
-                                            <div class="mb-3">
-                                                <label for="last_name" class="form-label">Nom</label>
+                                            <div class="mb-3 form-floating">
                                                 <input type="text" id="last_name" class="form-control" x-model="lastName"
                                                     placeholder="Entrez votre nom" required>
+                                                <label for="last_name" class="form-label">Nom</label>
                                             </div>
 
                                             <!-- Prénom -->
-                                            <div class="mb-3">
-                                                <label for="first_name" class="form-label">Prénom</label>
+                                            <div class="mb-3 form-floating">
                                                 <input type="text" id="first_name" class="form-control"
                                                     x-model="firstName" placeholder="Entrez votre prénom" required>
+                                                <label for="first_name" class="form-label">Prénom</label>
                                             </div>
 
                                             <!-- Mot de passe -->
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Mot de passe</label>
+                                            <div class="mb-3 form-floating">
                                                 <input type="password" id="password" class="form-control"
                                                     x-model="password" placeholder="Entrez votre mot de passe" required>
+                                                <label for="password" class="form-label">Mot de passe</label>
                                             </div>
 
                                             <div class="d-grid">
-                                                <button type="submit" class="btn btn-primary">Suivant</button>
+                                                <button type="submit" class="btn btn-warning">Suivant</button>
                                             </div>
                                         </form>
+
                                     </div>
 
                                     <!-- Etape 2 : Email -->
                                     <div x-show="step === 2">
                                         <form @submit.prevent="sendVerificationCode">
                                             <!-- Email -->
-                                            <div class="mb-3">
-                                                <label for="email" class="form-label">Adresse Email</label>
+                                            <div class="mb-3 form-floating">
                                                 <input type="email" id="email" class="form-control" x-model="email"
                                                     placeholder="Entrez votre email" required>
+                                                <label for="email" class="form-label">Adresse Email</label>
                                             </div>
 
                                             <div class="d-flex justify-content-between">
                                                 <button type="button" class="btn btn-secondary"
                                                     @click="previousStep">Précédent</button>
-                                                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                <button type="submit" class="btn btn-warning" :disabled="isLoading">
                                                     <span x-show="isLoading" class="spinner-border spinner-border-sm"
                                                         role="status" aria-hidden="true"></span>
                                                     Envoyer le code
                                                 </button>
                                             </div>
                                         </form>
+
 
                                     </div>
 
@@ -84,7 +88,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <button type="button" class="btn btn-secondary"
                                                     @click="previousStep">Précédent</button>
-                                                <button type="submit" class="btn btn-primary" :disabled="isLoading">
+                                                <button type="submit" class="btn btn-warning" :disabled="isLoading">
                                                     <span x-show="isLoading" class="spinner-border spinner-border-sm"
                                                         role="status" aria-hidden="true"></span>
                                                     Vérifier
@@ -104,8 +108,8 @@
                         </div>
                         <!-- Card Footer -->
                         <div class="card-footer px-6 py-4">
-                            <p class="mb-0">
-                                Vous avez déjà un compte ? <a href="/login">Connectez-vous ici</a>
+                            <p class="mb-0 text-center">
+                                Vous avez déjà un compte ? <a href="/login" class="text-dark">Connectez-vous ici</a>
                             </p>
                         </div>
                     </div>

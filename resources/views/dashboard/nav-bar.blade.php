@@ -26,30 +26,34 @@
                         </a>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('programme.affiliation') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('programme.affiliation') }}">
-                            <i class="fe fe-file-text nav-icon"></i>
-                            Sponsoring
-                        </a>
-                    </li>
 
-                    <!-- Nav item -->
-                    <li class="nav-item {{ request()->routeIs('products.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('products.index') }}">
-                            <i class="fe fe-slack nav-icon"></i>
-
-                            Mon Produits
-                        </a>
-
-                    </li>
-                    <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('orders.index') }}">
-                            <i class="fe fe-file-text nav-icon"></i>
-                            Commandes
-                        </a>
-                    </li>
+                    @can('access-users')
+                        <li class="nav-item {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('orders.index') }}">
+                                <i class="fe fe-file-text nav-icon"></i>
+                                Commandes
+                            </a>
+                        </li>
+                    @endcan
 
 
+                    @can('access-entreprise')
+                        <li class="nav-item {{ request()->routeIs('programme.affiliation') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('programme.affiliation') }}">
+                                <i class="fe fe-file-text nav-icon"></i>
+                                Sponsoring
+                            </a>
+                        </li>
+
+                        <!-- Nav item -->
+                        <li class="nav-item {{ request()->routeIs('products.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('products.index') }}">
+                                <i class="fe fe-slack nav-icon"></i>
+
+                                Mon Produits
+                            </a>
+
+                        </li>
 
 
                     <li class="nav-item {{ request()->routeIs('facture.index') ? 'active' : '' }}">
@@ -58,7 +62,7 @@
                             Factures
                         </a>
                     </li>
-
+                    @endcan
 
                     @can('access-admin')
                         <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
@@ -76,11 +80,6 @@
                             </a>
                         </li>
 
-
-
-
-
-
                         <li class="nav-item {{ request()->routeIs('blogs.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('blogs.index') }}">
                                 <i class="fe fe-edit-3 nav-icon"></i>
@@ -88,8 +87,6 @@
                                 Blogs
                             </a>
                         </li>
-
-
 
                         <li class="nav-item {{ request()->routeIs('linkspayment.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('linkspayment.index') }}">
@@ -110,7 +107,6 @@
                         <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('abonnement.index') }}">
                                 <i class="fe fe-rss nav-icon"></i>
-
                                 Plan Abonnement
                             </a>
                         </li>
@@ -119,16 +115,6 @@
                             <a class="nav-link" href="{{ route('souscribers.index') }}">
                                 <i class="fe fe-user-plus nav-icon"></i>
                                 Souscriveurs
-                            </a>
-                        </li>
-
-
-                        <li class="nav-item {{ request()->routeIs('deliveryprice.index') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('deliveryprice.index') }}">
-                                <i class="fe fe-truck nav-icon"></i>
-
-
-                                Livraison Systeme
                             </a>
                         </li>
 
@@ -168,12 +154,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <button class="nav-link btn disabled" type="button" disabled>
-                            <i class="fe fe-trash nav-icon"></i>
-                            Compte
-                        </button>
-                    </li>
+
                     <li class="nav-item">
                         {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
