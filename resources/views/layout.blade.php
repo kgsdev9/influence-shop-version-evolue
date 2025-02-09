@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid px-0">
             <div class="d-flex">
-                <a class="navbar-brand text-dark" href="/">GROUP VTP </a>
+                <a class="navbar-brand text-dark" href="/"> VTP-SAS </a>
 
             </div>
             <div class="order-lg-3">
@@ -73,7 +73,7 @@
                         <a class="nav-link {{ request()->routeIs('product.home') ? 'active' : '' }}"
                             href="{{ route('product.home') }}">
                             <i class="bi bi-box"></i>
-                            Nos Produits
+                           NOS PRODUITS
                         </a>
                     </li>
 
@@ -81,7 +81,7 @@
                         <a class="nav-link {{ request()->routeIs('home.compagnes') ? 'active' : '' }}"
                             href="{{ route('home.compagnes') }}">
                             <i class="bi bi-hand-thumbs-up"></i> <!-- Icône pour "Nos Compagnes" -->
-                            Nos Compagnes
+                            COMPAGNES DE PROMOTION
                         </a>
                     </li>
 
@@ -89,7 +89,7 @@
                         <a class="nav-link {{ request()->routeIs('homeBlog') ? 'active' : '' }}"
                             href="{{ route('homeBlog') }}">
                             <i class="bi bi-megaphone"></i> <!-- Icône pour "Nos Publicités" -->
-                            Nos Publicités
+                            COMPAGNES PUBLICITAIRES
                         </a>
                     </li>
 
@@ -97,7 +97,7 @@
                         <a class="nav-link {{ request()->routeIs('delivery.status') ? 'active' : '' }}"
                             href="{{ route('delivery.status') }}">
                             <i class="bi bi-truck-front"></i>
-                            Suivre mon Colis
+                            SUIVRE UN COLIS
                         </a>
                     </li>
 
@@ -119,11 +119,11 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <!-- about company -->
                     <div class="mb-4">
-                        GROUP VTP
+                       VTP-SAS
 
 
                         <div class="mt-4">
-                            <p>VTP GROUP connecte les marques et les influenceurs pour des partenariats marketing,
+                            <p>VTP-SAS connecte les marques et les influenceurs pour des partenariats marketing,
                                 facilitant la promotion des produits grâce à des collaborations ciblées sur les réseaux
                                 sociaux.</p>
                             <!-- social media -->
@@ -182,8 +182,11 @@
                             <li><a href="{{ route('contact') }}" class="nav-link">Nous Contacter</a></li>
                             <li><a href="{{ route('faq') }}" class="nav-link">FAQ’s</a></li>
                             <li><a href="{{ route('cgu') }}" class="nav-link">Condition d'utilisation </a></li>
+                            @guest
                             <li><a href="{{ route('register.form.entreprise') }}" class="nav-link">Devenir Vendeur</a></li>
                         </ul>
+                            @endguest
+
                     </div>
                 </div>
 
