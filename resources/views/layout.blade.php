@@ -29,8 +29,8 @@
 
 
                     <a href="{{ route('cart.home') }}"
-                    class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
-                        class="fe fe-shopping-cart align-middle"></i></a>
+                        class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
+                            class="fe fe-shopping-cart align-middle"></i></a>
                     <div class="dropdown">
                         <a href="{{ route('dashboards') }}"
                             class="btn btn-light btn-icon rounded-circle d-flex align-items-center mx-2" type="button">
@@ -44,15 +44,15 @@
                             <i class="bi bi-box-arrow-in-right"></i> Connexion
                         </a>
                     @else
-                    @can('access-entreprise')
-                        <a type="button" class="btn btn-outline-warning btn-sm" href="{{ route('products.create') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-plus-circle" viewBox="0 0 16 16">
-                                <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v3h3v2H9v3H7V9H4V7h3V4z"></path>
-                            </svg>
+                        @can('access-entreprise')
+                            <a type="button" class="btn btn-outline-warning btn-sm" href="{{ route('products.create') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-plus-circle" viewBox="0 0 16 16">
+                                    <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM7 4h2v3h3v2H9v3H7V9H4V7h3V4z"></path>
+                                </svg>
 
-                        </a>
-                    @endcan
+                            </a>
+                        @endcan
                     @endguest
 
                     <!-- Button -->
@@ -182,6 +182,7 @@
                             <li><a href="{{ route('contact') }}" class="nav-link">Nous Contacter</a></li>
                             <li><a href="{{ route('faq') }}" class="nav-link">FAQ’s</a></li>
                             <li><a href="{{ route('cgu') }}" class="nav-link">Condition d'utilisation </a></li>
+                            <li><a href="{{ route('register.form.entreprise') }}" class="nav-link">Devenir Vendeur</a></li>
                         </ul>
                     </div>
                 </div>

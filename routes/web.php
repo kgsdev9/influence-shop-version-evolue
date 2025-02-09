@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Abonnement\AbonnementController;
+use App\Http\Controllers\Auth\Entreprise\EntrepriseRegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -83,6 +84,13 @@ Route::get('/register', [RegisterController::class, 'registerForm'])->name('regi
 Route::get('/login', [LoginController::class, 'login'])->name('login.form');
 Route::post('/login', [LoginController::class, 'loginUser'])->name('login');
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+// devenir vendeur
+
+Route::get('/register/vendor', [EntrepriseRegisterController::class, 'registerEntrepriseForm'])->name('register.form.entreprise');
+
+
+
 
 Route::post('/infuenceur', [RegisterController::class, 'submitInfluenceForm'])->name('infuenceur');
 Route::get('/registerform-entreprise', [RegisterController::class, 'registerFormEntreprise'])->name('register.entreprise');

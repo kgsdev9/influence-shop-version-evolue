@@ -132,6 +132,7 @@
                 verificationCode: '',
                 isLoading: false,
                 errorMessage: '',
+                arg: 2,
                 init() {
                     this.firstName = '';
                     this.lastName = '';
@@ -167,6 +168,7 @@
                                 nom: this.firstName,
                                 prenom: this.lastName,
                                 password: this.password,
+                                arg: this.arg,
                             }),
                         });
 
@@ -206,6 +208,7 @@
                             body: JSON.stringify({
                                 email: this.email,
                                 nom: this.firstName,
+                                arg: this.arg,
                                 prenom: this.lastName,
                                 password: this.password,
                                 verificationCode: this.verificationCode,

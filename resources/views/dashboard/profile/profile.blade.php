@@ -114,6 +114,7 @@
                                 first_name: this.firstName,
                                 last_name: this.lastName,
                                 phone: this.phone,
+                                arg: 1,
                             })
                         })
                         .then(response => response.json())

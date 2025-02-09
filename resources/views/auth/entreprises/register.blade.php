@@ -1,141 +1,142 @@
 @extends('layout')
+@section('title', 'Espace d\'inscription')
+@section('title', 'Inscription')
 @section('content')
-    <section class="my-5 mx-3" x-data="formSteps()">
+    <section class="py-lg-8 py-7 bg-white" x-data="formSteps()" x-init="init()"
+        style="background-image: url({{ asset('baground-colors.jpg') }}); background-size: cover; background-position: center;">
+        <div class="container my-lg-8">
+            <!-- Hero Section -->
+            <div class="row justify-content-center">
 
-        <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
+                <div class="offset-xxl-1 col-xxl-6 col-lg-8 col-md-12">
+                    <!-- Card -->
+                    <div class="card smooth-shadow-md" style="z-index: 1">
+                        <!-- Card body -->
+                        <div class="card-body p-xl-6 d-flex flex-column justify-content-center" style="height: 100%;">
+                            <div class="mb-4">
+                                <h1 class="mb-4 lh-1 fw-bold h2 text-center">Inscription de l'entreprise</h1>
+                                <p class="text-center">En quelques étapes simples, vous pourrez inscrire votre entreprise
+                                    sur notre plateforme.</p>
 
-            <div class="d-flex flex-column gap-3">
-                <h1 class="mb-0 display-4 fw-bold text-warning">Rejoignez InfluenceShop pour promouvoir vos produits auprès
-                    d’une audience ciblée et engagée.
-                </h1>
-                <p class="mb-0 pe-xxl-8 me-xxl-5">Boostez la visibilité de vos produits. InfluenceShop vous connecte aux
-                    influenceurs qui peuvent promouvoir vos produits ou services directement auprès de leurs communautés..
-                </p>
-            </div>
+                                <!-- Form -->
+                                <div>
+                                    <!-- Etape 1 : Informations de l'entreprise -->
+                                    <div x-show="step === 1">
+                                        <form @submit.prevent="nextStep">
+                                            <!-- Nom de l'entreprise -->
+                                            <div class="mb-3 form-floating">
+                                                <input type="text" id="name_entreprise" class="form-control"
+                                                    x-model="form.name_entreprise"
+                                                    placeholder="Entrez le nom de l'entreprise" required>
+                                                <label for="name_entreprise" class="form-label">Nom de l'entreprise</label>
+                                            </div>
 
-            <div class="card mb-4 position-relative mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Informations sur votre entreprises</h5>
-                    <p class="card-text">Veuillez remplir vos informations pour enrichir votre profil.</p>
-                    <div>
-                        <div class="row">
-                            <!-- Nom -->
-                            <div class="col-md-3 mb-3">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="nom" placeholder="Nom"
-                                        x-model="form.name_entreprise" required>
-                                    <label for="nom">Nom De l'entreprise</label>
-                                    <template x-if="errors.name_entreprise">
-                                        <span class="text-danger" x-text="errors.name_entreprise"></span>
-                                    </template>
+                                            <!-- Téléphone -->
+                                            <div class="mb-3 form-floating">
+                                                <input type="text" id="phone" class="form-control"
+                                                    x-model="form.phone" placeholder="Entrez le téléphone" required>
+                                                <label for="phone" class="form-label">Téléphone</label>
+                                            </div>
+
+                                            <!-- Site Web -->
+                                            <div class="mb-3 form-floating">
+                                                <input type="text" id="siteweb" class="form-control"
+                                                    x-model="form.siteweb" placeholder="Entrez le site web" required>
+                                                <label for="siteweb" class="form-label">Site web</label>
+                                            </div>
+
+                                            <!-- Adresse -->
+                                            <div class="mb-3 form-floating">
+                                                <input type="text" id="adresse" class="form-control"
+                                                    x-model="form.adresse" placeholder="Entrez l'adresse de l'entreprise">
+                                                <label for="adresse" class="form-label">Adresse</label>
+                                            </div>
+
+                                            <!-- Pays -->
+                                            <div class="mb-3 form-floating">
+                                                <select class="form-select" id="country_id" x-model="form.country_id"
+                                                    required>
+                                                    <option value="" selected>Sélectionnez un pays</option>
+                                                    @foreach ($allCountries as $country)
+                                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <label for="country_id" class="form-label">Pays</label>
+                                            </div>
+
+                                            <!-- Description -->
+                                            <div class="mb-3 form-floating">
+                                                <textarea class="form-control" id="description" x-model="form.description"
+                                                    placeholder="Entrez la description de votre entreprise"></textarea>
+                                                <label for="description" class="form-label">Description de
+                                                    l'entreprise</label>
+                                            </div>
+
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-warning">Suivant</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Etape 2 : Demande de l'email et envoi du code -->
+                                    <div x-show="step === 2">
+                                        <form @submit.prevent="sendVerificationCode">
+                                            <!-- Email -->
+                                            <div class="mb-3 form-floating">
+                                                <input type="email" id="email" class="form-control"
+                                                    x-model="form.email" placeholder="Entrez l'email" required>
+                                                <label for="email" class="form-label">Email</label>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-secondary"
+                                                    @click="previousStep">Précédent</button>
+                                                <button type="submit" class="btn btn-warning" :disabled="isLoading">
+                                                    <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    Envoyer le code
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Etape 3 : Vérification du code -->
+                                    <div x-show="step === 3">
+                                        <form @submit.prevent="verifyCode">
+                                            <!-- Code de validation -->
+                                            <div class="mb-3">
+                                                <label for="verification_code" class="form-label">Code de validation</label>
+                                                <input type="text" id="verification_code" class="form-control"
+                                                    x-model="form.verification_code" placeholder="Entrez le code reçu"
+                                                    required>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-secondary"
+                                                    @click="previousStep">Précédent</button>
+                                                <button type="submit" class="btn btn-warning" :disabled="isLoading">
+                                                    <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                        role="status" aria-hidden="true"></span>
+                                                    Vérifier
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <!-- Erreur -->
+                                    <div x-show="errorMessage" class="mt-2">
+                                        <span x-text="errorMessage" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Email -->
-                            <div class="col-md-3 mb-3">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Email"
-                                        x-model="form.email" required>
-                                    <label for="email">Email</label>
-                                    <template x-if="errors.email">
-                                        <span class="text-danger" x-text="errors.email"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <!-- Téléphone -->
-                            <div class="col-md-3 mb-3">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="telephone" placeholder="Telephone"
-                                        x-model="form.phone" required>
-                                    <label for="telephone">Telephone</label>
-                                    <template x-if="errors.phone">
-                                        <span class="text-danger" x-text="errors.phone"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3 mb-3">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="siteweb" placeholder="siteweb"
-                                        x-model="form.siteweb" required>
-                                    <label for="siteweb">Site web </label>
-                                    <template x-if="errors.siteweb">
-                                        <span class="text-danger" x-text="errors.siteweb"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="adresse" placeholder="Adresse"
-                                        x-model="form.adresse">
-                                    <label for="adresse">Adresse</label>
-                                    <template x-if="errors.adresse">
-                                        <span class="text-danger" x-text="errors.adresse"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 mb-3">
-                                <div class="form-floating">
-                                    <select class="form-select" id="city_id" x-model="form.city_id" required>
-                                        <option value="" selected>Sélectionnez une ville</option>
-                                        @foreach ($allCites as $city)
-                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="city_id">Ville</label>
-                                    <template x-if="errors.city_id">
-                                        <span class="text-danger" x-text="errors.city_id"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-
-                            <div class="col-md-4 mb-3">
-                                <div class="form-floating">
-                                    <select class="form-select" id="country_id" x-model="form.country_id" required>
-                                        <option value="" selected>Sélectionnez un pays</option>
-                                        @foreach ($allCountries as $country)
-                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="country_id">Pays</label>
-                                    <template x-if="errors.country_id">
-                                        <span class="text-danger" x-text="errors.country_id"></span>
-                                    </template>
-                                </div>
-                            </div>
-
-
-
-                            <!-- Bio -->
-                            <div class="col-md-9 mb-3">
-                                <div class="form-floating">
-                                    <textarea class="form-control" id="description" placeholder="description" x-model="form.description"></textarea>
-                                    <label for="bio">Description de votre entreprise</label>
-                                    <template x-if="errors.description">
-                                        <span class="text-danger" x-text="errors.description"></span>
-                                    </template>
-                                </div>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="code" placeholder="code"
-                                        x-model="form.code" required>
-                                    <label for="telephone">Code de connexion</label>
-                                    <template x-if="errors.code">
-                                        <span class="text-danger" x-text="errors.code"></span>
-                                    </template>
-                                </div>
-                            </div>
-
+                        </div>
+                        <!-- Card Footer -->
+                        <div class="card-footer px-6 py-4">
+                            <p class="mb-0 text-center">
+                                Vous avez déjà un compte ? <a href="/login" class="text-dark">Connectez-vous ici</a>
+                            </p>
                         </div>
                     </div>
-
-                    <button type="button" class="btn btn-outline-secondary "
-                        @click="storeEntreprise()">Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -146,120 +147,120 @@
     <script>
         function formSteps() {
             return {
-
+                step: 1, // Étape actuelle
                 form: {
                     name_entreprise: '',
                     email: '',
                     phone: '',
                     siteweb: '',
                     adresse: '',
-                    city_id: '',
                     country_id: '',
                     description: '',
-                    code: '',
+                    verification_code: '',
+                    arg: 2
                 },
-                errors: {},
-                validateEmail(email) {
-                    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    return regex.test(email);
+                isLoading: false,
+                errorMessage: '',
+                init() {
+                    this.form = {
+                        name_entreprise: '',
+                        email: '',
+                        phone: '',
+                        siteweb: '',
+                        adresse: '',
+                        country_id: '',
+                        description: '',
+                        verification_code: '',
+                        arg: 2
+                    };
+                    this.isLoading = false;
+                    this.errorMessage = '';
                 },
-
-
-                validateForm() {
-                    this.errors = {}; // Réinitialiser les erreurs
-
-                    // Validation des champs
-                    if (!this.form.name_entreprise) this.errors.name_entreprise = 'Le nom est requis.';
-                    if (!this.form.email) {
-                        this.errors.email = 'Le champ Email est requis.';
-                    } else if (!this.validateEmail(this.form.email)) {
-                        this.errors.email = 'L\'adresse email n\'est pas valide.';
+                nextStep() {
+                    this.step = 2;
+                },
+                previousStep() {
+                    if (this.step > 1) {
+                        this.step -= 1; // Revenir à l'étape précédente
                     }
-
-                    if (!this.form.phone) this.errors.phone = 'Le champ Téléphone est requis.';
-                    if (!this.form.adresse) this.errors.adresse = 'Veuillez saisir votre adresse.';
-                    if (!this.form.country_id) this.errors.country_id = 'Veuillez sélectionner un pays.';
-                    if (!this.form.description) this.errors.description = 'Veuillez décrire votre entreprise.';
-                    if (!this.form.city_id) this.errors.city_id = 'Veuillez sélectionner une ville.';
-                    if (!this.form.code) this.errors.code = 'Veuillez un saisir votre code.';
-
-                    // Retourne true si tout est valide
-                    return Object.keys(this.errors).length === 0;
                 },
-
-                async storeEntreprise() {
-
-
-                    if (!this.validateForm()) {
-
-                        return;
-                    }
-                    const formData = new FormData();
-                    formData.append('name_entreprise', this.form.name_entreprise);
-                    formData.append('code', this.form.code);
-                    formData.append('email', this.form.email);
-                    formData.append('phone', this.form.phone);
-                    formData.append('city_id', this.form.city_id);
-                    formData.append('country_id', this.form.country_id);
-                    formData.append('adresse', this.form.adresse);
-                    formData.append('description', this.form.description);
-                    formData.append('siteweb', this.form.siteweb);
-
+                async sendVerificationCode() {
+                    this.isLoading = true;
+                    this.errorMessage = '';
                     try {
-
-                        const response = await fetch('{{ route('entreprise.submit') }}', {
+                        const response = await fetch('/send-verification-code', {
                             method: 'POST',
                             headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
                             },
-                            body: formData
+                            body: JSON.stringify({
+                                name_entreprise: this.form.name_entreprise,
+                                email: this.form.email,
+                                phone: this.form.phone,
+                                siteweb: this.form.siteweb,
+                                adresse: this.form.adresse,
+                                country_id: this.form.country_id,
+                                description: this.form.description,
+                                verificationCode: this.form.verification_code,
+                                arg: 2
+                            }),
                         });
+
+                        const data = await response.json();
 
                         if (response.ok) {
-                            const data = await response.json();
-
-                            // window.location.href = '/confirmationregister';
+                            this.step = 3; // Passer à l'étape 3 après l'envoi du code
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Erreur lors de l\'enregistrement.',
-                                showConfirmButton: true
-                            });
+                            this.errorMessage = data.message || 'Une erreur est survenue.';
                         }
                     } catch (error) {
-                        console.error('Erreur réseau :', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Une erreur est survenue.',
-                            showConfirmButton: true
-                        });
+                        this.errorMessage = 'Erreur de communication avec le serveur.';
                     } finally {
-                        // this.isLoading = false;
+                        this.isLoading = false;
                     }
                 },
 
-                // storeEntreprise() {
+                async verifyCode() {
+                   
+                    this.isLoading = true;
+                    this.errorMessage = '';
+                    try {
+                        const response = await fetch('/verify-code', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                            },
+                            body: JSON.stringify({
+                                name_entreprise: this.form.name_entreprise,
+                                email: this.form.email,
+                                phone: this.form.phone,
+                                siteweb: this.form.siteweb,
+                                adresse: this.form.adresse,
+                                country_id: this.form.country_id,
+                                description: this.form.description,
+                                verificationCode: this.form.verification_code,
+                                arg: 2
+                            }),
+                        });
 
-                //     if (!this.validateForm()) {
+                        const data = await response.json();
 
-                //         return;
-                //     }
-
-
-                //     const formData = new FormData();
-                //     formData.append('name_entreprise', this.form.name_entreprise);
-                //     formData.append('code', this.form.code);
-                //     formData.append('email', this.form.email);
-                //     formData.append('phone', this.form.phone);
-                //     formData.append('city_id', this.form.city_id);
-                //     formData.append('country_id', this.form.country_id);
-                //     formData.append('adresse', this.form.adresse);
-                //     formData.append('description', this.form.description);
-
-
-
-                // },
-            }
+                        if (response.ok) {
+                            window.location.href = '/dashboard'; // Rediriger vers le tableau de bord après vérification
+                        } else {
+                            this.errorMessage = data.message || 'Code incorrect ou expiré.';
+                        }
+                    } catch (error) {
+                        this.errorMessage = 'Erreur de communication avec le serveur.';
+                    } finally {
+                        this.isLoading = false;
+                    }
+                }
+            };
         }
     </script>
 @endpush

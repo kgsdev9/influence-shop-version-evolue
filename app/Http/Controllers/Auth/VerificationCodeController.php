@@ -60,20 +60,44 @@ class VerificationCodeController extends Controller
 
     public function sendVerificationCode(Request $request)
     {
+
         // Chercher l'utilisateur par email
         $user = User::where('email', $request->email)->first();
 
-        // Si l'utilisateur n'existe pas, on le crée
-        if (!$user) {
-            $user = User::create([
-                'name' => $this->generateUsername(),
-                'email' => $request->email,
-                'codeprofile' => $this->generateUniqueCodeProfileUsers(),
-                'nom' => $request->nom,
-                'prenom' => $request->prenom,
-                'password' => Hash::make($request->password) ?? 12345,
-                'role_id' => 1
-            ]);
+        if ($request->arg == 1) {
+
+            if (!$user) {
+                $user = User::create([
+                    'name' => $this->generateUsername(),
+                    'email' => $request->email,
+                    'codeprofile' => $this->generateUniqueCodeProfileUsers(),
+                    'nom' => $request->nom,
+                    'prenom' => $request->prenom,
+                    'password' => Hash::make($request->password) ?? 12345,
+                    'role_id' => 1
+                ]);
+            }
+        } elseif ($request->arg == 2) {
+
+
+            if (!$user) {
+                $user = User::create([
+                    'name' => $this->generateUsername(),
+                    'email' => $request->email,
+                    'codeprofile' => $this->generateUniqueCodeProfileUsers(),
+                    'nom_entreprise' => $request->name_entreprise,
+                    'namestore' => $request->name_entreprise,
+                    'type_entreprise' => $request->type_entreprise ?? 'N/D',
+                    'capital' => $request->capital ?? 'N/D',
+                    'siteweb' => $request->siteweb,
+                    'adresse' => $request->adresse,
+                    'description' => $request->description,
+                    'country_id' => $request->country_id,
+                    'telephone' => $request->phone,
+                    'password' => Hash::make($request->password ?? '12345'),
+                    'role_id' => 4,
+                ]);
+            }
         }
 
         // Vérifier si l'utilisateur est confirmé
@@ -83,9 +107,13 @@ class VerificationCodeController extends Controller
                 'message' => 'Votre compte est déjà confirmé. Veuillez vous connecter.'
             ]);
         } else {
+
+
             // Générer un code de vérification
             $verificationCode = Str::random(6); // Code aléatoire de 6 caractères
             $expirationTime = Carbon::now()->addMinutes(5); // Le code expire dans 5 minutes
+
+
 
             // Sauvegarder le code de vérification et son expiration dans le cache
             Cache::put('verification_code_' . $user->id, $verificationCode, $expirationTime);
@@ -104,6 +132,8 @@ class VerificationCodeController extends Controller
     public function verifyCode(Request $request)
     {
 
+
+
         $user = User::where('email', $request->email)->first();
 
         // Vérifier si le compte est déjà confirmé
@@ -121,7 +151,6 @@ class VerificationCodeController extends Controller
                 'message' => 'Le code a expiré.',
             ], 400);
         }
-
         // Comparer le code envoyé par l'utilisateur avec celui du cache
         if ($cachedCode === $request->verificationCode) {
             // Le code est correct, on met à jour le champ 'confirmed_at' de l'utilisateur

@@ -8,6 +8,8 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Souscription;
 use App\Models\User;
+use App\Notifications\PaymentOrdersNotification;
+use App\Notifications\PaymentSouscriptionNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,6 +76,9 @@ class PaymentController extends Controller
 
     public function initialisePayment(Request $request)
     {
+
+
+
         // dd(json_decode($request->cart, true));
         if ($request->arg == 1) {
             $userId = auth()->user()->id;
@@ -185,6 +190,7 @@ class PaymentController extends Controller
                 'data' => true
             ]);
 
+
             $data = [
                 'merchantId' => "PP-F2197",
                 'amount' => '1',
@@ -193,9 +199,9 @@ class PaymentController extends Controller
                 'countryCurrencyCode' => "FCFA",
                 'referenceNumber' => $reference,
                 'customerEmail' => Auth::user()->email,
-                'customerFirstName' => Auth::user()->name,
-                'customerLastname' => Auth::user()->name,
-                'customerPhoneNumber' => "+22344584",
+                'customerFirstName' => Auth::user()->nom_entreprise ?? Auth::user()->name,
+                'customerLastname' => Auth::user()->namestore ?? Auth::user()->name,
+                'customerPhoneNumber' => Auth::user()->telephone ?? Auth::user()->name,
                 'notificationURL' => route('save.souscrive.status'),
                 'returnURL'  => route('save.souscrive.status'),
                 'returnContext' => $returnContext,
@@ -254,7 +260,7 @@ class PaymentController extends Controller
                 'data' => true
             ]);
 
-        
+
             $data = [
                 'merchantId' => "PP-F2197",
                 'amount' => '1',
@@ -340,7 +346,8 @@ class PaymentController extends Controller
                 $order->update([
                     'status' => 'succes',
                 ]);
-
+                $delay = now()->addMinutes(10);
+                $order->user->notify((new PaymentOrdersNotification())->delay($delay));
                 return redirect()->route('payment.success')->with('sucess', 'Commande validée avec succés.');
             } else  // commande existe pas
             {
@@ -350,7 +357,6 @@ class PaymentController extends Controller
 
         return redirect()->route('payment.failed')->with('error', 'Le paiement a échoué avec un code inattendu.');
     }
-
 
     public function saveSouscrive(Request $request)
     {
@@ -362,7 +368,6 @@ class PaymentController extends Controller
         if ($responsecode == -1) {
             return redirect()->route('souscrive.failled')->with('error', 'Erreur de communication.');
         } else {
-
             $date_debut = Carbon::now();
             $date_fin = $date_debut->copy()->addMonth();
             $souscription = new Souscription();
@@ -372,6 +377,8 @@ class PaymentController extends Controller
             $souscription->date_debut = $date_debut;
             $souscription->date_fin = $date_fin;
             $souscription->save();
+            $delay = now()->addMinutes(10);
+            $souscription->user->notify((new PaymentSouscriptionNotification())->delay($delay));
             return redirect()->route('souscrive.success');
         }
     }
