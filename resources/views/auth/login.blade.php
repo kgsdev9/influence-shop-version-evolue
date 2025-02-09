@@ -1,5 +1,5 @@
 @extends('layout')
-
+@section('title', 'Espace de connexion')
 @section('content')
     <section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()"
         style="background-image: url({{ asset('baground-colors.jpg') }}); background-size: cover; background-position: center;">

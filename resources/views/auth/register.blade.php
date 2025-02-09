@@ -1,4 +1,5 @@
 @extends('layout')
+@section('title', 'Espace d\'inscription')
 @section('title', 'Inscription')
 @section('content')
     <section class="py-lg-8 py-7 bg-white" x-data="loginForm()" x-init="init()"

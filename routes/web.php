@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Abonnement\AbonnementController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
@@ -81,6 +82,7 @@ Route::get('/search-tiktok', [SearchController::class, 'search'])->name('search.
 Route::get('/register', [RegisterController::class, 'registerForm'])->name('register.form');
 Route::get('/login', [LoginController::class, 'login'])->name('login.form');
 Route::post('/login', [LoginController::class, 'loginUser'])->name('login');
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::post('/infuenceur', [RegisterController::class, 'submitInfluenceForm'])->name('infuenceur');
 Route::get('/registerform-entreprise', [RegisterController::class, 'registerFormEntreprise'])->name('register.entreprise');

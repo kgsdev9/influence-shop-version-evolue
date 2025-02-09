@@ -156,9 +156,9 @@
 
 
                     <li class="nav-item">
-                        {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
-                        </form> --}}
+                        </form>
                         <a class="nav-link" href="#"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="fe fe-power nav-icon"></i>

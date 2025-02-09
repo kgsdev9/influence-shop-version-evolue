@@ -2,7 +2,6 @@
 @section('title', 'Bievnenue Sur VTP MARKET ')
 @section('content')
     <main x-data="productManager()">
-
         <section class="py-md-8 py-2">
             <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
                 <div class="row align-items-center gy-5 gy-xl-0">
@@ -117,8 +116,7 @@
 
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
                                         <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                        <!-- Nouveau bouton "Ajouter au Panier" -->
-                                        <!-- Exemple de bouton "Ajouter au Panier" dans une page -->
+
                                         <button @click="$store.cart.addToCart(product)" class="btn btn-danger btn-sm">
                                             <i class="fe fe-shopping-cart fs-3"></i> Ajouter au Panier
                                         </button>
@@ -230,21 +228,20 @@
     <script>
         function productManager() {
             return {
-                searchQuery: '', // Recherche par mot-clé
-                selectedCategory: null, // ID de la catégorie sélectionnée (null = toutes les catégories)
-                categories: @json($categories), // Catégories récupérées depuis le backend
-                products: [], // Liste complète des produits
-                filteredProducts: [], // Liste des produits filtrés
-                isLoading: true, // Indique si les produits sont en cours de chargement
+                searchQuery: '',
+                selectedCategory: null,
+                categories: @json($categories),
+                products: [],
+                filteredProducts: [],
+                isLoading: true,
                 blog: @json($listepub),
                 cart: [],
                 init() {
-                    // Simulation du chargement
                     setTimeout(() => {
-                        this.products = @json($listeproduct); // Charge tous les produits depuis Laravel
-                        this.filteredProducts = this.products; // Par défaut, tous les produits sont affichés
-                        this.isLoading = false; // Chargement terminé
-                    }, 2000); // Délai simulé (2 secondes)
+                        this.products = @json($listeproduct);
+                        this.filteredProducts = this.products;
+                        this.isLoading = false
+                    }, 2000);
                 },
 
                 filterProducts() {
@@ -254,57 +251,13 @@
                     });
                 },
 
-                // addToCart(product) {
-
-                //     let productToAdd = {
-                //         id: product.id,
-                //         name: product.name,
-                //         name: product.name,
-                //         price: product.price_vente,
-                //         quantity: 1,
-                //         weight: product.poids,
-                //         taille: product.taille.name ? product.taille.name : '',
-                //         color: product.color.name ? product.color.name : '',
-                //         image: product.images.length ? `/s3/${product.images[0].imagename}` :
-                //             '../../assets/images/default-product.jpg'
-                //     };
-
-
-
-                //     // Ajoute au panier local (pour affichage immédiat dans la vue)
-                //     this.cart.push(productToAdd);
-
-                //     // Envoie les données au backend pour sauvegarde dans la session
-                //     fetch('/add-to-cart', {
-                //             method: 'POST',
-                //             headers: {
-                //                 'Content-Type': 'application/json',
-                //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                //             },
-                //             body: JSON.stringify({
-                //                 product: productToAdd
-                //             })
-                //         })
-                //         .then(response => response.json())
-                //         .then(data => {
-                //             if (data.success) {
-                //                 alert("Produit ajouté au panier !");
-                //             } else {
-                //                 alert("Une erreur est survenue.");
-                //             }
-                //         });
-                // },
-
-
                 filteredEvents() {
                     return this.blog;
                 },
-
-
                 resetFilter() {
-                    this.searchQuery = ''; // Réinitialise la recherche
-                    this.selectedCategory = null; // Réinitialise la catégorie sélectionnée
-                    this.filterProducts(); // Recharge tous les produits
+                    this.searchQuery = '';
+                    this.selectedCategory = null;
+                    this.filterProducts();
                 }
             };
         }
