@@ -15,7 +15,7 @@ class SouscriptionController extends Controller
      */
     public function index()
     {
-        $listesouscriptions = Souscription::with(['entreprise', 'abonnement'])->get();
+        $listesouscriptions = Souscription::with(['user', 'abonnement'])->get();
 
         return view('dashboard.souscriptions.index', compact('listesouscriptions'));
     }

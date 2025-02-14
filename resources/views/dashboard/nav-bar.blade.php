@@ -56,12 +56,12 @@
                         </li>
 
 
-                    <li class="nav-item {{ request()->routeIs('facture.index') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('facture.index') }}">
-                            <i class="fe fe-file-text nav-icon"></i>
-                            Factures
-                        </a>
-                    </li>
+                        <li class="nav-item {{ request()->routeIs('facture.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('facture.index') }}">
+                                <i class="fe fe-file-text nav-icon"></i>
+                                Factures
+                            </a>
+                        </li>
                     @endcan
 
                     @can('access-admin')
@@ -96,13 +96,6 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ request()->routeIs('paiementadresse.index') ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('paiementadresse.index') }}">
-                                <i class="fe fe-credit-card nav-icon"></i>
-
-                                Adresse Paiement
-                            </a>
-                        </li>
 
                         <li class="nav-item {{ request()->routeIs('abonnement.index') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('abonnement.index') }}">

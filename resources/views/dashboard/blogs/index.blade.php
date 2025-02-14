@@ -98,7 +98,7 @@
             </div>
         </section>
 
-        <!-- Modal de création/édition -->
+
         <template x-if="showModal">
             <div class="modal fade show d-block" tabindex="-1" aria-modal="true" style="background-color: rgba(0,0,0,0.5)">
                 <div class="modal-dialog modal-lg">
@@ -109,26 +109,50 @@
                         </div>
                         <div class="modal-body">
                             <form @submit.prevent="submitForm">
-                                <!-- Champ Titre et Description courte -->
+                                <!-- Titre et Prix -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="title" class="form-label">Titre</label>
                                         <input type="text" id="title" class="form-control" x-model="formData.title"
                                             required>
                                     </div>
-
-
                                     <div class="col-md-6">
                                         <label for="price" class="form-label">Prix</label>
                                         <input type="number" id="price" class="form-control" x-model="formData.price"
                                             required>
                                     </div>
-
                                 </div>
 
-                                <!-- Champ courte descritpion-->
+                                <!-- Organisateur et Lieu -->
                                 <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="organisateur" class="form-label">Organisateur</label>
+                                        <input type="text" id="organisateur" class="form-control"
+                                            x-model="formData.organisateur" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="lieu" class="form-label">Lieu</label>
+                                        <input type="text" id="lieu" class="form-control" x-model="formData.lieu"
+                                            required>
+                                    </div>
+                                </div>
 
+                                <!-- Code Blog et Temps de lecture -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="codeblog" class="form-label">Code Blog</label>
+                                        <input type="text" id="codeblog" class="form-control"
+                                            x-model="formData.codeblog" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="temps_lecture" class="form-label">Temps de lecture (min)</label>
+                                        <input type="number" id="temps_lecture" class="form-control"
+                                            x-model="formData.temps_lecture" required>
+                                    </div>
+                                </div>
+
+                                <!-- Description courte -->
+                                <div class="row">
                                     <div class="col-md-12">
                                         <label for="mini_description" class="form-label">Description courte</label>
                                         <input type="text" id="mini_description" class="form-control"
@@ -136,35 +160,55 @@
                                     </div>
                                 </div>
 
-
-                                <!-- Champ Description complète -->
+                                <!-- Description complète -->
                                 <div class="mb-3 row">
                                     <div class="col-md-12">
                                         <label for="description" class="form-label">Description complète</label>
                                         <trix-editor input="description" x-ref="description"
-                                        @trix-change="updateDescription"></trix-editor>
-
+                                            @trix-change="updateDescription"></trix-editor>
                                     </div>
                                 </div>
 
-
-                                <!-- Champ Date début et Date fin -->
+                                <!-- Date début et fin -->
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label for="date_event_debut" class="form-label">Date de début de
-                                            l'événement</label>
+                                        <label for="date_event_debut" class="form-label">Date de début</label>
                                         <input type="date" id="date_event_debut" class="form-control"
                                             x-model="formData.date_event_debut" required>
                                     </div>
-
                                     <div class="col-md-6">
-                                        <label for="date_event_fin" class="form-label">Date de fin de l'événement</label>
+                                        <label for="date_event_fin" class="form-label">Date de fin</label>
                                         <input type="date" id="date_event_fin" class="form-control"
                                             x-model="formData.date_event_fin" required>
                                     </div>
                                 </div>
 
-                                <!-- Champ Image -->
+                                <!-- Pays et Ville -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="country_id" class="form-label">Pays</label>
+                                        <select id="country_id" class="form-control" x-model="formData.country_id"
+                                           >
+                                            <option value="">Sélectionner un pays</option>
+                                            <template x-for="pays in listepays">
+                                                <option :value="pays.id" x-text="pays.name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="city_id" class="form-label">Ville</label>
+                                        <select id="city_id" class="form-control" x-model="formData.city_id">
+                                            <option value="">Sélectionner une ville</option>
+                                            <template x-for="ville in listevilles">
+                                                <option :value="ville.id" x-text="ville.name"></option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- Image -->
                                 <div class="mb-3 row">
                                     <div class="col-md-12">
                                         <label for="image" class="form-label">Image</label>
@@ -201,6 +245,8 @@
         </template>
 
 
+
+
     </main>
 
 @endsection
@@ -211,6 +257,8 @@
             return {
                 searchTerm: '',
                 blogs: @json($listeblogs),
+                listepays: @json($listepays),
+                listevilles: @json($listevilles),
                 filteredBlogs: [],
                 currentPage: 1,
                 blogsPerPage: 10,
@@ -289,6 +337,8 @@
                 resetForm() {
                     this.formData = {
                         title: '',
+                        organisateur: '',
+                        lieu: '',
                         mini_description: '',
                         description: '',
                         temps_lecture: '',
@@ -296,10 +346,9 @@
                         date_event_debut: '',
                         date_event_fin: '',
                         image_preview: null,
+                        country_id: '',
+                        city_id: '',
                         image: null,
-
-
-
                     };
 
 
@@ -312,6 +361,8 @@
 
                         // Création du FormData
                         const formData = new FormData();
+
+                        // Append standard fields from the form
                         formData.append('title', this.formData.title);
                         formData.append('mini_description', this.formData.mini_description);
                         formData.append('description', this.formData.description);
@@ -320,10 +371,23 @@
                         formData.append('date_event_debut', this.formData.date_event_debut);
                         formData.append('date_event_fin', this.formData.date_event_fin);
 
-                        // Ajouter l'image si elle existe
+                        // Add the country and city data
+                        formData.append('country_id', this.formData.country_id);
+                        formData.append('city_id', this.formData.city_id);
+
+                        // Add the organizer and location data
+                        formData.append('organisateur', this.formData.organisateur);
+                        formData.append('lieu', this.formData.lieu);
+
+                        // Add the blog code if it exists
+                        formData.append('codeblog', this.formData.codeblog);
+
+                        // Add the image if it exists
                         if (this.formData.image) {
                             formData.append('image', this.formData.image);
                         }
+
+                        // You can now send the form data to the server (via fetch, axios, etc.)
 
                         // Envoi des données au serveur via fetch
                         const response = await fetch('{{ route('blogs.store') }}', {
@@ -387,7 +451,7 @@
                 },
 
                 init() {
-                    this.filterBlogs();
+                    // this.filterBlogs();
                 },
 
 

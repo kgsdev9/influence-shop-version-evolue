@@ -11,14 +11,31 @@ class PubBlog extends Model
 
     protected $fillable = [
         'title',
+        'image',
+        'organisateur',
+        'lieu',
+        'codeblog',
         'mini_description',
         'description',
-        'image',
-        'codeblog',
-        'temps_lecture',
-        'price',
         'date_event_debut',
         'date_event_fin',
-        'publish_at'
+        'price',
+        'temps_lecture',
+        'publish_at',
+        'country_id',
+        'city_id'
     ];
+
+
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+    
 }

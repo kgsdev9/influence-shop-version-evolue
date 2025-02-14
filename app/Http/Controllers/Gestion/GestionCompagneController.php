@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Compagne;
 use App\Models\Entreprise;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GestionCompagneController extends Controller
@@ -17,9 +18,9 @@ class GestionCompagneController extends Controller
      */
     public function index()
     {
-        $listecompanges = Compagne::with(['entreprise', 'product'])->get();
+        $listecompanges = Compagne::with(['user', 'product'])->get();
         $listeproducts = Product::all();
-        $listeentreprise = Entreprise::all();
+        $listeentreprise = User::all();
         return view('dashboard.compagnes.index', compact('listecompanges', 'listeproducts', 'listeentreprise'));
     }
 
@@ -51,13 +52,13 @@ class GestionCompagneController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'total_budget' => $request->total_budget,
-            'entreprise_id' => $request->entreprise_id,
+            'user_id' => $request->entreprise_id,
             'product_id' => $request->product_id,
         ];
 
         $compagne->update($data);
 
-        $compagne->load(['entreprise', 'product']);
+        $compagne->load(['user', 'product']);
 
         return response()->json(['message' => 'Compagne mise à jour avec succès', 'compagne' => $compagne], 200);
     }
@@ -70,11 +71,11 @@ class GestionCompagneController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'total_budget' => $request->total_budget,
-            'entreprise_id' => $request->entreprise_id,
+            'user_id' => $request->entreprise_id,
             'product_id' => $request->product_id,
         ]);
 
-        $compagne->load(['entreprise', 'product']);
+        $compagne->load(['user', 'product']);
 
         return response()->json(['message' => 'Compagne créée avec succès', 'compagne' => $compagne], 201);
     }

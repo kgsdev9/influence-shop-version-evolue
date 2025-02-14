@@ -80,7 +80,7 @@
                                 <a href="#" class="text-inherit">
 
                                     <div class="">
-                                        <h5 class="mb-0 text-primary-hover" x-text="product.entreprise.name">
+                                        <h5 class="mb-0 text-primary-hover" x-text="product.user.namestore">
                                         </h5>
                                     </div>
                         </div>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\PubBlog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,8 +19,11 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $listeblogs = PubBlog::all();
-        return view('dashboard.blogs.index', compact('listeblogs'));
+        $listeblogs = PubBlog::with(['country', 'city']);
+        $listepays = Country::all();
+        $listevilles = City::all();
+
+        return view('dashboard.blogs.index', compact('listeblogs', 'listepays', 'listevilles'));
     }
 
 
@@ -43,29 +48,13 @@ class BlogController extends Controller
         }
     }
 
-    // Méthode pour créer une nouvelle publicité
-    // private function createPubBlog(Request $request)
-    // {
-    //     dd($request->all());
-    //     $pubBlog = PubBlog::create([
-    //         'title' => $request->title,
-    //         'mini_description' => $request->mini_description,
-    //         'description' => $request->description,
-    //         'temps_lecture' => $request->temps_lecture,
-    //     ]);
 
-    //     return response()->json([
-    //         'message' => 'Publicité créée avec succès.',
-    //         'blog' => $pubBlog
-    //     ], 201);
-    // }
 
+   
 
     private function createPubBlog(Request $request)
     {
-
-        
-
+        // Gérer l'image
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -76,7 +65,8 @@ class BlogController extends Controller
             // Stocke l'image dans le dossier 'blogs' et utilise le nom original
             $imagePath = $image->storeAs('blogs', $originalName);
         }
-        // Créer la publicité avec les données sans validation
+
+        // Créer la publicité avec les données (incluant les nouveaux champs)
         $pubBlog = PubBlog::create([
             'title' => $request->title,
             'mini_description' => $request->mini_description,
@@ -86,7 +76,11 @@ class BlogController extends Controller
             'date_event_debut' => $request->date_event_debut,
             'date_event_fin' => $request->date_event_fin,
             'image' => $imagePath,
-            'codeblog' => $this->generateUniqueCodeBlog(),
+            'codeblog' => $request->codeblog ?? $this->generateUniqueCodeBlog(),  // Si le codeblog n'est pas fourni, on le génère
+            'organisateur' => $request->organisateur,
+            'lieu' => $request->lieu,
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
         ]);
 
         return response()->json([
@@ -94,6 +88,44 @@ class BlogController extends Controller
             'blog' => $pubBlog
         ], 201);
     }
+
+    // Méthode pour mettre à jour une publicité existante
+    private function updatePubBlog(PubBlog $pubBlog, Request $request)
+    {
+        // Préparer les données de mise à jour
+        $data = [
+            'title' => $request->title,
+            'mini_description' => $request->mini_description,
+            'description' => $request->description,
+            'temps_lecture' => $request->temps_lecture,
+            'price' => $request->price,
+            'date_event_debut' => $request->date_event_debut,
+            'date_event_fin' => $request->date_event_fin,
+            'organisateur' => $request->organisateur,
+            'lieu' => $request->lieu,
+            'country_id' => $request->country_id,
+            'city_id' => $request->city_id,
+            'codeblog' => $request->codeblog,
+        ];
+
+        // Mettre à jour l'image si un fichier est fourni
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $originalName = $image->getClientOriginalName();
+            $imagePath = $image->storeAs('blogs', $originalName);
+            $data['image'] = $imagePath; // Mise à jour du chemin de l'image
+        }
+
+        // Mettre à jour la publicité avec les nouvelles données
+        $pubBlog->update($data);
+
+        return response()->json([
+            'message' => 'Publicité mise à jour avec succès.',
+            'blog' => $pubBlog
+        ], 200);
+    }
+
+
 
 
     private function generateUniqueCodeBlog()
@@ -109,26 +141,6 @@ class BlogController extends Controller
 
         return $codeproduct;
     }
-
-
-    // Méthode pour mettre à jour une publicité existante
-    private function updatePubBlog(PubBlog $pubBlog, Request $request)
-    {
-        $data = [
-            'title' => $request->title,
-            'mini_description' => $request->mini_description,
-            'description' => $request->description,
-            'temps_lecture' => $request->temps_lecture,
-        ];
-
-        $pubBlog->update($data);
-
-        return response()->json([
-            'message' => 'Publicité mise à jour avec succès.',
-            'blog' => $pubBlog
-        ], 200);
-    }
-
     // Méthode pour supprimer une publicité
     public function destroy($id)
     {
