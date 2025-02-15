@@ -21,8 +21,15 @@
 
                             <!-- Card Body -->
                             <div class="card-body">
-                                <div class="table-responsive table-card">
-                                    <!-- Table -->
+                                <!-- Message panier vide -->
+                                <div x-show="products.length === 0" class="text-center py-5">
+                                    <h5>Votre panier est vide</h5>
+                                    <p>Ajoutez des produits à votre panier pour commencer vos achats.</p>
+                                    <a href="{{ route('product.home') }}" class="btn btn-warning">Continuer vos achats</a>
+                                </div>
+
+                                <!-- Affichage du panier avec produits -->
+                                <div x-show="products.length > 0" class="table-responsive table-card">
                                     <table class="table mb-0 text-nowrap">
                                         <thead class="table-light">
                                             <tr>
@@ -76,8 +83,7 @@
                                                             <input type="number" step="1" max="10"
                                                                 :value="product.quantity" name="quantity"
                                                                 class="quantity-field form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1">
-                                                            <input type="button" value="+"
-                                                                class="button-plus form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1"
+                                                            <input type="button" value="+" class="button-plus form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1"
                                                                 @click="updateQuantity(index, product.quantity + 1)">
                                                         </div>
                                                     </td>
@@ -110,7 +116,9 @@
                         <!-- Actions -->
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('product.home') }}" class="btn btn-outline-warning">Continuer vos achats</a>
-                            <a href="{{ route('somaire.cmde') }}" class="btn btn-warning">Passer à la caisse</a>
+
+                            <!-- Bouton Passer à la caisse uniquement si total > 10 -->
+                            <a href="{{ route('somaire.cmde') }}" class="btn btn-warning" x-show="total > 10">Passer à la caisse</a>
                         </div>
                     </div>
                 </div>
@@ -118,7 +126,7 @@
                 <!-- Panier à droite -->
                 <div class="col-lg-3">
                     <div class="d-flex flex-column gap-4">
-                        
+
                         <!-- Sommaire de commande -->
                         <div class="card">
                             <div class="card-body d-flex flex-column gap-3">
@@ -215,10 +223,7 @@
                         })
                     });
                 },
-                editProduct(index) {
-                    // Ajouter la logique d'édition si nécessaire
-                    alert('Edit product functionality not implemented yet');
-                }
+             
             }
         }
     </script>

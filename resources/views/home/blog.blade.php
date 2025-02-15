@@ -93,17 +93,8 @@
                     </div>
                 </template>
 
-                <!-- Button pour charger plus -->
-                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-6">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-4">
-                        <a href="#" class="btn btn-primary">
-                            <div class="spinner-border spinner-border-sm me-2" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            Chargement
-                        </a>
-                    </div>
-                </div>
+              
+
             </div>
         </div>
     </section>

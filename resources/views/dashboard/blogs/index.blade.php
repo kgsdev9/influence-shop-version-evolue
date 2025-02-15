@@ -87,7 +87,7 @@
                                                         <p x-text="blog.price"></p>
                                                     </td>
                                                     <td>
-                                                        <p x-text="blog.country_id"></p>
+                                                        <p x-text="blog.country.name"></p>
                                                     </td>
                                                     <td>
                                                         <button @click="openModal(blog)">Éditer</button>
@@ -343,7 +343,7 @@
                             this.$refs.description.editor.loadHTML(this.formData.description);
                         });
 
-                      
+
                     } else {
                         this.isEdite = false;
                         this.resetForm();

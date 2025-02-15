@@ -50,9 +50,6 @@
                         <div class="text-center position-relative">
                             <img src="{{ asset('job-hero-section.png') }}" style="height:400px;"
                                 alt="Collaboration avec des influenceurs" class="position-relative z-3">
-                            <div class="position-absolute top-0 end-0 bottom-0">
-                                <img src="chemin/vers/votre/graphique.svg" alt="">
-                            </div>
                         </div>
                     </div>
                 </div>

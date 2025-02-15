@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="icon" href="{{ asset('flaticons.jpg') }}" type="image/x-icon" />
+    <link rel="VTP MARKET" type="image/x-icon" href="{{ asset('flaticons.jpg') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     <link href="{{ asset('assets/fonts/feather/feather.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 </head>
 
 <body class="bg-white">
@@ -190,7 +189,6 @@
                                         Vendeur</a></li>
                             </ul>
                         @endguest
-
                     </div>
                 </div>
 
@@ -222,25 +220,19 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
     <script src="{{ asset('assets/alpine.js') }}" defer></script>
-    <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     @stack('script')
+
     <script>
         document.addEventListener('alpine:init', () => {
-            // Déclaration du store global "cart"
             Alpine.store('cart', {
-                items: [], // Contiendra les produits du panier
-                // Fonction pour ajouter un produit au panier
+                items: [],
                 addToCart(product) {
                     let productToAdd = {
                         id: product.id,
@@ -253,11 +245,7 @@
                         image: product.images.length ? `/s3/${product.images[0].imagename}` :
                             '../../assets/images/default-product.jpg'
                     };
-
-                    // Ajout du produit dans le tableau "items"
                     this.items.push(productToAdd);
-
-                    // Envoi au backend pour sauvegarder dans la session
                     fetch('/add-to-cart', {
                             method: 'POST',
                             headers: {
@@ -272,7 +260,13 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert("Produit ajouté au panier !");
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Produit enregistré avec succès !',
+                                    showConfirmButton: true,
+                                    
+                                });
+
                             } else {
                                 alert("Une erreur est survenue.");
                             }

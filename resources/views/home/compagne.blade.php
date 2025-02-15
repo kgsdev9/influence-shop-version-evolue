@@ -35,7 +35,7 @@
                         <div class="card shadow-sm border-light h-100">
                             <!-- Image du produit -->
                             <div class="image-container" style="overflow: hidden; position: relative;">
-                                <a :href="`/product/detail/${event.product.id}`">
+                                <a :href="`/product/detail/${event.product.codeproduct}`">
                                     <img :src="event.product.images.length ? `/s3/${event.product.images[0].imagename}` : '../../assets/images/default-product.jpg'"
                                         alt="Product Image"
                                         class="card-img-top img-fluid rounded-top"
@@ -46,31 +46,22 @@
                             <!-- Informations produit -->
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">
-                                    <a :href="`/product/detail/${event.product.id}`" class="text-inherit" x-text="event.product.name"></a>
+                                    <a :href="`/product/detail/${event.product.codeproduct }`" class="text-inherit" x-text="event.product.name"></a>
                                 </h5>
                                 <p class="card-text text-muted" x-text="event.product.shortdescription.length > 50 ? event.product.shortdescription.substring(0, 50) + '...' : event.product.description"></p>
                                 <div class="d-flex justify-content-between align-items-center mt-auto">
                                     <h6 class="text-warning mb-0" x-text="event.product.price_vente"></h6>
-                                    <a :href="`/buyProduct/${event.product.id}`" class="btn btn-danger btn-sm">
-                                        <i class="fe fe-shopping-cart fs-3"></i> Acheter
-                                    </a>
+
+                                    <button @click="$store.cart.addToCart(event.product)" class="btn btn-danger btn-sm">
+                                        <i class="fe fe-shopping-cart fs-3"></i> Panier
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </template>
 
-                <!-- Button pour charger plus -->
-                <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-6">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-12 text-center mt-4">
-                        <a href="#" class="btn btn-primary">
-                            <div class="spinner-border spinner-border-sm me-2" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            Chargement
-                        </a>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </section>
