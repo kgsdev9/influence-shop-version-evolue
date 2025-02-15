@@ -9,5 +9,6 @@
     <h2>Bonjour,</h2>
     <p>Votre code de vérification est : <strong>{{ $verificationCode }}</strong></p>
     <p>Ce code expirera dans 5 minutes.</p>
+  
 </body>
 </html>

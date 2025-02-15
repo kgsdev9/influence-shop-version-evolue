@@ -4,6 +4,7 @@ use App\Http\Controllers\Abonnement\AbonnementController;
 use App\Http\Controllers\Auth\Entreprise\EntrepriseRegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\Promoteur\PromoteurController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
@@ -88,6 +89,7 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 // devenir vendeur
 
 Route::get('/register/vendor', [EntrepriseRegisterController::class, 'registerEntrepriseForm'])->name('register.form.entreprise');
+Route::get('/register/promoteur', [PromoteurController::class, 'registerFormPromoteur'])->name('register.form.promoteur');
 
 
 

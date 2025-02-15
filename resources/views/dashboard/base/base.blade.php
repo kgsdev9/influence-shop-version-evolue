@@ -53,6 +53,22 @@
                             <h1>Bienvenue chers administrateur</h1>
                         @endcan
 
+                        @can('access-influenceurs')
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <!-- Card -->
+                            <div class="card mb-4">
+                                <div class="p-4">
+                                    <span class="fs-6 text-uppercase fw-semibold">Compagne</span>
+
+                                    <span class="d-flex justify-content-between align-items-center">
+                                        <span>Mon code d'influenceur est  <strong>{{Auth::user()->codevente}}</strong>  </span>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        @endcan
+
                     </div>
                 </div>
             </div>

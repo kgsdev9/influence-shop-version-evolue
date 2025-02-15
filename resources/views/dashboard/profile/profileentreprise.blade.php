@@ -27,7 +27,7 @@
                                             <div class="mb-3 col-12 col-md-6">
                                                 <label class="form-label">Email</label>
                                                 <input x-model="email" type="email" class="form-control"
-                                                    placeholder="Email" required readonly >
+                                                    placeholder="Email" required readonly>
                                             </div>
 
                                             <div class="mb-3 col-12 col-md-6">
@@ -186,10 +186,13 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('Profil mis à jour avec succès!');
-                            } else {
-                                alert('Erreur lors de la mise à jour du profil.');
-                            }
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Profil ajouté au panier!',
+                                    showConfirmButton: true,
+
+                                });
+                            } 
                         });
                 },
 

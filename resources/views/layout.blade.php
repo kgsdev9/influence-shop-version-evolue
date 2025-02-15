@@ -29,10 +29,10 @@
             <div class="order-lg-3">
                 <div class="d-flex align-items-center">
 
+                        <a href="{{ route('cart.home') }}"
+                            class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
+                                class="fe fe-shopping-cart align-middle"></i></a>
 
-                    <a href="{{ route('cart.home') }}"
-                        class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
-                            class="fe fe-shopping-cart align-middle"></i></a>
                     <div class="dropdown">
                         <a href="{{ route('dashboards') }}"
                             class="btn btn-light btn-icon rounded-circle d-flex align-items-center mx-2" type="button">
@@ -184,9 +184,13 @@
                             <li><a href="{{ route('contact') }}" class="nav-link">Nous Contacter</a></li>
                             <li><a href="{{ route('faq') }}" class="nav-link">FAQ’s</a></li>
                             <li><a href="{{ route('cgu') }}" class="nav-link">Condition d'utilisation </a></li>
+
                             @guest
                                 <li><a href="{{ route('register.form.entreprise') }}" class="nav-link">Devenir
                                         Vendeur</a></li>
+
+                                <li><a href="{{ route('register.form.promoteur') }}" class="nav-link">Devenir
+                                        Promoteur</a></li>
                             </ul>
                         @endguest
                     </div>
@@ -262,11 +266,9 @@
                             if (data.success) {
                                 Swal.fire({
                                     icon: 'success',
-                                    title: 'Produit enregistré avec succès !',
+                                    title: 'Produit ajouté au panier!',
                                     showConfirmButton: true,
-                                    
                                 });
-
                             } else {
                                 alert("Une erreur est survenue.");
                             }

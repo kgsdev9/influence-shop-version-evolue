@@ -10,7 +10,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="mb-0">Profile Detail</h3>
+                                    <h3 class="mb-0">Profile Influenceurs</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="d-lg-flex align-items-center justify-content-between">
@@ -39,6 +39,16 @@
                                                 required="">
                                         </div>
 
+                                        <div class="mb-3 col-12 col-md-6">
+                                            <label class="form-label">Pays</label>
+                                            <select x-model="country_id" class="form-select" required>
+                                                <option value="">Sélectionnez un pays</option>
+                                                @foreach ($allCountries as $country)
+                                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
                                         <div class="row">
                                             <div class="col-md-2" @click="saveChanges()">
                                                 <button class="btn btn-warning">
@@ -51,9 +61,6 @@
                                                 </button>
                                             </div>
                                         </div>
-
-
-
 
                                     </div>
                                 </div>
@@ -96,11 +103,13 @@
                 phone: '',
                 lastName: '',
                 firstName: '',
+                country_id: '',
                 showDeleteModal: false,
                 init() {
                     this.firstName = this.user.nom;
                     this.lastName = this.user.prenom;
                     this.phone = this.user.telephone;
+                    this.country_id = this.user.country_id;
                 },
 
                 saveChanges() {
@@ -114,7 +123,8 @@
                                 first_name: this.firstName,
                                 last_name: this.lastName,
                                 phone: this.phone,
-                                arg: 1,
+                                country_id: this.country_id,
+                                arg: 3,
                             })
                         })
                         .then(response => response.json())

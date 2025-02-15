@@ -16,12 +16,13 @@ class OrdersController extends Controller
      */
     public function index()
     {
+        $listeOrders = [];
         // Vérifie si l'utilisateur est connecté et son rôle
         if (Auth::check() && Auth::user()->role->name == "utilisateur") {
 
             // Si l'utilisateur est de rôle 'utilisateur', on filtre par user_id
             $listeOrders = Order::where('user_id', Auth::user()->id)->get();
-        } else {
+        } elseif (Auth::check() && Auth::user()->role->name == "admin") {
             // Sinon, on renvoie toutes les commandes
             $listeOrders = Order::all();
         }
@@ -66,7 +67,7 @@ class OrdersController extends Controller
     {
         $commande = Order::find($id);
 
-       
+
 
         return view('dashboard.orders.detail', compact('commande'));
     }

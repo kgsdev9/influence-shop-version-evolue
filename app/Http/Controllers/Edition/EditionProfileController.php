@@ -18,14 +18,16 @@ class EditionProfileController extends Controller
      */
     public function profile()
     {
+        $allCountries  = Country::all();
+
         $user = User::where('codeprofile', Auth::user()->codeprofile)->first();
         if ($user->role->name == "entreprise") {
-            $allCountries  = Country::all();
+
             return view('dashboard.profile.profileentreprise', compact('user', 'allCountries'));
         } elseif ($user->role->name == "utilisateur") {
             return view('dashboard.profile.profile', compact('user'));
         } elseif ($user->role->name == "influenceur") {
-            return view('dashboard.profile.profileentreprise', compact('user'));
+            return view('dashboard.profile.influenceur', compact('user', 'allCountries'));
         }
     }
 
@@ -47,6 +49,19 @@ class EditionProfileController extends Controller
             $user->description = $request->input('description');
             $user->country_id = $request->input('country_id');
             $user->telephone = $request->input('telephone');
+            if ($request->input('password') !== null) {
+                $user->password = Hash::make($request->input('password'));
+            }
+            // Sauvegarder les changements
+            $user->save();
+            return response()->json(['success' => true]);
+        } elseif ($request->arg  == 3)
+        {
+            $user->nom = $request->input('first_name');
+            $user->prenom = $request->input('last_name');
+            $user->country_id = $request->input('country_id');
+            $user->telephone = $request->input('phone');
+            $user->save();
             if ($request->input('password') !== null) {
                 $user->password = Hash::make($request->input('password'));
             }

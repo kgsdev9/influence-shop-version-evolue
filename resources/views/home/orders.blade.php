@@ -1,5 +1,5 @@
 @extends('layout')
-@section('title')
+@section('title', 'Finaliser les commandes')
 @section('content')
     <main class="bg-light">
         <section x-data="formSteps()">
@@ -7,17 +7,19 @@
                 <div class="d-flex flex-column gap-3">
                     <h5 class="mb-0 display-4 fw-bold text-warning mt-4"> Finaliser mes commandes
                     </h5>
-                    <p class="mb-0 pe-xxl-8 me-xxl-5">Transformez votre influence en revenus. Influence Shop vous connecte
-                        directement à des marques qui souhaitent promouvoir leurs produits ou services auprès de votre
-                        communauté.</p>
+                    <p class="mb-0 pe-xxl-8 me-xxl-5">Vous êtes sur le point de finaliser vos commandes. Assurez-vous que
+                        toutes les informations sont correctes avant de valider vos achats et profiter des offres
+                        exclusives.</p>
+
                 </div>
                 <div class="card mb-4 position-relative mt-4">
                     <div class="card-body">
                         <!-- Etape 1: Informations Produit -->
                         <template x-if="currentStep === 1">
                             <div>
-                                <h5 class="card-title">Informations du Produit</h5>
-                                <p class="card-text">Veuillez remplir les informations pour enregistrer votre produit.</p>
+                                <h5 class="card-title">Code de Parainage</h5>
+                                <p class="card-text">Si vous avez été parrainé, entrez le code de parrainage pour profiter des avantages exclusifs.</p>
+
 
                                 <div class="row">
                                     <!-- Deuxième colonne avec le formulaire -->
@@ -508,8 +510,7 @@
                         2)); // Ajout du poids converti en euros
                     formData.append('montantttc', this.finalTotal.toFixed(2)); // Ajout du montant final
 
-                    if (!this.adressepaymentid)
-                    {
+                    if (!this.adressepaymentid) {
                         alert('veuillez selectionner une adresse de paiement')
                         return;
                     }

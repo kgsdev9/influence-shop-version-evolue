@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\SendNotificationCodePromotion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -58,6 +59,22 @@ class VerificationCodeController extends Controller
     }
 
 
+    private function generateCodeVente()
+    {
+        // Boucle pour garantir l'unicité du code
+        do {
+            // Générer un code unique à 4 chiffres
+            $codeprofile = rand(1000, 9999);  // Génère un nombre entre 1000 et 9999
+
+            // Vérifier si ce code existe déjà
+            $existingUser = User::where('codevente', $codeprofile)->first();
+        } while ($existingUser); // Si ce code existe, refaire la boucle
+
+        return $codeprofile; // Retourne le code unique
+    }
+
+
+
     public function sendVerificationCode(Request $request)
     {
 
@@ -78,8 +95,6 @@ class VerificationCodeController extends Controller
                 ]);
             }
         } elseif ($request->arg == 2) {
-
-
             if (!$user) {
                 $user = User::create([
                     'name' => $this->generateUsername(),
@@ -96,6 +111,20 @@ class VerificationCodeController extends Controller
                     'telephone' => $request->phone,
                     'password' => Hash::make($request->password ?? '12345'),
                     'role_id' => 4,
+                ]);
+            }
+        } elseif ($request->arg == 3) {
+            // dd($request->all());
+            if (!$user) {
+                $user = User::create([
+                    'name' => $this->generateUsername(),
+                    'email' => $request->email,
+                    'codevente' => $this->generateCodeVente(),
+                    'codeprofile' => $this->generateUniqueCodeProfileUsers(),
+                    'country_id' => $request->country_id,
+                    'telephone' => $request->phone,
+                    'password' => Hash::make($request->password ?? '12345'),
+                    'role_id' => 3,
                 ]);
             }
         }
@@ -131,9 +160,7 @@ class VerificationCodeController extends Controller
     // Vérification du code envoyé par l'utilisateur
     public function verifyCode(Request $request)
     {
-
-
-
+      
         $user = User::where('email', $request->email)->first();
 
         // Vérifier si le compte est déjà confirmé
@@ -156,6 +183,10 @@ class VerificationCodeController extends Controller
             // Le code est correct, on met à jour le champ 'confirmed_at' de l'utilisateur
             $user->confirmed_at = 1; // Marquer le compte comme confirmé
             $user->save();
+            if ($request->arg == 3)
+            {
+                $user->notify(new SendNotificationCodePromotion($user));
+            }
 
             // Optionnellement, connecter l'utilisateur
             auth()->login($user); // Connecte l'utilisateur automatiquement
