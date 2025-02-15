@@ -45,6 +45,12 @@
                                                 <th scope="col">Description courte</th>
                                                 <th scope="col">Temps lecture</th>
                                                 <th scope="col">Publié le</th>
+                                                <th scope="col">Organisateur</th>
+                                                <th scope="col">Lieu</th>
+                                                <th scope="col">Date de début</th>
+                                                <th scope="col">Date de fin</th>
+                                                <th scope="col">Prix</th>
+                                                <th scope="col">Pays</th>
                                                 <th scope="col"></th>
                                             </tr>
                                         </thead>
@@ -66,6 +72,24 @@
                                                         <p x-text="blog.publish_at"></p>
                                                     </td>
                                                     <td>
+                                                        <p x-text="blog.organisateur"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.lieu"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.date_event_debut"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.date_event_fin"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.price"></p>
+                                                    </td>
+                                                    <td>
+                                                        <p x-text="blog.country_id"></p>
+                                                    </td>
+                                                    <td>
                                                         <button @click="openModal(blog)">Éditer</button>
                                                         <button @click="deleteBlog(blog.id)">Supprimer</button>
                                                     </td>
@@ -74,6 +98,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+
 
                                 <div class="row mt-4">
                                     <div class="col-sm-12 col-md-7 offset-md-5 d-flex justify-content-end">
@@ -132,20 +157,16 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="lieu" class="form-label">Lieu</label>
-                                        <input type="text" id="lieu" class="form-control" x-model="formData.lieu"
-                                            required>
+                                        <input type="text" id="lieu" class="form-control"
+                                            x-model="formData.lieu" required>
                                     </div>
                                 </div>
 
                                 <!-- Code Blog et Temps de lecture -->
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="codeblog" class="form-label">Code Blog</label>
-                                        <input type="text" id="codeblog" class="form-control"
-                                            x-model="formData.codeblog" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="temps_lecture" class="form-label">Temps de lecture (min)</label>
+
+                                    <div class="col-md-12">
+                                        <label for="temps_lecture" class="form-label">Durée de l'evenement</label>
                                         <input type="number" id="temps_lecture" class="form-control"
                                             x-model="formData.temps_lecture" required>
                                     </div>
@@ -187,11 +208,11 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="country_id" class="form-label">Pays</label>
-                                        <select id="country_id" class="form-control" x-model="formData.country_id"
-                                           >
+                                        <select id="country_id" class="form-control" x-model="formData.country_id">
                                             <option value="">Sélectionner un pays</option>
-                                            <template x-for="pays in listepays">
-                                                <option :value="pays.id" x-text="pays.name"></option>
+                                            <template x-for="pays in listepays" :key="pays.id">
+                                                <option :value="pays.id" x-text="pays.name"
+                                                    :selected="formData.country_id === pays.id ? true : false"></option>
                                             </template>
                                         </select>
                                     </div>
@@ -199,12 +220,14 @@
                                         <label for="city_id" class="form-label">Ville</label>
                                         <select id="city_id" class="form-control" x-model="formData.city_id">
                                             <option value="">Sélectionner une ville</option>
-                                            <template x-for="ville in listevilles">
-                                                <option :value="ville.id" x-text="ville.name"></option>
+                                            <template x-for="ville in listevilles" :key="ville.id">
+                                                <option :value="ville.id" x-text="ville.name"
+                                                    :selected="formData.city_id === ville.id ? true : false"></option>
                                             </template>
                                         </select>
                                     </div>
                                 </div>
+
 
 
 
@@ -226,6 +249,7 @@
                                                     <i class="bi bi-camera" style="font-size: 2rem; color: #6c757d;"></i>
                                                 </div>
                                             </template>
+
                                         </div>
                                         <input type="file" id="imageInput" class="d-none" accept="image/*"
                                             @change="handleImageChange">
@@ -273,8 +297,10 @@
                     price: '',
                     date_event_debut: '',
                     date_event_fin: '',
-                    image_preview: null, // Pour l'aperçu de l'image
-                    image: null, // Pour stocker l'image choisie
+                    image_preview: null,
+                    image: null,
+                    city_id: '',
+                    country_id: '',
                 },
                 currentBlog: null,
 
@@ -292,21 +318,27 @@
                         this.currentBlog = {
                             ...blog
                         };
+                        console.log('Image du blog:', this.currentBlog.image);
+
+                        const baseUrl = '/s3/';
+                        const imagePath = this.currentBlog.image ? this.currentBlog.image.replace(/ /g, '%20') :
+                            '';
                         this.formData = {
                             title: this.currentBlog.title,
                             mini_description: this.currentBlog.mini_description,
+                            organisateur: this.currentBlog.organisateur,
+                            lieu: this.currentBlog.lieu,
+                            country_id: this.currentBlog.country_id,
+                            city_id: this.currentBlog.city_id,
                             description: this.currentBlog.description,
                             temps_lecture: this.currentBlog.temps_lecture,
                             price: this.currentBlog.price,
                             date_event_debut: this.currentBlog.date_event_debut,
                             date_event_fin: this.currentBlog.date_event_fin,
-                            image_preview: this.currentBlog.image, // pour l'aperçu
+                            image_preview: imagePath ? baseUrl + imagePath : '', // Construire l'URL de l'image relative
                         };
 
-                        // Mettez à jour l'éditeur Trix manuellement
-                        this.$nextTick(() => {
-                            this.$refs.description.editor.loadHTML(this.formData.description);
-                        });
+                        console.log('Image Preview:', this.formData.image_preview); // Vérifiez l'URL ici
                     } else {
                         this.isEdite = false;
                         this.resetForm();
@@ -314,6 +346,7 @@
 
                     this.showModal = true;
                 },
+
 
                 updateDescription(event) {
 
@@ -350,8 +383,6 @@
                         city_id: '',
                         image: null,
                     };
-
-
                 },
 
                 async submitForm() {
@@ -370,8 +401,8 @@
                         formData.append('price', this.formData.price);
                         formData.append('date_event_debut', this.formData.date_event_debut);
                         formData.append('date_event_fin', this.formData.date_event_fin);
-
-                        // Add the country and city data
+                        formData.append('pub_blog_id', this.currentBlog ? this.currentBlog.id : null);
+                        // Add the country  and city data
                         formData.append('country_id', this.formData.country_id);
                         formData.append('city_id', this.formData.city_id);
 
@@ -379,11 +410,8 @@
                         formData.append('organisateur', this.formData.organisateur);
                         formData.append('lieu', this.formData.lieu);
 
-                        // Add the blog code if it exists
-                        formData.append('codeblog', this.formData.codeblog);
-
-                        // Add the image if it exists
-                        if (this.formData.image) {
+                        if (this.formData.image)
+                        {
                             formData.append('image', this.formData.image);
                         }
 
@@ -451,7 +479,8 @@
                 },
 
                 init() {
-                    // this.filterBlogs();
+
+                    this.filterBlogs();
                 },
 
 

@@ -142,7 +142,7 @@
                                     <div class="col-md-12">
                                         <label for="description" class="form-label">Description complète</label>
                                         <trix-editor input="description" x-ref="description"
-                                        @trix-change="updateDescription"></trix-editor>
+                                            @trix-change="updateDescription"></trix-editor>
 
                                     </div>
                                 </div>
@@ -411,7 +411,9 @@
                 get paginatedBlogs() {
                     const start = (this.currentPage - 1) * this.blogsPerPage;
                     const end = start + this.blogsPerPage;
+                    console.log(this.filteredBlogs.slice(start, end));
                     return this.filteredBlogs.slice(start, end);
+
                 }
             };
         }

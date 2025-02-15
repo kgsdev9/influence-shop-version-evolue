@@ -19,7 +19,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $listeblogs = PubBlog::with(['country', 'city']);
+        $listeblogs = PubBlog::with(['country', 'city'])->get();
         $listepays = Country::all();
         $listevilles = City::all();
 
@@ -29,7 +29,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-
+      
         // Vérifier si pub_blog_id existe dans la requête
         $pubBlogId = $request->input('pub_blog_id');
 
@@ -50,7 +50,7 @@ class BlogController extends Controller
 
 
 
-   
+
 
     private function createPubBlog(Request $request)
     {
@@ -105,7 +105,6 @@ class BlogController extends Controller
             'lieu' => $request->lieu,
             'country_id' => $request->country_id,
             'city_id' => $request->city_id,
-            'codeblog' => $request->codeblog,
         ];
 
         // Mettre à jour l'image si un fichier est fourni
