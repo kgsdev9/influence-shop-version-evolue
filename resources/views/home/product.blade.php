@@ -180,17 +180,32 @@
 
                 filterProducts() {
                     console.log('Catégories sélectionnées:', this.selectedCategories);
+                    console.log('Tailles sélectionnées:', this.selectedSizes);
+                    console.log('Couleurs sélectionnées:', this.selectedColors);
 
                     // Filtrage des produits par catégorie sélectionnée
                     this.filteredProducts = this.products.filter(product => {
 
+                        // Filtrage par catégorie
                         const categoryMatch = this.selectedCategories.length === 0 ||
-                            this.selectedCategories.map(String).includes(String(product
-                                .category_id));
-                        return categoryMatch;
+                            this.selectedCategories.map(String).includes(String(product.category_id));
+
+                        // Filtrage par taille
+                        const sizeMatch = this.selectedSizes.length === 0 ||
+                            this.selectedSizes.map(String).includes(String(product.taille_id));
+
+                        // Filtrage par couleur
+                        const colorMatch = this.selectedColors.length === 0 ||
+                            this.selectedColors.map(String).includes(String(product.couleur_id));
+
+                        // Retourner vrai si toutes les conditions sont remplies
+                        return categoryMatch && sizeMatch && colorMatch;
                     });
+
                     console.log('Produits filtrés:', this.filteredProducts);
                 },
+
+
 
 
 

@@ -338,7 +338,12 @@
                             image_preview: imagePath ? baseUrl + imagePath : '', // Construire l'URL de l'image relative
                         };
 
-                        console.log('Image Preview:', this.formData.image_preview); // Vérifiez l'URL ici
+
+                        this.$nextTick(() => {
+                            this.$refs.description.editor.loadHTML(this.formData.description);
+                        });
+
+                      
                     } else {
                         this.isEdite = false;
                         this.resetForm();
@@ -410,8 +415,7 @@
                         formData.append('organisateur', this.formData.organisateur);
                         formData.append('lieu', this.formData.lieu);
 
-                        if (this.formData.image)
-                        {
+                        if (this.formData.image) {
                             formData.append('image', this.formData.image);
                         }
 

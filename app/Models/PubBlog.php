@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PubBlog extends Model
 {
     use HasFactory;
-
+ 
     protected $fillable = [
         'title',
         'image',

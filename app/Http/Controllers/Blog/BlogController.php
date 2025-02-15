@@ -29,7 +29,7 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-      
+
         // Vérifier si pub_blog_id existe dans la requête
         $pubBlogId = $request->input('pub_blog_id');
 
@@ -66,6 +66,7 @@ class BlogController extends Controller
             $imagePath = $image->storeAs('blogs', $originalName);
         }
 
+   
         // Créer la publicité avec les données (incluant les nouveaux champs)
         $pubBlog = PubBlog::create([
             'title' => $request->title,

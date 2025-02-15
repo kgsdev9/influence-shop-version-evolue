@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
-    <link rel="VTP MARKET" type="image/x-icon" href="{{ asset('flaticons.jpg') }}" />
+    <link rel="icon" href="{{ asset('flaticons.jpg') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('assets/css/theme.min.css') }}">
     <link href="{{ asset('assets/fonts/feather/feather.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/libs/bootstrap-icons/font/bootstrap-icons.min.css') }}" rel="stylesheet" />
