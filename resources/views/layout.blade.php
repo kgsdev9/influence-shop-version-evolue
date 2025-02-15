@@ -29,9 +29,9 @@
             <div class="order-lg-3">
                 <div class="d-flex align-items-center">
 
-                        <a href="{{ route('cart.home') }}"
-                            class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
-                                class="fe fe-shopping-cart align-middle"></i></a>
+                    <a href="{{ route('cart.home') }}"
+                        class="btn btn-icon btn-light rounded-circle  d-md-inline-flex ms-2"><i
+                            class="fe fe-shopping-cart align-middle"></i></a>
 
                     <div class="dropdown">
                         <a href="{{ route('dashboards') }}"
@@ -82,26 +82,24 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('home.compagnes') ? 'active' : '' }}"
                             href="{{ route('home.compagnes') }}">
-
-                            COMPAGNES DE PROMOTION PRODUITS
+                            CAMPAGNES DE PROMOTION DE PRODUITS
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('homeBlog') ? 'active' : '' }}"
                             href="{{ route('homeBlog') }}">
-
-                            COMPAGNES EVENEMENTIEL
+                            CAMPAGNES ÉVÉNEMENTIELLES
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('delivery.status') ? 'active' : '' }}"
                             href="{{ route('delivery.status') }}">
-
                             SUIVRE UN COLIS
                         </a>
                     </li>
+
 
                 </ul>
             </div>

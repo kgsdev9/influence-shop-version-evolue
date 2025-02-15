@@ -132,7 +132,7 @@
                 verificationCode: '',
                 isLoading: false,
                 errorMessage: '',
-                arg: 2,
+                arg: 1,
                 init() {
                     this.firstName = '';
                     this.lastName = '';

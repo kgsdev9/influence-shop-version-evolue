@@ -81,8 +81,10 @@ class VerificationCodeController extends Controller
         // Chercher l'utilisateur par email
         $user = User::where('email', $request->email)->first();
 
+
         if ($request->arg == 1) {
 
+         
             if (!$user) {
                 $user = User::create([
                     'name' => $this->generateUsername(),
@@ -91,7 +93,7 @@ class VerificationCodeController extends Controller
                     'nom' => $request->nom,
                     'prenom' => $request->prenom,
                     'password' => Hash::make($request->password) ?? 12345,
-                    'role_id' => 1
+                    'role_id' => 2
                 ]);
             }
         } elseif ($request->arg == 2) {
@@ -160,7 +162,7 @@ class VerificationCodeController extends Controller
     // Vérification du code envoyé par l'utilisateur
     public function verifyCode(Request $request)
     {
-      
+
         $user = User::where('email', $request->email)->first();
 
         // Vérifier si le compte est déjà confirmé
@@ -183,8 +185,7 @@ class VerificationCodeController extends Controller
             // Le code est correct, on met à jour le champ 'confirmed_at' de l'utilisateur
             $user->confirmed_at = 1; // Marquer le compte comme confirmé
             $user->save();
-            if ($request->arg == 3)
-            {
+            if ($request->arg == 3) {
                 $user->notify(new SendNotificationCodePromotion($user));
             }
 
