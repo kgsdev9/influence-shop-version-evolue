@@ -17,7 +17,7 @@
                                         <h4 class="mb-0">
                                             @if ($commande->status === 'pending')
                                                 Commande en cours
-                                            @elseif ($commande->status === 'validée')
+                                            @elseif ($commande->status === 'succes')
                                                 Reçu de paiement
 
                                                 <a href="{{ route('print.orders', $commande->id) }}"

@@ -82,6 +82,9 @@ class ProductController extends Controller
 
     private function updateProduct($product, Request $request)
     {
+
+
+
         // Mettre à jour les informations du produit
         $product->update([
             'name' => $request->product_name,
@@ -90,9 +93,9 @@ class ProductController extends Controller
             'shortdescription' => $request->product_description,
             'description' => $request->product_description,
             'qtedisponible' => $request->qtedispo,
-            'taille_id' => $request->taille_id,
-            'couleur_id' => $request->couleur_id,
-            'poids' => $request->poids,
+            // 'taille_id' => $request->taille_id,
+            // 'couleur_id' => $request->couleur_id,
+            'poids' => $request->poids ?? 1,
             'category_id' => $request->product_category,
             'user_id' => Auth::user()->id,
         ]);
@@ -102,14 +105,15 @@ class ProductController extends Controller
         $product->images()->delete();  // Suppression des anciennes images
 
         // Traiter et ajouter les nouvelles images
-        if ($request->hasFile('images')) {
+        if ($request->hasFile('images'))
+        {
 
             foreach ($request->file('images') as $file) {
                 $originalName = $file->getClientOriginalName();
                 $path = $file->storeAs('products', $originalName);  // Stockage dans 'storage/app/public/products'
                 ProductImage::create([
                     'product_id' => $product->id,
-                    'imagename' => $path,  
+                    'imagename' => $path,
                 ]);
             }
         }

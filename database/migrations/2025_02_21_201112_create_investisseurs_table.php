@@ -16,7 +16,7 @@ class CreateInvestisseursTable extends Migration
         Schema::create('investisseurs', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('telephone')->nullable();
             $table->string('adresse')->nullable();
             $table->enum('status', ['échec', 'succès', 'en cours'])->default('en cours'); // Statut par défaut "en cours"

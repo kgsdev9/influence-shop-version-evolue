@@ -104,6 +104,14 @@
                         </a>
                     </li>
 
+
+                    <li class="nav-item {{ request()->routeIs('payment.investiseur.all') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('payment.investiseur.all') }}">
+                            <i class="fe fe-volume nav-icon"></i>
+                            Investisseurs
+                        </a>
+                    </li>
+
                     <li class="nav-item {{ request()->routeIs('users.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('users.index') }}">
                             <i class="fe fe-users nav-icon"></i>

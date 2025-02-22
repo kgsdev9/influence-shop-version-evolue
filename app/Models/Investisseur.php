@@ -14,7 +14,7 @@ class Investisseur extends Model
         'email',
         'telephone',
         'adresse',
-        'statut',
+        'status',
         'description',
         'montant_investi',
     ];

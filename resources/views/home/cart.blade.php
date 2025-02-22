@@ -55,11 +55,16 @@
                                                                     </span>
 
                                                                     <div>
-                                                                        <span>Couleur: <span class="text-dark fw-medium"
-                                                                                x-text="product.color"></span></span>
-                                                                        <span>, Taille: <span class="text-dark fw-medium"
-                                                                                x-text="product.taille"></span></span>
+                                                                        <!-- Vérifie si la couleur existe avant d'afficher -->
+                                                                        <span x-show="product.color"
+                                                                            x-text="'Couleur: ' + product.color"
+                                                                            class="text-dark fw-medium"></span>
+                                                                        <!-- Vérifie si la taille existe avant d'afficher -->
+                                                                        <span x-show="product.taille"
+                                                                            x-text="'Taille: ' + product.taille"
+                                                                            class="text-dark fw-medium"></span>
                                                                     </div>
+
                                                                 </div>
                                                                 <div>
 
@@ -83,7 +88,8 @@
                                                             <input type="number" step="1" max="10"
                                                                 :value="product.quantity" name="quantity"
                                                                 class="quantity-field form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1">
-                                                            <input type="button" value="+" class="button-plus form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1"
+                                                            <input type="button" value="+"
+                                                                class="button-plus form-control text-center flex-xl-none w-xl-30 w-xxl-10 px-0 py-1"
                                                                 @click="updateQuantity(index, product.quantity + 1)">
                                                         </div>
                                                     </td>
@@ -118,7 +124,8 @@
                             <a href="{{ route('product.home') }}" class="btn btn-outline-warning">Continuer vos achats</a>
 
                             <!-- Bouton Passer à la caisse uniquement si total > 10 -->
-                            <a href="{{ route('somaire.cmde') }}" class="btn btn-warning" x-show="total > 10">Passer à la caisse</a>
+                            <a href="{{ route('somaire.cmde') }}" class="btn btn-warning" x-show="total > 10">Passer à la
+                                caisse</a>
                         </div>
                     </div>
                 </div>
@@ -223,7 +230,7 @@
                         })
                     });
                 },
-             
+
             }
         }
     </script>

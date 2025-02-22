@@ -77,8 +77,6 @@ class PaymentController extends Controller
     public function initialisePayment(Request $request)
     {
 
-
-
         // dd(json_decode($request->cart, true));
         if ($request->arg == 1) {
             $userId = auth()->user()->id;
@@ -142,7 +140,7 @@ class PaymentController extends Controller
 
             $data = [
                 'merchantId' => "PP-F2197",
-                'amount' => 5000,
+                'amount' => 5,
                 'description' => $request->reference,
                 'channel' => 'ORANGE CI',
                 'countryCurrencyCode' => 952,
@@ -330,7 +328,8 @@ class PaymentController extends Controller
         $transactionId = $contextData['transaction_id'] ?? null;
         $reference = $contextData['reference'] ?? null;
 
-        if ($responsecode == -1) {
+        if ($responsecode == -1)
+        {
 
             $order = Order::where('id', $transactionId)
                 ->where('reference', $reference)
@@ -345,7 +344,8 @@ class PaymentController extends Controller
             return redirect()->route('payment.failed')->with('error', 'Commande non trouvée.');
         }
 
-        if ($responsecode == 0) {
+        if ($responsecode == 0)
+        {
             $order = Order::where('id', $transactionId)
                 ->where('reference', $reference)
                 ->first();
@@ -377,6 +377,7 @@ class PaymentController extends Controller
         if ($responsecode == -1) {
             return redirect()->route('souscrive.failled')->with('error', 'Erreur de communication.');
         } else {
+
             $date_debut = Carbon::now();
             $date_fin = $date_debut->copy()->addMonth();
             $souscription = new Souscription();

@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Souscription\SouscriptionController;
+use App\Http\Controllers\Soutien\SoutienConntroller;
 use App\Http\Controllers\Users\UsersController;
 use App\Http\Controllers\Vente\VenteController;
 
@@ -122,7 +123,7 @@ Route::resource('/ventes', VenteController::class);
 Route::post('/begin-transaction', [PaymentController::class, 'initialisePayment'])->name('begin.payment');
 Route::get('/payementstatus', [PaymentController::class, 'PaymentStatutUpdate'])->name('payment.status');
 Route::get('/payementfailled', [PaymentController::class, 'paymentFailled'])->name('payment.failed');
-Route::get('/payementsuccess', [PaymentController::class, 'payementSuccess'])->name('payment.success');
+Route::get('/payementsuccess/orders', [PaymentController::class, 'payementSuccess'])->name('payment.success');
 Route::delete('delete/payment/{paymentId}', [PaymentController::class, 'destroy'])->name('destroy.payment');
 
 // pour le souscription
@@ -185,3 +186,9 @@ Route::get('/politique-confidentialite', function () {
 Route::get('/politique-retour', function () {
     return view('home.politiqueretour');
 })->name('politiqueretour');
+
+
+
+Route::get('/succes/paiement/entrepreneurs', [SoutienConntroller::class, 'PaymentStatus'])->name('payment.investiseur.success');
+Route::post('/initialise-payment-found', [SoutienConntroller::class, 'initializePayment'])->name('payment.investiseur.post');
+Route::get('/liste/payment/investisseur', [SoutienConntroller::class, 'index'])->name('payment.investiseur.all');

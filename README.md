@@ -7,24 +7,3 @@ Les principales caractéristiques de Influence Shop incluent :
 • Outils de suivi et de reporting : Un suivi détaillé des performances des campagnes, avec des statistiques sur la portée, l'engagement et les retours sur investissement.
 • Simplicité de gestion : Une interface simple et intuitive pour gérer les campagnes, les collaborations et les paiements.
 Cette solution facilite le marketing d'influence en offrant une plateforme où les marques peuvent développer des campagnes percutantes tout en collaborant avec des créateurs de contenu qui partagent leurs valeurs et leurs objectifs.
-
-revoir la modification des produits erreurs rencontrés
-
-imprimer la liste des commandes et des facturs
-
-mettre une fonctionnalité d'investir sur la plateformes
-
-revoir les status des commandes confirmés ehcec et encours pour regarder ce qui ne va pas
-
-
-impplemener un systeme de recherche dans la page priduit 
-
-pour le paieent des produits probleme sur la route de notfication 
-
-bien stulisé la routes des notifications apres paiemnts 
-
-
-Revoir l'eiditon du prdouit 
-
-Dans le panier revoir le taille ou couleur car tous lesproduts n'ont pas cette caraceritiques la 
-
