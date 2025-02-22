@@ -52,7 +52,7 @@
                                             <tr>
                                                 <td>
                                                     <a href="#" class="text-inherit">
-                                                        <h5 class="mb-0 text-primary-hover" x-text="company.entreprise.nom"></h5>
+                                                        <h5 class="mb-0 text-primary-hover" x-text="company.nom"></h5>
                                                     </a>
                                                 </td>
                                                 <td x-text="company.email"></td>

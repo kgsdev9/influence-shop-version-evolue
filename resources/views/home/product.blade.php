@@ -15,13 +15,14 @@
                             <p class="mb-4 text-white">Découvrez des produits qui correspondent à vos attentes et besoins.
                             </p>
                             <!-- Formulaire de recherche -->
-                            <form class="rounded position-relative">
+                            <div class="rounded position-relative">
                                 <input class="form-control form-control-lg ps-5" type="search" placeholder="Rechercher..."
-                                    aria-label="Search">
+                                    aria-label="Search" x-model="searchQuery" @input="filterProducts">
                                 <button
                                     class="btn bg-transparent px-2 py-0 position-absolute top-50 start-0 translate-middle-y"
                                     type="submit"><i class="bi bi-search fs-5 ps-1"> </i></button>
-                            </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -119,9 +120,9 @@
                                                 <a :href="`/product/detail/${product.codeproduct}`" class="text-inherit"
                                                     x-text="product.name"></a>
                                             </h5>
-                                            <p class="card-text text-muted"
+                                            {{-- <p class="card-text text-muted"
                                                 x-text="product.shortdescription.length > 50 ? product.shortdescription.substring(0, 50) + '...' : product.description">
-                                            </p>
+                                            </p> --}}
 
                                             <!-- Taille et Couleur -->
                                             <div class="d-flex justify-content-between mt-3"
@@ -136,13 +137,12 @@
                                                 </template>
                                             </div>
 
-
                                             <div class="d-flex justify-content-between align-items-center mt-auto">
                                                 <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
-                                                <!-- Nouveau bouton "Ajouter au Panier" -->
+
                                                 <button @click="$store.cart.addToCart(product)"
                                                     class="btn btn-danger btn-sm">
-                                                    <i class="fe fe-shopping-cart fs-3"></i> Panier
+                                                    <i class="fe fe-shopping-cart fs-3"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -182,6 +182,7 @@
                     console.log('Catégories sélectionnées:', this.selectedCategories);
                     console.log('Tailles sélectionnées:', this.selectedSizes);
                     console.log('Couleurs sélectionnées:', this.selectedColors);
+                    console.log('Recherche:', this.searchQuery);
 
                     // Filtrage des produits par catégorie sélectionnée
                     this.filteredProducts = this.products.filter(product => {
@@ -198,16 +199,16 @@
                         const colorMatch = this.selectedColors.length === 0 ||
                             this.selectedColors.map(String).includes(String(product.couleur_id));
 
+                        // Filtrage par recherche de texte
+                        const searchMatch = this.searchQuery === '' || product.name.toLowerCase().includes(this
+                            .searchQuery.toLowerCase());
+
                         // Retourner vrai si toutes les conditions sont remplies
-                        return categoryMatch && sizeMatch && colorMatch;
+                        return categoryMatch && sizeMatch && colorMatch && searchMatch;
                     });
 
                     console.log('Produits filtrés:', this.filteredProducts);
                 },
-
-
-
-
 
                 resetFilter() {
                     this.selectedCategories = [];

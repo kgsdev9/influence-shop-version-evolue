@@ -21,7 +21,7 @@ class SoutienConntroller extends Controller
     // Cette méthode initialise un paiement
     public function initializePayment(Request $request)
     {
-
+        
         // Crée une nouvelle instance de Investisseur (Abonnement)
         $investisseur = Investisseur::create([
             'nom' => $request->firstName . ' ' . $request->lastName,
@@ -51,7 +51,7 @@ class SoutienConntroller extends Controller
             'channel' => 'PAYPAL',
             'countryCurrencyCode' => 952,
             'referenceNumber' => $referenceTransaction,
-            'customerEmail' => Auth::user()->email,
+            'customerEmail' => $request->email,
             'customerFirstName' => $request->firstName,
             'customerLastname' => $request->lastName,
             'customerPhoneNumber' => $request->phone,

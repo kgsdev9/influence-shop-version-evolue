@@ -88,38 +88,40 @@
 
 
 
-                                                    <td>
-                                                        <!-- Affichage des boutons selon le statut -->
-                                                        <template x-if="product.status === 'pending'">
-                                                            <div class="d-flex gap-3">
-                                                                <!-- Bouton Finaliser l'achat -->
-                                                                <button class="btn btn-outline-success"
-                                                                    @click="processPayment(product.id)">
-                                                                    <i class="fe fe-credit-card nav-icon"></i>
-                                                                </button>
-                                                                <!-- Bouton Supprimer -->
-                                                                <button @click="deleteOrders(product.id)"
-                                                                    class="btn btn-outline-danger">
-                                                                    <i class="fe fe-trash-2 nav-icon"></i>
-                                                                </button>
-                                                            </div>
-                                                        </template>
+                                                    @can('access-users')
+                                                        <td>
+                                                            <!-- Affichage des boutons selon le statut -->
+                                                            <template x-if="product.status === 'pending'">
+                                                                <div class="d-flex gap-3">
+                                                                    <!-- Bouton Finaliser l'achat -->
+                                                                    <button class="btn btn-outline-success"
+                                                                        @click="processPayment(product.id)">
+                                                                        <i class="fe fe-credit-card nav-icon"></i>
+                                                                    </button>
+                                                                    <!-- Bouton Supprimer -->
+                                                                    <button @click="deleteOrders(product.id)"
+                                                                        class="btn btn-outline-danger">
+                                                                        <i class="fe fe-trash-2 nav-icon"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </template>
 
 
-                                                        <template x-if="product.status === 'succes'">
-                                                            <div class="d-flex gap-2">
-                                                                <button class="btn btn-dark"><i
-                                                                        class="fe fe-printer nav-icon"></i> </button>
-                                                                <button class="btn btn-success"><i
-                                                                        class="fe fe-truck nav-icon"></i>
-                                                                </button>
-                                                            </div>
-                                                        </template>
+                                                            <template x-if="product.status === 'succes'">
+                                                                <div class="d-flex gap-2">
+                                                                    <button class="btn btn-dark"><i
+                                                                            class="fe fe-printer nav-icon"></i> </button>
+                                                                    <button class="btn btn-success"><i
+                                                                            class="fe fe-truck nav-icon"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </template>
 
+                                                        </td>
+                                                    @else
 
+                                                    @endcan
 
-
-                                                    </td>
                                                 </tr>
                                             </template>
 

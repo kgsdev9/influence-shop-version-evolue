@@ -18,21 +18,22 @@
                         <template x-if="currentStep === 1">
                             <div>
                                 <h5 class="card-title">Code de Parainage</h5>
-                                <p class="card-text">Si vous avez été parrainé, entrez le code de parrainage pour profiter des avantages exclusifs.</p>
+                                <p class="card-text">Si vous avez été parrainé, entrez le code de parrainage pour profiter
+                                    des avantages exclusifs.</p>
 
 
                                 <div class="row">
                                     <!-- Deuxième colonne avec le formulaire -->
                                     <div class="col-md-8">
                                         <div class="row">
-                                            <!-- Nom du produit -->
+                                            <!-- Formulaire parannaise -->
                                             <div class="col-md-6 mb-3">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="product_name"
-                                                        placeholder="Nom du produit" x-model="form.product_name" required>
-                                                    <label for="product_name">Code Parainage </label>
-                                                    <template x-if="errors.product_name">
-                                                        <span class="text-danger" x-text="errors.product_name"></span>
+                                                    <input type="text" class="form-control" id="code"
+                                                        placeholder="code" x-model="code">
+                                                    <label for="code">Code Parainage </label>
+                                                    <template x-if="errors.code">
+                                                        <span class="text-danger" x-text="errors.code"></span>
                                                     </template>
                                                 </div>
                                             </div>
@@ -137,13 +138,20 @@
                                                                         <h5 class="mb-0" x-text="`${product.price} €`">
                                                                         </h5>
                                                                     </div>
-                                                                    <div>
-                                                                        <span class="text-dark fw-medium"
-                                                                            x-text="'Couleur: ' + (product.color || 'N/A')"></span>
+                                                                    <div class="d-flex justify-content-between mt-3">
+                                                                        <!-- Affichage de la couleur uniquement si elle existe -->
+                                                                        <template x-if="product.color">
+                                                                            <span class="text-dark fw-medium"
+                                                                                x-text="'Couleur: ' + product.color.name"></span>
+                                                                        </template>
 
-                                                                        <span class="text-dark fw-medium"
-                                                                            x-text="'Taille: ' + (product.taille|| 'N/A')"></span>
+                                                                        <!-- Affichage de la taille uniquement si elle existe -->
+                                                                        <template x-if="product.taille">
+                                                                            <span class="text-dark fw-medium"
+                                                                                x-text="'Taille: ' + product.taille.name"></span>
+                                                                        </template>
                                                                     </div>
+
                                                                     <span
                                                                         x-text="`Quantité: ${product.quantity || 1}`"></span>
                                                                 </div>
@@ -293,6 +301,7 @@
                 selectedAdresse: null,
                 adressepaymentid: null,
                 telephone: null,
+                code: '',
                 form: {
                     country_origine: '',
                     telephone: '',
@@ -303,9 +312,7 @@
                 adressepyament: @json($allAdressePayment),
                 errors: {},
                 isEdite: false,
-
                 currentAdresse: '',
-
                 nextStep() {
                     if (this.currentStep < 2) {
                         this.currentStep++;
@@ -502,6 +509,7 @@
                     const formData = new FormData();
                     formData.append('arg', 1);
                     formData.append('telephone', this.telephone);
+                    formData.append('code', this.code);
                     formData.append('adressepaymentid', this.adressepaymentid);
                     formData.append('cart', JSON.stringify(this.products)); // Assurez-vous que cart est en format JSON
                     formData.append('montantht', this.total.toFixed(2)); // Ajout du total

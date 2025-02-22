@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Souscription;
 use App\Models\User;
+use App\Notifications\ParainNotification;
 use App\Notifications\PaymentOrdersNotification;
 use App\Notifications\PaymentSouscriptionNotification;
 use Carbon\Carbon;
@@ -77,7 +78,8 @@ class PaymentController extends Controller
     public function initialisePayment(Request $request)
     {
 
-        // dd(json_decode($request->cart, true));
+
+
         if ($request->arg == 1) {
             $userId = auth()->user()->id;
 
@@ -86,7 +88,7 @@ class PaymentController extends Controller
             $order = new Order();
             $order->reference = $referenceTransaction;
             $order->user_id = $userId;
-            $order->codeparainage = $request->codeinfluenceur;
+            $order->codeparainage = $request->code;
             $order->qtecmde = $request->qtecmde ?? 4;
             $order->paymentaresse_id = $request->adressepaymentid;
             $order->montantht = $request->montantht;
@@ -328,8 +330,7 @@ class PaymentController extends Controller
         $transactionId = $contextData['transaction_id'] ?? null;
         $reference = $contextData['reference'] ?? null;
 
-        if ($responsecode == -1)
-        {
+        if ($responsecode == -1) {
 
             $order = Order::where('id', $transactionId)
                 ->where('reference', $reference)
@@ -344,11 +345,19 @@ class PaymentController extends Controller
             return redirect()->route('payment.failed')->with('error', 'Commande non trouvée.');
         }
 
-        if ($responsecode == 0)
-        {
+        if ($responsecode == 0) {
             $order = Order::where('id', $transactionId)
                 ->where('reference', $reference)
                 ->first();
+
+            $codeparannaise = $order->codeparainage;
+
+
+            $parrain = null;
+
+            if (!is_null($codeparannaise)) {
+                $parrain = User::where('codevente', $codeparannaise)->first();
+            }
 
             if ($order)  // commande exite
             {
@@ -357,6 +366,14 @@ class PaymentController extends Controller
                 ]);
                 $delay = now()->addMinutes(10);
                 $order->user->notify((new PaymentOrdersNotification())->delay($delay));
+
+                if ($parrain)
+                {
+
+                    $parrain->notify((new ParainNotification));
+                }
+
+
                 return redirect()->route('payment.success')->with('sucess', 'Commande validée avec succés.');
             } else  // commande existe pas
             {

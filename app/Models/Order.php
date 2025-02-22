@@ -24,7 +24,7 @@ class Order extends Model
         'payment_method',
     ];
 
-
+    
     public function items()
     {
         return  $this->hasMany(OrderDetail::class);
