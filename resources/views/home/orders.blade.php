@@ -206,10 +206,23 @@
                                     </div>
 
                                     <div class="d-grid mt-4">
-                                        <button class="btn btn-outline-warning" @click="processPayment()">
-                                            <i class="bi bi-credit-card"></i> Procéder au paiement
+                                        <!-- Bouton de paiement (avec loader) -->
+                                        <button type="submit" class="btn btn-outline-warning" @click="processPayment()"
+                                            :disabled="isLoading">
+                                            <!-- Affiche le loader si isLoading est true -->
+                                            <span x-show="isLoading" class="spinner-border spinner-border-sm"
+                                                role="status" aria-hidden="true"></span>
+                                            <!-- Sinon, affiche le texte normal du bouton -->
+                                            <span x-show="!isLoading">
+                                                <i class="bi bi-credit-card"></i> Procéder au paiement
+                                            </span>
                                         </button>
+
+
+
+
                                     </div>
+
 
                                 </div>
                             </div>
@@ -302,6 +315,7 @@
                 adressepaymentid: null,
                 telephone: null,
                 code: '',
+                isLoading: false,
                 form: {
                     country_origine: '',
                     telephone: '',
@@ -519,9 +533,20 @@
                     formData.append('montantttc', this.finalTotal.toFixed(2)); // Ajout du montant final
 
                     if (!this.adressepaymentid) {
-                        alert('veuillez selectionner une adresse de paiement')
+                        Swal.fire({
+                            title: 'veuillez selectionner une adresse de paiement!',
+                            showConfirmButton: true,
+                        });
+
                         return;
                     }
+
+
+                    if (this.isLoading) {
+                        return;
+                    }
+
+                    this.isLoading = true;
 
                     try {
                         const response = await fetch('{{ route('begin.payment') }}', {
