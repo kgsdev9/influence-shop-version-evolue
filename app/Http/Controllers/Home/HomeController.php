@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Abonnement;
 use App\Models\Category;
 use App\Models\Compagne;
+use App\Models\CompagnePromotionEntreprise;
 use App\Models\Couleur;
 use App\Models\Country;
 use App\Models\Order;
@@ -39,6 +40,12 @@ class HomeController extends Controller
         $listepub = PubBlog::all();
         // Retourne la vue avec les données nécessaires
         return view('welcome', compact('listeproduct', 'compagnes', 'categories', 'listepub'));
+    }
+
+
+    public function investir()
+    {
+        return view('home.investir');
     }
 
 
@@ -94,9 +101,8 @@ class HomeController extends Controller
 
     public function homeCompagne()
     {
-        $compagnes = Compagne::with('product.images')->get();
-        $categories  = Category::all();
-        return view('home.compagne', compact('compagnes', 'categories'));
+        $compagnes = CompagnePromotionEntreprise::with('entreprise')->get();
+        return view('home.compagne', compact('compagnes'));
     }
 
     public function detailCompagne()

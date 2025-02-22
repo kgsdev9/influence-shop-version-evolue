@@ -58,7 +58,7 @@
                         <a class="nav-link" href="{{ route('products.index') }}">
                             <i class="fe fe-slack nav-icon"></i>
 
-                            Mon Produits
+                            Mes Produits
                         </a>
 
                     </li>
@@ -76,7 +76,31 @@
                     <li class="nav-item {{ request()->routeIs('compagne.index') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('compagne.index') }}">
                             <i class="fe fe-volume nav-icon"></i>
-                            Compagnes
+                            Compagnes Entreprises
+                        </a>
+                    </li>
+
+
+                    <li class="nav-item {{ request()->routeIs('products.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('products.index') }}">
+                            <i class="fe fe-slack nav-icon"></i>
+
+                            Mes Produits
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item {{ request()->routeIs('categoryentreprise.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('categoryentreprise.index') }}">
+                            <i class="fe fe-volume nav-icon"></i>
+                            Categories Entreprises
+                        </a>
+                    </li>
+
+                    <li class="nav-item {{ request()->routeIs('entreprise.index') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('entreprise.index') }}">
+                            <i class="fe fe-volume nav-icon"></i>
+                            Entreprises
                         </a>
                     </li>
 

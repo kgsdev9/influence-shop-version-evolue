@@ -131,7 +131,7 @@ class PaymentController extends Controller
             $order->update([
                 'qtecmde' => $qteCmde
             ]);
-         
+
             $returnContext = json_encode([
                 'user_id' => $userId,
                 'transaction_id' => $order->id,
@@ -142,10 +142,10 @@ class PaymentController extends Controller
 
             $data = [
                 'merchantId' => "PP-F2197",
-                'amount' => '1',
+                'amount' => 5000,
                 'description' => $request->reference,
                 'channel' => 'ORANGE CI',
-                'countryCurrencyCode' => "FCFA",
+                'countryCurrencyCode' => 952,
                 'referenceNumber' => $referenceTransaction,
                 'customerEmail' => Auth::user()->email,
                 'customerFirstName' => Auth::user()->nom,

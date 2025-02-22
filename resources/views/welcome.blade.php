@@ -62,7 +62,8 @@
                 <!-- Placeholders (lazy loader) -->
                 <div id="placeholder" class="row gy-4" x-show="isLoading">
                     <template x-for="n in 8" :key="n">
-                        <div class="col-md-3 mb-4">
+                        <div class="col-6 col-md-3 mb-4">
+                            <!-- Deux colonnes sur les petits écrans, 3 colonnes sur les grands écrans -->
                             <div class="card shadow-sm border-light h-100">
                                 <div class="image-container bg-light" style="height: 200px;"></div>
                                 <div class="card-body">
@@ -77,7 +78,8 @@
                 <!-- Produits réels -->
                 <div class="row gy-4" x-show="!isLoading">
                     <template x-for="product in filteredProducts" :key="product.id">
-                        <div class="col-md-3 mb-4">
+                        <div class="col-6 col-md-3 mb-4">
+                            <!-- Deux colonnes sur les petits écrans, 3 colonnes sur les grands écrans -->
                             <div class="card shadow-sm border-light h-100">
                                 <!-- Image -->
                                 <div class="image-container" style="overflow: hidden; position: relative;">
@@ -95,9 +97,9 @@
                                         <a :href="`/product/detail/${product.codeproduct}`" class="text-inherit"
                                             x-text="product.name"></a>
                                     </h5>
-                                    <p class="card-text text-muted"
+                                    {{-- <p class="card-text text-muted"
                                         x-text="product.shortdescription.length > 50 ? product.shortdescription.substring(0, 50) + '...' : product.description">
-                                    </p>
+                                    </p> --}}
 
                                     <!-- Taille et Couleur -->
                                     <div class="d-flex justify-content-between mt-3"
@@ -110,12 +112,11 @@
                                         </template>
                                     </div>
 
-
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
                                         <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
 
                                         <button @click="$store.cart.addToCart(product)" class="btn btn-danger btn-sm">
-                                            <i class="fe fe-shopping-cart fs-3"></i> Panier
+                                            <i class="fe fe-shopping-cart fs-3"></i>
                                         </button>
 
                                     </div>
@@ -124,9 +125,6 @@
                         </div>
                     </template>
                 </div>
-
-
-
             </div>
         </section>
 
@@ -151,8 +149,7 @@
                         <div class="row">
                             <template x-for="event in filteredEvents" :key="event.id">
                                 <div class="col-xl-4 col-md-6 col-12">
-                                    <div class="card card-lift d-flex flex-column"
-                                        style="height: 100%; min-height:300px;">
+                                    <div class="card card-lift d-flex flex-column" style="height: 100%; min-height:300px;">
                                         <a :href="`/blog/detail/${event.codeblog}`">
                                             <img :src="event.image ? `/s3/${event.image}` : (event.images && event.images.length ?
                                                 `/s3/${event.product[0].imagename}` :

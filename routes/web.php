@@ -11,12 +11,14 @@ use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Category\CategoryEntrepriseController;
 use App\Http\Controllers\City\CityController;
 use App\Http\Controllers\Country\CountryController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\DeliveryPrice\DeliveryPriceController;
 use App\Http\Controllers\Demarrage\CompagneProductController;
 use App\Http\Controllers\Edition\EditionProfileController;
+use App\Http\Controllers\Entreprise\EntrepriseController;
 use App\Http\Controllers\Facture\FactureController;
 use App\Http\Controllers\Gestion\GestionCompagneController;
 use App\Http\Controllers\Home\HomeController;
@@ -101,6 +103,7 @@ Route::get('/confirmationregister', [NotificationConfirmationController::class, 
 Route::post('/confirmatedcodeinfluenceurs', [RegisterController::class, 'confirmatedAcompteInfluenceur'])->name('confirmated.code.influenceurs');
 Route::post('/profile/update', [EditionProfileController::class, 'updateProfile'])->name('profile.update');
 Route::delete('/profile/delete', [EditionProfileController::class, 'deleteAccount'])->name('profile.delete');
+Route::get('/soutenir', [HomeController::class, 'investir'])->name('soutien.home');
 
 
 
@@ -143,7 +146,8 @@ Route::resource('/abonnement', AbonnementController::class);
 Route::resource('/souscribers', SouscriptionController::class);
 Route::get('/factures', [FactureController::class, 'index'])->name('facture.index');;
 Route::get('/editionprofile', [EditionProfileController::class, 'profile'])->name('profile.index');;
-
+Route::resource('/categoryentreprise', CategoryEntrepriseController::class);
+Route::resource('/entreprise', EntrepriseController::class);
 // verification code
 
 Route::post('/send-verification-code', [VerificationCodeController::class, 'sendVerificationCode']);

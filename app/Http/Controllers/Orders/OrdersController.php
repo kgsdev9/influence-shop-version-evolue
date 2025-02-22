@@ -22,7 +22,8 @@ class OrdersController extends Controller
 
             // Si l'utilisateur est de rôle 'utilisateur', on filtre par user_id
             $listeOrders = Order::where('user_id', Auth::user()->id)->get();
-        } elseif (Auth::check() && Auth::user()->role->name == "admin") {
+        } elseif (Auth::check() && Auth::user()->role->name == "admin")
+        {
             // Sinon, on renvoie toutes les commandes
             $listeOrders = Order::all();
         }
