@@ -138,7 +138,7 @@
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center mt-auto">
-                                                <h6 class="text-warning mb-0" x-text="product.price_vente"></h6>
+                                                <h6 class="text-warning mb-0" x-text="product.price_vente + ' €'"></h6>
 
                                                 <button @click="$store.cart.addToCart(product)"
                                                     class="btn btn-danger btn-sm">

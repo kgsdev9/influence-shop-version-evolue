@@ -1,25 +1,20 @@
 @extends('layout')
-@section('title', 'Detail ' . $product->name)
+@section('title', $product->name)
 @section('content')
     <section class="my-5 mx-3" x-data="formSteps()" x-init="init()">
         <div class="container bg-white rounded-4 pe-lg-0 overflow-hidden">
             <div class="d-flex flex-column gap-3">
-                <h5 class="mb-0 display-4 fw-bold text-warning"> Detail de produit {{ $product->name }}
+                <h5 class="mb-0 display-4 fw-bold text-warning"> {{ $product->name }}
                 </h5>
-
             </div>
-
             <div class="row mt-4 ">
                 <div class="col-md-9 ">
                     <div class="row ">
-
                         <div class="col-xl-6 col-12" x-data="{ selectedImage: 0 }">
                             <div class="row gy-4">
-
-
                                 <div class="col-12">
                                     <div>
-                                        <!-- Image principale avec transition Alpine.js -->
+
                                         <a :href="`/s3/${product.images[selectedImage].imagename}`" class="glightbox"
                                             data-gallery="gallery1">
                                             <img :src="product.images.length ? `/s3/${product.images[selectedImage].imagename}` :
@@ -34,7 +29,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Images secondaires avec transition Alpine.js -->
+
                                 <div>
                                     <div x-show="product && product.images && product.images.length > 1">
                                         <div class="row">
@@ -120,11 +115,12 @@
                                 <div class="mb-5 d-flex flex-column gap-1">
                                     <!-- text -->
                                     <h4 class="mb-0">
-                                        <span x-text="product.price_vente"> </span>
-
-                                        <span class="text-warning">Profitez de -45% sur ce produit exceptionnel !</span>
+                                        <span x-text="product.price_vente + '€'"> </span> &nbsp;
+                                        <span class="text-warning">Profitez des prix exceptionnels !</span>
                                     </h4>
-                                    <span>Profitez de notre offre spéciale, taxes incluses !</span>
+                                    <span class="text-dark">Dépêchez-vous ! Profitez de nos prix exceptionnels avant qu'il
+                                        ne soit trop tard !</span>
+
 
                                 </div>
                                 <!-- color -->
@@ -195,22 +191,13 @@
                             <!-- Promotion VTP EXPRESS Livraison -->
                             <div class="mb-3">
                                 <h6 class="text-danger fw-bold">VTP <span class="text-warning">EXPRESS</span></h6>
-                                <p class="small text-muted">Profitez de notre service de livraison partout dans le monde à
-                                    des prix abordables. <a href="#" class="text-decoration-underline">Découvrez nos
-                                        tarifs</a></p>
-                            </div>
-
-                            <!-- Point Relais Section -->
-                            <div class="mb-3">
-                                <div class="d-flex align-items-start">
-                                    <i class="bi bi-geo-alt-fill text-primary me-2 fs-5"></i>
-                                    <div>
-                                        <p class="fw-bold mb-1">Livraison en Point Relais</p>
-                                        <p class="small text-muted mb-0">Nos frais de livraison sont abordables et nous
-                                            offrons même la livraison gratuite pour des achats supérieurs à un certain
-                                            montant.</p>
-                                    </div>
-                                </div>
+                                <p class="small text-muted">
+                                    Profitez de notre service de livraison rapide et sécurisé vers plusieurs pays d'Afrique
+                                    (Côte d'Ivoire, Sénégal, Cameroun, Bénin, Togo, Mali, Burkina Faso, etc.), ainsi qu’en
+                                    Martinique et dans d’autres territoires. <a href="#"
+                                        class="text-decoration-underline">
+                                        Découvrez nos tarifs</a>.
+                                </p>
                             </div>
 
                             <!-- Politique de retour Section -->
@@ -230,6 +217,7 @@
 
 
 
+
             </div>
         </div>
     </section>
@@ -240,7 +228,7 @@
         function formSteps() {
             return {
                 product: @json($product),
-              
+
             };
         }
     </script>
